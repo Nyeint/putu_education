@@ -43,103 +43,102 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          // backgroundColor: ColorResources.background,
-          appBar: MyAppBar(
-            titleWithGoBack: tr('alphabets'),
+    return Scaffold(
+      backgroundColor: ColorResources.background,
+      appBar: MyAppBar(
+        titleWithGoBack: tr('alphabets'),
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/light_background.png",),
+                fit: BoxFit.fill),
           ),
-          body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/light_background.png",),
-                  fit: BoxFit.fill),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SingleChildScrollView(
-                  child: Stack(
-                    fit: StackFit.loose,
-                    children: [
-                      Container(
-                          // padding: EdgeInsets.only(top: 32, bottom: 32),
-                          height: 200,
-                          width: context.width,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: ColorResources.secondary,
-                            border: Border.all(
-                                color: ColorResources.lightBg,
-                                width: 2
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SingleChildScrollView(
+                child: Stack(
+                  fit: StackFit.loose,
+                  children: [
+                    Container(
+                        // padding: EdgeInsets.only(top: 32, bottom: 32),
+                        height: 200,
+                        width: context.width,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: ColorResources.secondary,
+                          border: Border.all(
+                              color: ColorResources.lightBg,
+                              width: 2
                           ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Text('${letterList[selectedIndex]} ${letterList[selectedIndex].toLowerCase()}', style: FontFamily().semiBold.copyWith(fontSize: FontSize().sixteenFour
-                                ),),
-                                Text(pronounceList[selectedIndex], style: FontFamily().semiBold.copyWith(fontSize: FontSize().twentyFour
-                                ),),
-                              ],
+                          borderRadius: BorderRadius.circular(20),
+        
+                        ),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Text('${letterList[selectedIndex]} ${letterList[selectedIndex].toLowerCase()}', style: FontFamily().semiBold.copyWith(fontSize: FontSize().sixteenFour
+                              ),),
+                              Text(pronounceList[selectedIndex], style: FontFamily().semiBold.copyWith(fontSize: FontSize().twentyFour
+                              ),),
+                            ],
+                          ),
+                        )
+                    ),
+                    Positioned(
+                      right: 16,
+                      top: 16,
+                      child: GestureDetector(
+                          onTap: () async => await flutterTts.speak(letterList[selectedIndex]),
+                          child: MyIcon(iconName: 'volume',)),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0, // gap between adjacent items
+                    runSpacing: 8.0, // gap between lines
+                    children:
+                    List.generate(
+                      26,
+                          (index) => GestureDetector(
+                          onTap: () async {
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                            // await flutterTts.setLanguage("en-US");
+                            // await flutterTts.setVolume(0.9);
+                            // await flutterTts.setSpeechRate(0.4);
+                            // await flutterTts.setPitch(0.3);
+                            await flutterTts.speak(letterList[selectedIndex]);
+                          },
+                          child: Container(
+                            width: context.width/5,
+                            height: context.width/5,
+                            decoration:
+                            index==selectedIndex?
+                            selectedDecoration(): unselectedDecoration(),
+                            child: Center(child:
+                            Text(letterList[index],
+                              style: FontFamily().bold.copyWith(fontSize:FontSize().twenty
+                              ),)
                             ),
                           )
                       ),
-                      Positioned(
-                        right: 16,
-                        top: 16,
-                        child: GestureDetector(
-                            onTap: () async => await flutterTts.speak(letterList[selectedIndex]),
-                            child: MyIcon(iconName: 'volume',)),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: SizedBox(
-                      // height: context.height-200,
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: 8.0, // gap between adjacent items
-                        runSpacing: 8.0, // gap between lines
-                        children:
-                        List.generate(
-                          26,
-                              (index) => GestureDetector(
-                              onTap: () async {
-                                setState(() {
-                                  selectedIndex = index;
-                                });
-                                // await flutterTts.setLanguage("en-US");
-                                // await flutterTts.setVolume(0.9);
-                                // await flutterTts.setSpeechRate(0.4);
-                                // await flutterTts.setPitch(0.3);
-                                await flutterTts.speak(letterList[selectedIndex]);
-                              },
-                              child: Container(
-                                width: context.width/5,
-                                height: context.width/5,
-                                decoration:
-                                index==selectedIndex?
-                                selectedDecoration(): unselectedDecoration(),
-                                child: Center(child:
-                                Text(letterList[index],
-                                  style: FontFamily().bold.copyWith(fontSize:FontSize().twenty
-                                  ),)
-                                ),
-                              )
-                          ),
-                        ),
-                      ).pad(bottom: 20),
-                    )
-                  ).pad(top: 32),
-                )
-              ],
-            ).pad(top: 24).pad(left: 16, right: 16)
-          ),
-        ));
+                    ),
+                  ).pad(bottom: 10)
+                ).pad(top: 10),
+              )
+            ],
+          ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
+        ),
+      ),
+    );
   }
 }

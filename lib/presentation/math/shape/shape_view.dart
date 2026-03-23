@@ -21,7 +21,7 @@ class _ShapeViewState extends State<ShapeView> {
   }){
     return  Container(
         width: context.width,
-        margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+        margin: EdgeInsets.only(bottom: 16),
         padding: EdgeInsets.all(16),
         decoration: unselectedDecoration(),
         child: Stack(
@@ -46,40 +46,41 @@ class _ShapeViewState extends State<ShapeView> {
   }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          appBar: MyAppBar(
-            titleWithGoBack: tr('shape'),
+    return Scaffold(
+      backgroundColor: ColorResources.background,
+      appBar: MyAppBar(
+        titleWithGoBack: tr('shape'),
+      ),
+      body: SafeArea(
+        child: Container(
+          height: context.height,
+          width: context.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/light_background.png",),
+                  fit: BoxFit.cover)
           ),
-          body: Container(
-            height: context.height,
-            width: context.width,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/light_background.png",),
-                    fit: BoxFit.cover)
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 24,),
-                  itemWidget(name: tr('triangle'), body: tr('triangle_des'), icon: 'triangle'),
-                  itemWidget(name: tr('square'), body: tr('square_des'), icon: 'square'),
-                  itemWidget(name: tr('pentagon'), body: tr('pentagon_des'), icon: 'pentagon'),
-                  itemWidget(name: tr('hexagon'), body: tr('hexagon_des'), icon: 'hexagon'),
-                  itemWidget(name: tr('heptagon'), body: tr('heptagon_des'), icon: 'heptagon'),
-                  itemWidget(name: tr('octagon'), body: tr('octagon_des'), icon: 'octagon'),
-                  itemWidget(name: tr('nonagon'), body: tr('nonagon_des'), icon: 'nonagon'),
-                  itemWidget(name: tr('decagon'), body:  tr('decagon_des'), icon: 'decagon'),
-                  itemWidget(name: tr('circle'), body: tr('circle_des'), icon: 'circle'),
-                  itemWidget(name: tr('semicircle'), body: tr('semicircle_des'), icon: 'semicircle'),
-                  itemWidget(name: tr('oval'), body: tr('oval_des'), icon: 'oval'),
-                  itemWidget(name: tr('line'), body: tr('line_des'), icon: 'line'),
-                  itemWidget(name: tr('parallelogram'), body: tr('parallelogram_des'), icon: 'parallelogram')
-                ],
-              ),
-            ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                itemWidget(name: tr('triangle'), body: tr('triangle_des'), icon: 'triangle'),
+                itemWidget(name: tr('square'), body: tr('square_des'), icon: 'square'),
+                itemWidget(name: tr('pentagon'), body: tr('pentagon_des'), icon: 'pentagon'),
+                itemWidget(name: tr('hexagon'), body: tr('hexagon_des'), icon: 'hexagon'),
+                itemWidget(name: tr('heptagon'), body: tr('heptagon_des'), icon: 'heptagon'),
+                itemWidget(name: tr('octagon'), body: tr('octagon_des'), icon: 'octagon'),
+                itemWidget(name: tr('nonagon'), body: tr('nonagon_des'), icon: 'nonagon'),
+                itemWidget(name: tr('decagon'), body:  tr('decagon_des'), icon: 'decagon'),
+                itemWidget(name: tr('circle'), body: tr('circle_des'), icon: 'circle'),
+                itemWidget(name: tr('semicircle'), body: tr('semicircle_des'), icon: 'semicircle'),
+                itemWidget(name: tr('oval'), body: tr('oval_des'), icon: 'oval'),
+                itemWidget(name: tr('line'), body: tr('line_des'), icon: 'line'),
+                itemWidget(name: tr('parallelogram'), body: tr('parallelogram_des'), icon: 'parallelogram')
+              ],
+            ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

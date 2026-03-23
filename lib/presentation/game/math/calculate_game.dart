@@ -166,13 +166,14 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: ColorResources.background,
-        appBar: MyAppBar(
-          titleWithGoBack: '${tr('calculate')} ${tr('game')}',
-        ),
-        body: Container(
+    return Scaffold(
+      backgroundColor: Color(0xff7AEEFC),
+      appBar: MyAppBar(
+        titleWithGoBack: '${tr('calculate')} ${tr('game')}',
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
           height: context.height,
           width: context.width,
           decoration: BoxDecoration(
@@ -180,106 +181,109 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
                   image: AssetImage("assets/images/game_background.png",),
                   fit: BoxFit.fill)
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
-                SizedBox(height: 24,),
-                VoiceItemView(name: correctItem, description: "What is  '?'",),
-                SizedBox(height: 40,),
-                Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: ColorResources.primary, width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: ColorResources.lightBg.withOpacity(0.5)
-                  ),
-                  child:
-                      // if(type==CalculateType.type1 || type==CalculateType.type2)
-                  type==CalculateType.type1 || type==CalculateType.type2?
-                      DigitPlusMinusView(a: a, b: b, c: c, result: result, type: type)
-                      :
-                      type==CalculateType.type7?
-                         IconPlusMinusView(fruitOne: fruitOne, fruitTwo: fruitTwo, fruitThree: fruitThree, a: a, b: b, c: c) // type 7
-                          :
-                         IconsMultiplyDivide(fruitOne: fruitOne, fruitTwo: fruitTwo, a: a, b: b, type: type) // type 3,4,5,6
-                ),
+          child: Column(
+            children: [
+              ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
+              SizedBox(height: 24,),
+              VoiceItemView(name: correctItem, description: "What is  '?'",),
+              SizedBox(height: 40,),
 
-                SizedBox(height: 40,),
-                Wrap(
-                    direction: Axis.horizontal,
-                    alignment: WrapAlignment.center,
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: optionList.asMap().entries.map((e) {
-                      // int index = e.key;
-                      // String value = e.value;
-                      return GestureDetector(
-                        onTap: (){
-                          answer = e.value;
-                          print("Evalue is ${e.value} and ${e.key} $answer and $rightAnswer");
-                          // int rightAnswerCount = resultList.where((char) => char == correctItem).length;
-                          if(answer==rightAnswer){
-                            print("You are right");
-                          }else{
-                            print("You are wrong");
-                          }
-                          setState(() {});
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          height: MediaQuery.of(context).size.width * 0.2,
-                          alignment: Alignment.center,
-                          decoration: optionList.indexOf(answer)==e.key?selectedDecoration():unselectedDecoration(),
-                          child: Text(
-                            context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
-                            style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+              Container(
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    border: Border.all(color: ColorResources.primary, width: 1),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: ColorResources.lightBg.withOpacity(0.5)
+                ),
+                child:
+                    // if(type==CalculateType.type1 || type==CalculateType.type2)
+                type==CalculateType.type1 || type==CalculateType.type2?
+                    DigitPlusMinusView(a: a, b: b, c: c, result: result, type: type)
+                    :
+                    type==CalculateType.type7?
+                       IconPlusMinusView(fruitOne: fruitOne, fruitTwo: fruitTwo, fruitThree: fruitThree, a: a, b: b, c: c) // type 7
+                        :
+                       IconsMultiplyDivide(fruitOne: fruitOne, fruitTwo: fruitTwo, a: a, b: b, type: type) // type 3,4,5,6
+              ),
+
+              SizedBox(height: 40,),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.center,
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: optionList.asMap().entries.map((e) {
+                        // int index = e.key;
+                        // String value = e.value;
+                        return GestureDetector(
+                          onTap: (){
+                            answer = e.value;
+                            print("Evalue is ${e.value} and ${e.key} $answer and $rightAnswer");
+                            // int rightAnswerCount = resultList.where((char) => char == correctItem).length;
+                            if(answer==rightAnswer){
+                              print("You are right");
+                            }else{
+                              print("You are wrong");
+                            }
+                            setState(() {});
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            height: MediaQuery.of(context).size.width * 0.2,
+                            alignment: Alignment.center,
+                            decoration: optionList.indexOf(answer)==e.key?selectedDecoration():unselectedDecoration(),
+                            child: Text(
+                              context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
+                              style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList()
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: GestureDetector(
-                    onTap: (){
-                      // if(currentStep==7){
-                      //   context.replaceNamed(RouteName.resultView,extra: historyList);
-                      // }
-                      if(currentStep==7){
-                        context.replaceNamed(RouteName.resultView,
-                          extra: {'score': 70, 'childWidget': CalculationResultView(historyList: historyList,)},);
-                      }
-                      optionList.clear();
-                      currentStep++;
-                      answer=0;
-                      type=typeList[currentStep];
-                      if(type == CalculateType.type1 || type==CalculateType.type2 || type==CalculateType.type7){
-                        threeNumberProblem();
-                      }else{
-                        multiplyDivideProblem();
-                      }
-                      historyList.forEach((element) {print("HELLO THIS IS ${element.toJson()}");});
-                      // print("HELOOO THIS IS ${historyList[0].toJson()}");
-                      setState(() {});
-
-                      // quitAlert(context);
-                    },
-                    child: Container(
-                        padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                        decoration: selectedTabDecoration(),
-                        child:
-                        currentStep==7?Text(tr('check')):
-                        SvgPicture.asset("assets/icons/next.svg")
-                    ),
+                        );
+                      }).toList()
                   ),
                 ),
-              ],
-            ).pad(left: 16, right: 16, top: 24, bottom: 24),
-          ),
+              ),
+
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: (){
+                    // if(currentStep==7){
+                    //   context.replaceNamed(RouteName.resultView,extra: historyList);
+                    // }
+                    if(currentStep==7){
+                      context.replaceNamed(RouteName.resultView,
+                        extra: {'score': 70, 'childWidget': CalculationResultView(historyList: historyList,)},);
+                    }
+                    optionList.clear();
+                    currentStep++;
+                    answer=0;
+                    type=typeList[currentStep];
+                    if(type == CalculateType.type1 || type==CalculateType.type2 || type==CalculateType.type7){
+                      threeNumberProblem();
+                    }else{
+                      multiplyDivideProblem();
+                    }
+                    historyList.forEach((element) {print("HELLO THIS IS ${element.toJson()}");});
+                    // print("HELOOO THIS IS ${historyList[0].toJson()}");
+                    setState(() {});
+
+                    // quitAlert(context);
+                  },
+                  child: Container(
+                      padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
+                      decoration: selectedTabDecoration(),
+                      child:
+                      currentStep==7?Text(tr('check')):
+                      SvgPicture.asset("assets/icons/next.svg")
+                  ),
+                ),
+              ).pad(bottom: 80),
+            ],
+          ).pad(left: 16, right: 16, top: 24, bottom: 24),
         ),
       ),
-
     );
   }
 }

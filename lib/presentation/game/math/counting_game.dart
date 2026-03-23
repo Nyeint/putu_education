@@ -23,7 +23,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
   int currentStep=0;
   int totalSteps=20;
 
-  List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','line','parallelogram'];
+  List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','line1','parallelogram'];
   List<String> fruitList = ['apple', 'banana', 'grape', 'mango', 'tangerine', 'pineapple', 'strawberry'];
 
   String correctItem = '';
@@ -101,13 +101,14 @@ class _MathCountingGameState extends State<MathCountingGame> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: ColorResources.background,
-        appBar: MyAppBar(
-          titleWithGoBack: '${tr('counting')} ${tr('game')}',
-        ),
-        body: Container(
+    return Scaffold(
+      backgroundColor: Color(0xff7AEEFC),
+      appBar: MyAppBar(
+        titleWithGoBack: '${tr('counting')} ${tr('game')}',
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
           height: context.height,
           width: context.width,
           decoration: BoxDecoration(
@@ -115,100 +116,107 @@ class _MathCountingGameState extends State<MathCountingGame> {
                   image: AssetImage("assets/images/game_background.png",),
                   fit: BoxFit.fill)
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
-                SizedBox(height: 24,),
-                VoiceItemView(name: correctItem, description: question,),
-                SizedBox(height: 40,),
+          child: Column(
+            children: [
+              ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
+              SizedBox(height: 24,),
+              VoiceItemView(name: correctItem, description: question,),
+              SizedBox(height: 40,),
 
-                if(resultList.isNotEmpty)
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: ColorResources.primary, width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: ColorResources.lightBg.withOpacity(0.5)
-                    ),
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.center,
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: resultList.asMap().entries.map((e) {
-                        return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/${e.value}.svg",
-                          color: currentStep%2==0?ColorResources.primary:null, height: context.width*0.2, width: context.width*0.5,);
-                      }).toList(),
-                    ),
-                  ),
-
-                SizedBox(height: 40,),
-                Wrap(
-                    direction: Axis.horizontal,
-                    alignment: WrapAlignment.center,
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [1,2,3,4,5].asMap().entries.map((e) {
-                      return GestureDetector(
-                        onTap: (){
-                          answer = e.value;
-                          int rightAnswerCount = resultList.where((char) => char == correctItem).length;
-                          if(answer==rightAnswerCount){
-                            print("You are right");
-                          }else{
-                            print("You are wrong");
-                          }
-                          setState(() {});
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          height: MediaQuery.of(context).size.width * 0.2,
-                          alignment: Alignment.center,
-                          decoration: answer==e.key+1?selectedDecoration():unselectedDecoration(),
-                          child: Text(
-                            context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
-                            style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if(resultList.isNotEmpty)
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: ColorResources.primary, width: 1),
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              color: ColorResources.lightBg.withOpacity(0.5)
+                          ),
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.center,
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: resultList.asMap().entries.map((e) {
+                              // return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/${e.value}.svg",
+                              return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/line.svg",
+                                color: currentStep%2==0?ColorResources.primary:null, height: context.width*0.16,);
+                            }).toList(),
                           ),
                         ),
-                      );
-                    }).toList()
-                ),
-                SizedBox(height: 20,),
-                // if(showNext)
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: GestureDetector(
-                    onTap: (){
-                      if(currentStep==7){
-                        context.replaceNamed(RouteName.resultView,
-                          extra: {'score': 70, 'childWidget': CountingResultView(historyList: historyList,)},);
-                      }
 
-                      currentStep++;
-                      answer=0;
-                      setState(() {});
-                      if(currentStep%2==0){
-                        getRandomShapeList();
-                      }else{
-                        getRandomFruitList();
-                      }
-                    },
-                    child: Container(
-                        padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                        decoration: selectedTabDecoration(),
-                        child:
-                        currentStep==7?Text(tr('check')):
-                        SvgPicture.asset("assets/icons/next.svg")
-                    ),
+                      SizedBox(height: 40,),
+                      Wrap(
+                          direction: Axis.horizontal,
+                          alignment: WrapAlignment.center,
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: [1,2,3,4,5].asMap().entries.map((e) {
+                            return GestureDetector(
+                              onTap: (){
+                                answer = e.value;
+                                int rightAnswerCount = resultList.where((char) => char == correctItem).length;
+                                if(answer==rightAnswerCount){
+                                  print("You are right");
+                                }else{
+                                  print("You are wrong");
+                                }
+                                setState(() {});
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                height: MediaQuery.of(context).size.width * 0.2,
+                                alignment: Alignment.center,
+                                decoration: answer==e.key+1?selectedDecoration():unselectedDecoration(),
+                                child: Text(
+                                  context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
+                                  style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+                                ),
+                              ),
+                            );
+                          }).toList()
+                      ),
+                      SizedBox(height: 20,),
+                    ],
                   ),
                 ),
-              ],
-            ).pad(left: 16, right: 16, top: 24, bottom: 24),
-          ),
+              ),
+
+              // if(showNext)
+              Align(
+                alignment: Alignment.bottomRight,
+                child: GestureDetector(
+                  onTap: (){
+                    if(currentStep==7){
+                      context.replaceNamed(RouteName.resultView,
+                        extra: {'score': 70, 'childWidget': CountingResultView(historyList: historyList,)},);
+                    }
+
+                    currentStep++;
+                    answer=0;
+                    setState(() {});
+                    if(currentStep%2==0){
+                      getRandomShapeList();
+                    }else{
+                      getRandomFruitList();
+                    }
+                  },
+                  child: Container(
+                      padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
+                      decoration: selectedTabDecoration(),
+                      child:
+                      currentStep==7?Text(tr('check')):
+                      SvgPicture.asset("assets/icons/next.svg")
+                  ),
+                ),
+              ).pad(bottom: 80),
+            ],
+          ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
         ),
       ),
-
     );
   }
 }

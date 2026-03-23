@@ -9,6 +9,7 @@ import 'package:putu_education/presentation/game/widgets/progress_bar.dart';
 import 'package:putu_education/presentation/game/widgets/voice_item.dart';
 import '../../../route/route_name.dart';
 import '../../widgets/item_decoration.dart';
+import '../../widgets/item_voice_dialog.dart';
 import '../../widgets/my_appbar.dart';
 import '../model/question_result.dart';
 
@@ -39,6 +40,7 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
   @override
   void initState() {
     super.initState();
+    speakWord("snail");
     // _controller = FlipCardController();
   }
 
@@ -50,16 +52,21 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
     historyList.add(model);
   }
 
+  speakWord(String word) async {
+    await flutterTts.speak(word);
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: ColorResources.background,
-        appBar: MyAppBar(
-          titleWithGoBack: '${tr('word')} ${tr('game')}',
-        ),
-        body: Container(
+    return Scaffold(
+      backgroundColor: Color(0xff7AEEFC),
+      appBar: MyAppBar(
+        titleWithGoBack: '${tr('word')} ${tr('game')}',
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
           height: context.height,
           width: context.width,
           decoration: BoxDecoration(
@@ -134,7 +141,7 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
                   ),
                 ),
               ],
-            ).pad(left: 16, right: 16, top: 24, bottom: 24),
+            ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
           ),
         ),
       ),

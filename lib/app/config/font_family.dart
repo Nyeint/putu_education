@@ -1,7 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:putu_education/route/my_router.dart';
-import '../../main.dart';
 import 'font_size.dart';
 import 'global_context.dart';
 

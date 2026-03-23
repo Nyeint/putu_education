@@ -18,13 +18,13 @@ class EnglishPoemView extends StatefulWidget {
 class _EnglishPoemViewState extends State<EnglishPoemView> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: ColorResources.background,
-            appBar: MyAppBar(
-              titleWithGoBack: tr('poems'),
-            ),
-            body: Container(
+    return Scaffold(
+        backgroundColor: ColorResources.background,
+        appBar: MyAppBar(
+          titleWithGoBack: tr('poems'),
+        ),
+        body: SafeArea(
+            child: Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("assets/images/light_background.png",),
@@ -35,20 +35,19 @@ class _EnglishPoemViewState extends State<EnglishPoemView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 16,),
                     ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      // scrollDirection: Axis.vertical,
-                      itemCount: 10,
+                        shrinkWrap: true,
+                        physics: ScrollPhysics(),
+                        // scrollDirection: Axis.vertical,
+                        itemCount: 10,
                         itemBuilder: (context, index){
                           return GestureDetector(
                             onTap: ()=>
-                                // Navigator.push(context, MaterialPageRoute(builder: (context) => const SimpleExampleApp())),
-                                context.pushNamed(RouteName.poemDetail),
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => const SimpleExampleApp())),
+                            context.pushNamed(RouteName.poemDetail),
                             child: Container(
-                              padding: EdgeInsets.all(16),
-                              margin: EdgeInsets.only(bottom: 16),
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(bottom: 10),
                               height: context.width/3+32,
                               decoration: unselectedDecoration(),
                               // decoration: BoxDecoration(
@@ -103,23 +102,23 @@ class _EnglishPoemViewState extends State<EnglishPoemView> {
                                                 Flexible(
                                                   child: Text('By reading the A Little Turtle poem, your little one would understand the characteristics of a turtle in just a few lines.',
                                                     style: FontFamily().regular.copyWith(
-                                                        color: ColorResources.subText, fontSize: FontSize().fourteen,
+                                                      color: ColorResources.subText, fontSize: FontSize().fourteen,
                                                     ),
-                                                    // overflow: TextOverflow.ellipsis,
-                                                    // maxLines: 2,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 4,
                                                   ),
                                                 )
                                               ],
                                             ),
                                           ),
                                         ),
-                                        SizedBox(height: 16,),
+                                        // SizedBox(height: 16,),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text('02:00 mins', style: FontFamily().regular.copyWith(
                                                 color: ColorResources.subText, fontSize: FontSize().fourteen
-                                            // context.width/25.5,
+                                              // context.width/25.5,
                                             ),),
                                             // Image.asset('assets/images/empty_message.png', width: 20, height: 20,),
                                             GestureDetector(onTap: (){},
@@ -135,7 +134,7 @@ class _EnglishPoemViewState extends State<EnglishPoemView> {
                           );
                         }),
                   ],
-                ).pad(left: 16, right: 16),
+                ).pad(left: 16, right: 16,top: 24),
               ),
             )
         )

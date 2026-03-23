@@ -16,12 +16,10 @@ class MathGameView extends StatefulWidget {
 class _MathGameViewState extends State<MathGameView> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-        appBar: MyAppBar(
-        titleWithGoBack: '${tr('math')} ${tr('game')}',
-        ),
-          body: Container(
+    return Scaffold(
+      body: Column(
+        children: [
+          Container(
             height: context.height,
             width: context.width,
             decoration: BoxDecoration(
@@ -29,18 +27,28 @@ class _MathGameViewState extends State<MathGameView> {
                     image: AssetImage("assets/images/game_background.png",),
                     fit: BoxFit.fill)
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TitleItemWidget(title: "${tr('counting')} ${tr('game')}",iconName: 'math_count', goTo: RouteName.mathCountingGame, score: 30),
-                  SizedBox(height: 24,),
-                  TitleItemWidget(title: "${tr('calculating')} ${tr('game')}",iconName: 'math_calculate', goTo: RouteName.mathCalculateGame, score: 20),
-                ],
-              )
-                  .pad(left: 16, right: 16, top: 24, bottom: 24),
-            ),
+            child: Column(
+              children: [
+                MyAppBar(
+                  titleWithGoBack: '${tr('math')} ${tr('game')}',
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        TitleItemWidget(title: "${tr('counting')} ${tr('game')}",iconName: 'math_count', goTo: RouteName.mathCountingGame, score: 30),
+                        SizedBox(height: 24,),
+                        TitleItemWidget(title: "${tr('calculating')} ${tr('game')}",iconName: 'math_calculate', goTo: RouteName.mathCalculateGame, score: 20),
+                      ],
+                    )
+                        .pad(left: 16, right: 16, top: 24, bottom: 24),
+                  ),
+                ),
+              ],
+            )
           ),
-        )
+        ],
+      )
     );
   }
 }

@@ -1,6 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:putu_education/app/config/config.dart';
 
 import '../../widgets/item_decoration.dart';
@@ -32,10 +32,9 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
     try {
       // stop any current sound then play the new one
       await _player.stop();
-      await _player.setReleaseMode(ReleaseMode.stop);
-      await _player.play(
-        AssetSource('audios/burmese-alphabet/${i + 1}.mp3'),
-      );
+      await _player.setLoopMode(LoopMode.off);
+      await _player.setAsset('assets/audios/burmese-alphabet/${i + 1}.mp3');
+      await _player.play();
     } catch (e) {
       debugPrint('Audio play error: $e');
     }
@@ -49,10 +48,14 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: MyAppBar(titleWithGoBack: tr('alphabets')),
-        body: Container(
+    return Scaffold(
+      backgroundColor: ColorResources.background,
+      appBar: MyAppBar(
+        titleWithGoBack: tr('alphabets'),
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/light_background.png'),
@@ -63,8 +66,8 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
             mainAxisSize: MainAxisSize.max,
             children: [
               SingleChildScrollView(
-                child: Stack(
-                  fit: StackFit.loose,
+                child: Column(
+                  // fit: StackFit.loose,
                   children: [
                     Container(
                       height: 200,
@@ -75,31 +78,30 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
                         border: Border.all(color: ColorResources.lightBg, width: 2),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Text(
-                              letterList[selectedIndex],
-                              style: FontFamily().semiBold.copyWith(
-                                fontSize: FontSize().sixteenFour,
-                              ),
+                      child: Column(
+                        children: [
+                          Align(
+                            // right: 16,
+                            // top: 16,
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                              onTap: () async => _playIndex(selectedIndex),
+                              child: MyIcon(iconName: 'volume'),
                             ),
-                            Text(
-                              pronounceList[selectedIndex],
-                              style: FontFamily().semiBold.copyWith(
-                                fontSize: FontSize().twentyFour,
-                              ),
+                          ).pad(right: 16, top: 16),
+                          Text(
+                            letterList[selectedIndex],
+                            style: FontFamily().semiBold.copyWith(
+                              fontSize: FontSize().sixteenFour,
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 16,
-                      top: 16,
-                      child: GestureDetector(
-                        onTap: () async => _playIndex(selectedIndex),
-                        child: MyIcon(iconName: 'volume'),
+                          ),
+                          Text(
+                            pronounceList[selectedIndex],
+                            style: FontFamily().semiBold.copyWith(
+                              fontSize: FontSize().twentyFour,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -107,41 +109,39 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: SizedBox(
-                    child: Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 8.0,
-                      runSpacing: 8.0,
-                      children: List.generate(
-                        letterList.length,
-                            (index) => GestureDetector(
-                          onTap: () async {
-                            setState(() => selectedIndex = index);
-                            await _playIndex(index);
-                          },
-                          child: Container(
-                            width: context.width / 5,
-                            height: context.width / 5,
-                            decoration: index == selectedIndex
-                                ? selectedDecoration()
-                                : unselectedDecoration(),
-                            child: Center(
-                              child: Text(
-                                letterList[index],
-                                style: FontFamily().bold.copyWith(
-                                  fontSize: FontSize().twenty,
-                                ),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: List.generate(
+                      letterList.length,
+                          (index) => GestureDetector(
+                        onTap: () async {
+                          setState(() => selectedIndex = index);
+                          await _playIndex(index);
+                        },
+                        child: Container(
+                          width: context.width / 5,
+                          height: context.width / 5,
+                          decoration: index == selectedIndex
+                              ? selectedDecoration()
+                              : unselectedDecoration(),
+                          child: Center(
+                            child: Text(
+                              letterList[index],
+                              style: FontFamily().bold.copyWith(
+                                fontSize: FontSize().twenty,
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ).pad(bottom: 20),
+                    ),
                   ),
-                ).pad(top: 32),
+                ).pad(top: 20),
               ),
             ],
-          ).pad(top: 24).pad(left: 16, right: 16),
+          ).pad(left: 10, right: 10, top: 24, bottom: MediaQuery.of(context).padding.bottom)
         ),
       ),
     );

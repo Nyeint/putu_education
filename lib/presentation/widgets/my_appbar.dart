@@ -11,7 +11,49 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return
+      Container(
+        margin: EdgeInsets.only(bottom: 3),
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+          // color: ColorResources.primary,
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[ColorResources.primary,ColorResources.primaryGradient]),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              // offset: Offset(0.0, 1.0), //(x,y)
+              // blurRadius: 6.0,
+              // spreadRadius: 4.0,
+              spreadRadius: 1,
+              offset: Offset(0, 2.0),
+            ),
+          ],
+        ),
+        child:
+        titleWithGoBack!=null?
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+                alignment: Alignment.centerLeft,
+                child: GestureDetector(
+                    onTap: ()=>context.pop(),
+                    child: MyIcon(iconName: 'back'))
+            ),
+            Center(child:
+            Text(titleWithGoBack!,
+              style: FontFamily().medium.copyWith(fontSize: context.locale.languageCode == 'en'?24:22), maxLines: 1,))
+          ],
+        ).pad(left: 10, right: 10, bottom: 10)
+            :
+        widget!.pad(left: 10,right: 10, bottom: 10, ),
+      );
+      AppBar(
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         elevation: 0,
@@ -52,7 +94,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
             ],
           ).pad(left: 16, right: 16, top: 3, bottom: 3)
               :
-          widget?.pad(left: 16, right: 16, top: 3, bottom: 3),
+          widget!.pad(left: 16, right: 16, top: 3, bottom: 3),
         )
     );
   }

@@ -22,72 +22,80 @@ class _CalculationViewState extends State<CalculationView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          appBar: MyAppBar(
-            titleWithGoBack: tr('calculation'),
+    return Scaffold(
+      backgroundColor: ColorResources.background,
+      appBar: MyAppBar(
+        titleWithGoBack: tr('calculation'),
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Container(
+          height: context.height,
+          width: context.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/light_background.png",),
+                  fit: BoxFit.cover)
           ),
-          body: Container(
-            height: context.height,
-            width: context.width,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/light_background.png",),
-                    fit: BoxFit.cover)
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: context.width/5.5+20,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      physics: ScrollPhysics(),
-                      itemBuilder: (context,index){
-                        return
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                selectedIndex = index;
-                              });
-                            },
-                            child: Container(
-                                width: context.width/5.3,
-                                height: context.width/5.3,
-                                padding: EdgeInsets.all(17),
-                                decoration: selectedIndex==index?selectedDecoration():unselectedDecoration(),
-                                child:
-                                    // index==0?
-                                // SvgPicture.asset("assets/icons/add.svg", width: 10, height: 10,)
-                                
-                                
-                                SvgPicture.asset("assets/icons/"
-                                    "${index==0 && selectedIndex==0?'add_select':index==1 && selectedIndex==1?'substract_select':
-                                index==2 && selectedIndex==2?'multiply_select':index==3 && selectedIndex==3?'division _select':
-                                    index==0?'add':index==1?'substract':index==2?'multiply':index==3?'division':'add'}.svg"
-                                  )
-                                // Icon(itemList[index])
-                            ).pad(right: context.width*0.04,top: 10, bottom: 10),
-                          );
-                      }),
-                ),
-                Expanded(
-                    child:
-                    SingleChildScrollView(
-                        child:
-                        selectedIndex==1?
-                        SubstractionView():
-                        selectedIndex==2?
-                        MultiplicationView():
-                        selectedIndex==3?
-                        DivisionView():AdditionView()
-                    )
-                )
-              ],
-            ).pad(left: 16, right: 16,top: 24),
-          ),
-        ));
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: context.width/5.5+20,
+                child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    physics: ScrollPhysics(),
+                    itemBuilder: (context,index){
+                      return
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                          },
+                          child: Container(
+                              width: context.width/5.3,
+                              height: context.width/5.3,
+                              padding: EdgeInsets.all(17),
+                              margin: EdgeInsets.only(
+                                  right: context.width*0.04,top: 10, bottom: 10
+                              ),
+                              decoration: selectedIndex==index?selectedDecoration():unselectedDecoration(),
+                              child:
+                                  // index==0?
+                              // SvgPicture.asset("assets/icons/add.svg", width: 10, height: 10,)
+        
+        
+                              SvgPicture.asset("assets/icons/"
+                                  "${index==0 && selectedIndex==0?'add_select':index==1 && selectedIndex==1?'substract_select':
+                              index==2 && selectedIndex==2?'multiply_select':index==3 && selectedIndex==3?'division _select':
+                                  index==0?'add':index==1?'substract':index==2?'multiply':index==3?'division':'add'}.svg"
+                                )
+                              // Icon(itemList[index])
+                          )
+                              // .pad(right: context.width*0.04,top: 10, bottom: 10),
+                        );
+                    }),
+              ),
+              Expanded(
+                  child:
+                  SingleChildScrollView(
+                      child:
+                      selectedIndex==1?
+                      SubstractionView():
+                      selectedIndex==2?
+                      MultiplicationView():
+                      selectedIndex==3?
+                      DivisionView():AdditionView()
+                  )
+              )
+            ],
+          ).pad(left: 16, right: 16,top: 24, bottom: MediaQuery.of(context).padding.bottom),
+        ),
+      ),
+    );
   }
 }

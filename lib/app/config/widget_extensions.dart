@@ -16,6 +16,14 @@ extension SysPaddingEx on Widget {
         EdgeInsets.only(top: top, right: right, left: left, bottom: bottom),
         child: this,
       );
+
+  Widget padAll(
+      {double pad = 0}) =>
+      Padding(
+        padding:
+        EdgeInsets.all(pad),
+        child: this,
+      );
 }
 
 extension StringExtension on String {

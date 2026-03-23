@@ -90,6 +90,10 @@ dependencies:
 
   #audio
   audioplayers: ^6.5.0
+  just_audio: ^0.10.5
+
+  #status bar color
+  flutter_statusbarcolor_ns: ^0.6.0
 
   #flip
   #  flip_card: ^0.7.0

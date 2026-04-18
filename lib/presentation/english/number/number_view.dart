@@ -91,8 +91,8 @@ class _EnglishNumberViewState extends State<EnglishNumberView> {
                               children: [
                                 Text(selectedNumber.toString(), style: FontFamily().semiBold.copyWith(fontSize: FontSize().sixteenFour
                                 ),),
-                                Text(numberInWord[selectedNumber-1], style: FontFamily().semiBold.copyWith(fontSize: FontSize().twentyFour
-                                ),),
+                                // Text(numberInWord[selectedNumber-1], style: FontFamily().semiBold.copyWith(fontSize: FontSize().twentyFour
+                                // ),),
                               ],
                             )
                           ),

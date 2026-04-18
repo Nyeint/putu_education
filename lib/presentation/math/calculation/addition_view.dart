@@ -4,7 +4,8 @@ import 'package:putu_education/presentation/math/calculation/widgets/example_ite
 import '../../../app/config/config.dart';
 
 class AdditionView extends StatelessWidget {
-  const AdditionView({super.key});
+  String? locale;
+  AdditionView({super.key, required this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +53,11 @@ class AdditionView extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(context.locale.languageCode == 'en'?'1':'1'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?'1':'1'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('+', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?index.toString():index.toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?index.toString():index.toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('=', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?(1+index).toString():(1+index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?(1+index).toString():(1+index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                       ],
                     );
                   }
@@ -81,11 +82,11 @@ class AdditionView extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(context.locale.languageCode == 'en'?(9-index).toString():(9-index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?(9-index).toString():(9-index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('+', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?(index+1).toString():(index+1).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?(index+1).toString():(index+1).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('=', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?'10':'10'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?'10':'10'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                       ],
                     );
                   }

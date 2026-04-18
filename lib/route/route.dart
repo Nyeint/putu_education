@@ -17,7 +17,6 @@ import 'package:putu_education/presentation/game/myanmar/myanmar.dart';
 import 'package:putu_education/presentation/game/widgets/result_view.dart';
 import 'package:putu_education/presentation/introduction/introduction.dart';
 import 'package:putu_education/presentation/math/calculation/calculation_view.dart';
-import 'package:putu_education/presentation/math/math_view.dart';
 import 'package:putu_education/presentation/math/shape/shape_view.dart';
 import 'package:putu_education/presentation/myanmar/number/number_view.dart';
 import 'package:putu_education/route/route_name.dart';
@@ -124,20 +123,29 @@ final GoRouter router = GoRouter(
         return const PoemDetailView();
       },
     ),
-    GoRoute(
-      name: RouteName.math,
-      path: RoutePath.math,
-      builder: (BuildContext context, GoRouterState state) {
-        return const MathView();
-      },
-    ),
-    GoRoute(
-      name: RouteName.shape,
-      path: RoutePath.shape,
-      builder: (BuildContext context, GoRouterState state) {
-        return const ShapeView();
-      },
-    ),
+    // GoRoute(
+    //   name: RouteName.math,
+    //   path: RoutePath.math,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return MathView(
+    //       learnLangaugeType: state.extra as String?,
+    //     );
+    //   },
+    // ),
+    // GoRoute(
+    //   name: RouteName.shapeViewEn,
+    //   path: RoutePath.shapeViewEn,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return const ShapeView();
+    //   },
+    // ),
+    // GoRoute(
+    //   name: RouteName.shapeViewMm,
+    //   path: RoutePath.shapeViewMm,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return const ShapeView();
+    //   },
+    // ),
     GoRoute(
       name: RouteName.calculation,
       path: RoutePath.calculation,

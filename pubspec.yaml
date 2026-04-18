@@ -50,6 +50,7 @@ dependencies:
   cached_network_image: ^3.4.1
   lottie: ^3.3.1
   flutter_svg: ^2.2.0
+  flutter_svg_provider: ^1.0.7
 
   #refresh
   pull_to_refresh: ^2.0.0
@@ -94,6 +95,11 @@ dependencies:
 
   #status bar color
   flutter_statusbarcolor_ns: ^0.6.0
+
+  google_generative_ai: ^0.4.0
+
+  #localization
+  flutter_localization:
 
   #flip
   #  flip_card: ^0.7.0

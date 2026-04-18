@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:putu_education/presentation/math/calculation/widgets/example_item.dart';
 import '../../../app/config/config.dart';
 
-class SubstractionView extends StatelessWidget {
-  const SubstractionView({super.key});
+class SubtractionView extends StatelessWidget {
+  String? locale;
+  SubtractionView({super.key, required this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +53,11 @@ class SubstractionView extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(context.locale.languageCode == 'en'?'5':'5'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?'5':'5'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('-', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?index.toString():index.toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?index.toString():index.toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('=', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?(5-index).toString():(5-index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?(5-index).toString():(5-index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                       ],
                     );
                   }
@@ -81,11 +82,11 @@ class SubstractionView extends StatelessWidget {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(context.locale.languageCode == 'en'?(9-index).toString():(9-index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?(9-index).toString():(9-index).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('-', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?(index+1).toString():(index+1).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?(index+1).toString():(index+1).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                         Text('=', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                        Text(context.locale.languageCode == 'en'?'8':'8'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                        Text(locale == 'en'?'8':'8'.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                       ],
                     );
                   }

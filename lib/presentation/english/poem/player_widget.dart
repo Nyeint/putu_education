@@ -213,19 +213,6 @@ class _PlayerWidgetState extends State<PlayerWidget> {
         if (availableHeight < 190) {
           return _buildCompactBar(context, showArtwork: false);
         }
-        // Compute artwork height from the actual available header height,
-        // reserving space for controls so the Column can never overflow.
-        //
-        // Approx fixed vertical needs:
-        // - spacing (10)
-        // - slider (48)
-        // - time row (24)
-        // - buttons row (72)  (IconButton + padding can exceed 60)
-        // - a little breathing room (16)
-        const reservedControlsHeight = 10 + 48 + 24 + 72 + 16;
-        final computedArtwork =
-        (availableHeight - reservedControlsHeight).clamp(0.0, 220.0);
-        final artworkHeight = computedArtwork.toDouble();
 
         return Stack(
           children: [
@@ -248,35 +235,45 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      child: CachedNetworkImage(
-                        height: artworkHeight,
-                        width: double.infinity,
-                        imageUrl:
-                        'https://cdn.firstcry.com/education/2022/08/10192003/The-Foolish-Lion-And-The-Clever-Rabbit-Story-With-Moral-For-Kids.jpg',
-                        fit: BoxFit.cover,
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) => Center(
-                          child: SizedBox(
-                            width: 36,
-                            height: 36,
-                            child: CircularProgressIndicator(
-                              color: ColorResources.primary,
+                    Flexible(
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final h =
+                              constraints.maxHeight.clamp(0.0, 220.0);
+                          if (h <= 0) return const SizedBox.shrink();
+                          return ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                            child: CachedNetworkImage(
+                              height: h,
+                              width: double.infinity,
+                              imageUrl:
+                                  'https://cdn.firstcry.com/education/2022/08/10192003/The-Foolish-Lion-And-The-Clever-Rabbit-Story-With-Moral-For-Kids.jpg',
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => Center(
+                                child: SizedBox(
+                                  width: 36,
+                                  height: 36,
+                                  child: CircularProgressIndicator(
+                                    color: ColorResources.primary,
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                height: h,
+                                color: ColorResources.lightBg,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.broken_image,
+                                    color: ColorResources.primary,
+                                    size: 34,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          height: artworkHeight,
-                          color: ColorResources.lightBg,
-                          child: Center(
-                            child: Icon(
-                              Icons.broken_image,
-                              color: ColorResources.primary,
-                              size: 34,
-                            ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: 10),

@@ -85,11 +85,13 @@ class _CalculationViewState extends State<CalculationView> {
                   SingleChildScrollView(
                       child:
                       selectedIndex==1?
-                      SubstractionView():
+                      SubtractionView(
+                        locale: 'mm',
+                      ):
                       selectedIndex==2?
-                      MultiplicationView():
+                      MultiplicationView(locale: 'mm',):
                       selectedIndex==3?
-                      DivisionView():AdditionView()
+                      DivisionView(locale: 'mm',):AdditionView(locale: 'mm',)
                   )
               )
             ],

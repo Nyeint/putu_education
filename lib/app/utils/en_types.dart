@@ -1,0 +1,1 @@
+enum LearnLanguageType {en, mm}

@@ -94,11 +94,20 @@ class _DashboardViewState extends State<DashboardView> {
                       children: [
                         Row(
                           children: [
-                            Image.asset(
-                              "assets/icons/putu_logo.png",
-                              width: 58,
-                              height: 58,
-                            ),
+                           Container(
+                             padding: EdgeInsets.all(1),
+                             margin: EdgeInsets.only(right: 8),
+                             decoration: BoxDecoration(
+                               shape: BoxShape.circle,
+                               // borderRadius: BorderRadius.circular(8),
+                               color: ColorResources.secondary,
+                             ),
+                             child:  Image.asset(
+                               "assets/icons/putu_logo.png",
+                               width: 58,
+                               height: 58,
+                             ),
+                           ),
                             Image.asset(
                               "assets/images/logo_text.png",
                               width: 58,
@@ -147,6 +156,14 @@ class _DashboardViewState extends State<DashboardView> {
                           height: 24,
                         ),
                         ProgressIndicatorView(),
+
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     Navigator.push(context, MaterialPageRoute(builder: (context)=>GeminiStoryService(
+                        //     )));
+                        //   },
+                        //   child: Text("Story Section"),
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

@@ -77,7 +77,8 @@ class ProgressIndicatorView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(tr('progress_indication'), style: FontFamily().bold),
+          Text(tr('progress_indication'),
+              style: FontFamily().bold),
           SizedBox(height: 8,),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

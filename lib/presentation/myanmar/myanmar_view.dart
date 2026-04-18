@@ -8,6 +8,8 @@ import 'package:putu_education/app/config/widget_extensions.dart';
 import 'package:putu_education/presentation/widgets/sub_item_widget.dart';
 import 'package:putu_education/route/my_router.dart';
 import '../../app/config/font_family.dart';
+import '../../app/utils/en_types.dart';
+import '../math/math_view.dart';
 import '../widgets/my_appbar.dart';
 import '../widgets/my_icon.dart';
 
@@ -49,31 +51,72 @@ class _MyanmarViewState extends State<MyanmarView> {
                         Lottie.asset("assets/anims/r_arrow.json", width: 50, height: 50,),
                       ],
                     ),
-                    Lottie.asset("assets/anims/bird.json", width: context.width/4.5),
+                    SizedBox(height: 20,),
+                    // Lottie.asset("assets/anims/bird.json", width: context.width/4.5),
                     Wrap(
-                      spacing: 16,
-                      runSpacing: 16,
+                      spacing: 12,
+                      runSpacing: 12,
                       children: [
                         SubItemWidget(
-                            title: tr('numbers'), iconName: 'mm_number', goTo: RouteName.myanmarNumber),
+                            title: tr('numbers'), iconName: 'category_number',
+                            onTap: (){
+                              Navigator.pushNamed(context,
+                                  RouteName.myanmarNumber);
+                            },
+                        ),
                         // SizedBox(width: 16,),
                         SubItemWidget(
-                            title: tr('alphabets'), iconName: 'mm_alpha', goTo: RouteName.myanmarAlphabet),
+                            title: tr('alphabets'), iconName: 'category_mm_alphabet',
+                            onTap: (){
+                              Navigator.pushNamed(context,
+                                  RouteName.myanmarNumber);
+                            },
+                           ),
                         // SizedBox(width: 16,),
                         SubItemWidget(
-                            title: tr('vocabulary'), iconName: 'mm_vocab', goTo: RouteName.englishVocabulary),
+                            title: tr('vocabulary'), iconName: 'category_vocabulary',
+                            onTap: (){
+                              Navigator.pushNamed(context,
+                                  RouteName.englishVocabulary);
+                            },
+                            ),
                         SubItemWidget(
-                            title: tr('poems'), iconName: 'mm_poem', goTo: RouteName.englishPoem),
+                            title: tr('poems'), iconName: 'category_poem',
+                            onTap: (){
+                              Navigator.pushNamed(context,
+                                  RouteName.englishPoem);
+                            },
+                          ),
                         SubItemWidget(
-                            title: tr('stories'), iconName: 'mm_story', goTo: RouteName.englishNumber),
+                            title: tr('stories'), iconName: 'category_story',
+                            onTap: (){
+                              Navigator.pushNamed(context,
+                                  RouteName.englishNumber);
+                            },
+                            ),
                         SubItemWidget(
-                            title: tr('songs'), iconName: 'mm_song', goTo: RouteName.englishNumber),
+                            title: tr('songs'), iconName: 'category_song',
+                            onTap: (){
+                              Navigator.pushNamed(context,
+                                  RouteName.englishNumber);
+                            },
+                        ),
+                        SubItemWidget(
+                            title: tr('math'), iconName: 'category_math',
+                            onTap: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) =>  MathView(
+                                    learnLanguageType: LearnLanguageType.mm.name,
+                                  ))
+                                  );
+                            },
+                           ),
                       ],
                     ),
                     SizedBox(height: 20,)
                   ],
                 ),
-              ).pad(left: 16, right: 16,top: 24),
+              ).pad(left: 10, right: 10,top: 24),
             ),
           ],
         )

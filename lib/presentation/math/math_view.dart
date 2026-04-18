@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:putu_education/app/utils/en_types.dart';
+import 'package:putu_education/presentation/math/shape/shape_view.dart';
 
 import '../../app/config/config.dart';
 import '../../route/route_name.dart';
@@ -8,7 +11,8 @@ import '../widgets/my_appbar.dart';
 import '../widgets/sub_item_widget.dart';
 
 class MathView extends StatefulWidget {
-  const MathView({super.key});
+  String? learnLanguageType;
+  MathView({super.key, this.learnLanguageType});
 
   @override
   State<MathView> createState() => _MathViewState();
@@ -57,9 +61,38 @@ class _MathViewState extends State<MathView> {
                         runSpacing: 16,
                         children: [
                           SubItemWidget(
-                              title: tr('shapes'), iconName: 'shape', goTo: RouteName.shape),
+                              title: tr('shapes'), iconName: 'shape',
+                          onTap: (){
+                                print("shape tap ${widget.learnLanguageType} and ${LearnLanguageType.en.name} and ${LearnLanguageType.mm.name}");
+
+                               try{
+                                 Navigator.push(context, MaterialPageRoute(builder: (context){
+                                   return ShapeView(
+                                     locale: widget.learnLanguageType ?? LearnLanguageType.mm.name,
+                                   );
+                                 }));
+                                 // Navigator.pushNamed(context,
+                                 //     widget.learnLanguageType == LearnLanguageType.en.name ?
+                                 //     RouteName.shapeViewEn :
+                                 //     RouteName.shapeViewMm);
+                               }catch(e){
+                                  print("shape tap error $e");
+                               }
+                          },
+
+                          //     goTo:
+                          // widget.learnLangaugeType == LearnLanguageType.en.name ?
+                          // RouteName.shapeViewEn :
+                          // RouteName.shapeViewMm
+                          ),
                           SubItemWidget(
-                              title: tr('calculation'), iconName: 'calculation', goTo: RouteName.calculation),
+                              title: tr('calculation'), iconName: 'calculation',
+                              onTap: (){
+                                context.pushNamed(RouteName.calculation);
+                              },
+
+                              // goTo: RouteName.calculation
+                          ),
                         ],
                       ),
                     ],

@@ -6,7 +6,8 @@ import '../../../app/config/config.dart';
 import '../../widgets/item_decoration.dart';
 
 class DivisionView extends StatefulWidget {
-  const DivisionView({super.key});
+  String locale;
+  DivisionView({super.key, required this.locale});
 
   @override
   State<DivisionView> createState() => _DivisionViewState();
@@ -71,11 +72,11 @@ class _DivisionViewState extends State<DivisionView> {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Text((context.locale.languageCode == 'en'?((index*5)+10).toString():((index*5)+10).toString().burmese()), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                              Text((widget.locale == 'en'?((index*5)+10).toString():((index*5)+10).toString().burmese()), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                               Text('/', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                              Text(context.locale.languageCode == 'en'?(index1+1).toString():(index1+1).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                              Text(widget.locale == 'en'?(index1+1).toString():(index1+1).toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                               Text('=', style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
-                              Text(context.locale.languageCode == 'en'?(((index*5)+10)~/(index1+1)).toInt().toString():(((index*5)+10)~/(index1+1)).toInt().toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
+                              Text(widget.locale == 'en'?(((index*5)+10)~/(index1+1)).toInt().toString():(((index*5)+10)~/(index1+1)).toInt().toString().burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty)),
                             ],
                           );
                         }

@@ -4,7 +4,8 @@ import '../../../app/config/config.dart';
 import '../../widgets/item_decoration.dart';
 
 class MultiplicationView extends StatefulWidget {
-  const MultiplicationView({super.key});
+  String? locale;
+  MultiplicationView({super.key, required this.locale});
 
   @override
   State<MultiplicationView> createState() => _MultiplicationViewState();
@@ -29,7 +30,7 @@ class _MultiplicationViewState extends State<MultiplicationView> {
         decoration: selectedNumber==number?
         selectedTabDecoration():unselectedTabDecoration(),
         child: Center(child:
-        Text(context.locale.languageCode == 'en'?'${number+1} - ${number+5}':'${(number+1).toString().burmese()} - ${(number+5).toString().burmese()}',
+        Text(widget.locale == 'en'?'${number+1} - ${number+5}':'${(number+1).toString().burmese()} - ${(number+5).toString().burmese()}',
           style: FontFamily().medium.copyWith(fontSize:16
             // FontSize.twenty(context)
           ),)
@@ -39,7 +40,7 @@ class _MultiplicationViewState extends State<MultiplicationView> {
   }
 
   Widget textWidget(String text){
-    return Text(context.locale.languageCode == 'en'?text:text.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty));
+    return Text(widget.locale == 'en'?text:text.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty));
   }
   @override
   Widget build(BuildContext context) {

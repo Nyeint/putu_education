@@ -84,7 +84,8 @@ class LessonsView extends StatelessWidget {
           ),
           lessonItem(
               iconName: 'cat',
-              title: '${tr('myanmar')}${tr('language')}',
+              // title: '${tr('myanmar')}${tr('language')}',
+              title: 'မြန်မာစာ',
               bodyText: tr('learn_myanmar_lang'),
               context: context,
             goTo: RouteName.myanmarView
@@ -92,19 +93,21 @@ class LessonsView extends StatelessWidget {
           SizedBox(height: 15,),
           lessonItem(
               iconName: 'bird',
-              title: '${tr('english')}${tr('language')}',
+              // title: '${tr('english')}${tr('language')}',
+              title: tr('english'),
               bodyText: tr('learn_english_lang'),
               context: context,
               goTo: RouteName.englishView
           ),
-          SizedBox(height: 15,),
-          lessonItem(
-              iconName: 'fish',
-              title: tr('math'),
-              bodyText: tr('learn_math'),
-              context: context,
-              goTo: RouteName.math
-          ),
+          // SizedBox(height: 15,),
+          // lessonItem(
+          //     iconName: 'fish',
+          //     // iconName: 'math_lesson',
+          //     title: tr('math'),
+          //     bodyText: tr('learn_math'),
+          //     context: context,
+          //     goTo: RouteName.math
+          // ),
           SizedBox(height: 15,),
         ],
       ).pad(left: 16, right: 16, top: 3, bottom: 3),

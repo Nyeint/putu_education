@@ -1,11 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/config/color_resources.dart';
 import 'package:putu_education/app/config/widget_extensions.dart';
 import 'package:putu_education/presentation/widgets/sub_item_widget.dart';
 import 'package:putu_education/route/my_router.dart';
 import '../../app/config/font_family.dart';
+import '../../app/utils/en_types.dart';
+import '../math/math_view.dart';
 import '../widgets/my_appbar.dart';
 
 class EnglishView extends StatefulWidget {
@@ -58,39 +61,72 @@ class _EnglishViewState extends State<EnglishView> {
               ),
               Lottie.asset("assets/anims/bird.json", width: context.width / 4.5),
               Wrap(
-                spacing: 16,
-                runSpacing: 16,
+                spacing: 12,
+                runSpacing: 12,
                 children: [
                   SubItemWidget(
                       title: tr('numbers'),
-                      iconName: 'numbers',
-                      goTo: RouteName.englishNumber),
+                      iconName: 'category_number',
+                    onTap: (){
+                     try{
+                       context.pushNamed(RouteName.englishNumber);
+                     }catch(e){
+                        print('Navigation error: $e');
+                     }
+                    },
+                      // goTo: RouteName.englishNumber
+                  ),
                   SubItemWidget(
                       title: tr('alphabets'),
-                      iconName: 'alpha',
-                      goTo: RouteName.englishAlphabet),
+                      iconName: 'category_en_alphabet',
+                      onTap: (){
+                        context.pushNamed(RouteName.englishAlphabet);
+                      },
+                  ),
                   SubItemWidget(
                       title: tr('vocabulary'),
-                      iconName: 'vocab',
-                      goTo: RouteName.englishVocabulary),
+                      iconName: 'category_vocabulary',
+                      onTap: (){
+                        context.pushNamed(RouteName.englishVocabulary);
+                      },
+                  ),
                   SubItemWidget(
                       title: tr('poems'),
-                      iconName: 'poem',
-                      goTo: RouteName.englishPoem),
+                      iconName: 'category_poem',
+                      onTap: (){
+                        context.pushNamed(RouteName.englishPoem);
+                      },
+                  ),
                   SubItemWidget(
                       title: tr('stories'),
-                      iconName: 'story',
-                      goTo: RouteName.englishNumber),
+                      iconName: 'category_story',
+                      onTap: (){
+                        context.pushNamed(RouteName.englishNumber);
+                      },
+                  ),
                   SubItemWidget(
                       title: tr('songs'),
-                      iconName: 'song',
-                      goTo: RouteName.englishNumber),
+                      iconName: 'category_song',
+                      onTap: (){
+                        context.pushNamed(RouteName.englishNumber);
+                      },
+                     ),
+                  SubItemWidget(
+                    title: tr('math'), iconName: 'category_math',
+                    onTap: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) =>  MathView(
+                            learnLanguageType: LearnLanguageType.en.name,
+                          ))
+                      );
+                    },
+                  ),
                 ],
               ),
               SizedBox(height: 20),
             ],
           ),
-        ).pad(left: 16, right: 16, top: 24),
+        ).pad(left: 10, right: 10, top: 24),
       ),
     );
   }

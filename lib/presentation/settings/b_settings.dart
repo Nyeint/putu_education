@@ -1,3 +1,4 @@
+// Path: settings/b_settings.dart
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/widget_extensions.dart';
 import '../../app/config/color_resources.dart';

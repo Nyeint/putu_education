@@ -85,5 +85,17 @@
   "tangerine": "Tangerine",
   "pineapple": "Pineapple",
   "strawberry": "Strawberry",
-  "go_home": "Go Home"
+  "go_home": "Go Home",
+  "well_done": "Well done!",
+  "your_score": "Your Score",
+  "review_answers": "Review Answers",
+
+  "games": "Games",
+  "counting": "Counting",
+  "calculate": "Calculate",
+  "top_explored_topics": "Top Explored Topics",
+  "search_hint": "Search for fun...",
+  "no_result_title": "Oops! Let's try another word!",
+  "no_result_desc": "We couldn't find anything for that.",
+  "go_back": "Go Back"
 }

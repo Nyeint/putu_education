@@ -1,3 +1,4 @@
+// Path: providers/settings_info_provider.dart
 import 'package:flutter/cupertino.dart';
 
 enum ThemeType{

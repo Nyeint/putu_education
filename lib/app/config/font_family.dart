@@ -1,3 +1,4 @@
+// Path: config/font_family.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'font_size.dart';

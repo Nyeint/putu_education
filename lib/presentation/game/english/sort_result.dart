@@ -1,3 +1,4 @@
+// Path: english/sort_result.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/config.dart';
@@ -13,13 +14,15 @@ class SortResultView extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        padding: EdgeInsets.only(top: context.width*0.2, bottom: context.width*0.04,left: 16, right: 16),
+        padding: EdgeInsets.all(16),
+        // padding: EdgeInsets.only(top: context.width*0.2, bottom: context.width*0.04,left: 16, right: 16),
         width: context.width-32,
         decoration: BoxDecoration(
           color: ColorResources.lightBg,
           borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
         child: ListView.builder(
+          padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: ScrollPhysics(),
             itemCount: historyList.length,
@@ -47,7 +50,7 @@ class SortResultView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Expanded(child: Text(data.result.toString())),
+                        Expanded(child: Text(data.correctAnswer.toString())),
                       ],
                     ),
                     Divider()

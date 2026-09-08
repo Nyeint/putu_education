@@ -1,3 +1,4 @@
+// Path: lib/main.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,9 @@ import 'app/config/color_resources.dart';
 import 'package:provider/provider.dart';
 
 import 'app/config/theme.dart';
+import 'app/service/locator.dart';
 import 'app/service/tts_service.dart';
+import 'data/providers/score_provider.dart';
 import 'data/providers/settings_info_provider.dart';
 import 'data/providers/timer_info_provider.dart';
 
@@ -19,6 +22,7 @@ Future<void> main() async {
   // MobileAds.instance.initialize();
   configLoading();
   TtsService.instance;
+  await setupLocator();
   // runApp(MyApp());
   runApp(
       EasyLocalization(
@@ -32,8 +36,9 @@ Future<void> main() async {
           // child: MyApp()
         child: MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => SettingsInfoProvider()),
-              ChangeNotifierProvider(create: (_) => TimerInfoProvider()),
+              ChangeNotifierProvider.value(value: getIt<SettingsInfoProvider>()),
+              ChangeNotifierProvider.value(value: getIt<TimerInfoProvider>()),
+              ChangeNotifierProvider.value(value: getIt<ScoreProvider>()),
             ],
             child:
 

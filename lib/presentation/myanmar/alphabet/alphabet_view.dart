@@ -1,8 +1,10 @@
+// Path: alphabet/alphabet_view.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:putu_education/app/config/config.dart';
 
+import '../../widgets/go_button.dart';
 import '../../widgets/item_decoration.dart';
 import '../../widgets/my_appbar.dart';
 import '../../widgets/my_icon.dart';
@@ -25,7 +27,10 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
     'na̰ ŋɛ̀','pa̰ zaʊʔ','pʰa̰ ʔóʊʔ tʰoʊʔ','ba̰ tɛʔ tɕʰaɪʔ','ba̰ ɡóʊɰ̃','ma̰','ja̰ pɛʔ lɛʔ','ja̰ ɡaʊ','la̰ ŋɛ̀','wa̰','θa̰','ha̰','la̰ dʑí','ʔa̰'
   ];
 
+  static const int itemsPerPage = 12;
   int selectedIndex = 0;
+  int currentPage = 1;
+  int get lastPage => (letterList.length / itemsPerPage).ceil();
   final AudioPlayer _player = AudioPlayer();
 
   Future<void> _playIndex(int i) async {
@@ -114,31 +119,66 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
                     spacing: 8.0,
                     runSpacing: 8.0,
                     children: List.generate(
-                      letterList.length,
-                          (index) => GestureDetector(
-                        onTap: () async {
-                          setState(() => selectedIndex = index);
-                          await _playIndex(index);
-                        },
-                        child: Container(
-                          width: context.width / 5,
-                          height: context.width / 5,
-                          decoration: index == selectedIndex
-                              ? selectedDecoration()
-                              : unselectedDecoration(),
-                          child: Center(
-                            child: Text(
-                              letterList[index],
-                              style: FontFamily().bold.copyWith(
-                                fontSize: FontSize().twenty,
+                      letterList.length - (currentPage - 1) * itemsPerPage <
+                              itemsPerPage
+                          ? letterList.length - (currentPage - 1) * itemsPerPage
+                          : itemsPerPage,
+                          (index) {
+                        final globalIndex = (currentPage - 1) * itemsPerPage + index;
+                        return GestureDetector(
+                          key: ValueKey('letter_$globalIndex'),
+                          onTap: () async {
+                            setState(() => selectedIndex = globalIndex);
+                            await _playIndex(globalIndex);
+                          },
+                          child: Container(
+                            width: context.width / 5,
+                            height: context.width / 5,
+                            decoration: globalIndex == selectedIndex
+                                ? selectedDecoration()
+                                : unselectedDecoration(),
+                            child: Center(
+                              child: Text(
+                                letterList[globalIndex],
+                                style: FontFamily().bold.copyWith(
+                                  fontSize: FontSize().twenty,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ).pad(top: 20),
+              ),
+              Stack(
+                children: [
+                  if (currentPage > 1)
+                    Align(
+                        alignment: Alignment.bottomLeft,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              currentPage--;
+                              selectedIndex = (currentPage - 1) * itemsPerPage;
+                            });
+                          },
+                          child: GoButton(isNext: false),
+                        )),
+                  if (currentPage < lastPage)
+                    Align(
+                        alignment: Alignment.bottomRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              currentPage++;
+                              selectedIndex = (currentPage - 1) * itemsPerPage;
+                            });
+                          },
+                          child: GoButton(isNext: true),
+                        )),
+                ],
               ),
             ],
           ).pad(left: 10, right: 10, top: 24, bottom: MediaQuery.of(context).padding.bottom)

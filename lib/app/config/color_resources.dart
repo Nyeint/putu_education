@@ -1,3 +1,4 @@
+// Path: config/color_resources.dart
 import 'package:flutter/material.dart';
 
 class ColorResources {

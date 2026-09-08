@@ -1,9 +1,13 @@
+// Path: math/calculate_game.dart
 import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:putu_education/app/config/config.dart';
+import 'package:putu_education/data/model/game_category.dart';
+import 'package:putu_education/data/providers/score_provider.dart';
 import 'package:putu_education/presentation/game/math/calculate/digit_plus_minus.dart';
 import 'package:putu_education/presentation/game/math/calculate/icon_mul_div.dart';
 import 'package:putu_education/presentation/game/math/calculate/icon_plus_minus.dart';
@@ -27,7 +31,8 @@ class MathCalculationGame extends StatefulWidget {
 
 class _MathCalculationGameState extends State<MathCalculationGame> {
   int currentStep=0;
-  int totalSteps=20;
+  int totalSteps=10;
+  int correctCount=0;
 
   List<String> fruitList = ['apple', 'banana', 'grape', 'mango', 'tangerine', 'pineapple', 'strawberry'];
   List<CalculateType> typeList = [
@@ -249,12 +254,17 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap: (){
-                    // if(currentStep==7){
-                    //   context.replaceNamed(RouteName.resultView,extra: historyList);
-                    // }
-                    if(currentStep==7){
+                    if(answer==rightAnswer){
+                      correctCount++;
+                    }
+
+                    if(currentStep==9){
+                      // final score = ((correctCount / totalSteps) * 100).round();
+                      context.read<ScoreProvider>().recordScore(
+                          category: GameCategory.math, gameTitle: 'Calculate Game', score: correctCount);
                       context.replaceNamed(RouteName.resultView,
-                        extra: {'score': 70, 'childWidget': CalculationResultView(historyList: historyList,)},);
+                        extra: {'score': correctCount, 'childWidget': CalculationResultView(historyList: historyList,)},);
+                      return;
                     }
                     optionList.clear();
                     currentStep++;
@@ -275,7 +285,7 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
                       padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
                       decoration: selectedTabDecoration(),
                       child:
-                      currentStep==7?Text(tr('check')):
+                      currentStep==9?Text(tr('check')):
                       SvgPicture.asset("assets/icons/next.svg")
                   ),
                 ),

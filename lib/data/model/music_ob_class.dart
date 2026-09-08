@@ -1,3 +1,4 @@
+// Path: model/music_ob_class.dart
 // import 'artist_model.dart';
 //
 // class MusicObClass<P extends Object?> {

@@ -1,3 +1,4 @@
+// Path: poem/poem_detail.dart
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/config.dart';

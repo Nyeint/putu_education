@@ -1,3 +1,4 @@
+// Path: widgets/err_widget.dart
 import 'package:flutter/material.dart';
 import '../../data/model/response_ob.dart';
 import 'err_state_widget/connection_timeout_widget.dart';

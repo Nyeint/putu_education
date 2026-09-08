@@ -1,10 +1,14 @@
+// Path: math/counting_game.dart
 import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:putu_education/presentation/game/math/counting/counting_result.dart';
 import '../../../app/config/config.dart';
+import '../../../data/model/game_category.dart';
+import '../../../data/providers/score_provider.dart';
 import '../../../route/route_name.dart';
 import '../../widgets/item_decoration.dart';
 import '../../widgets/my_appbar.dart';
@@ -21,9 +25,10 @@ class MathCountingGame extends StatefulWidget {
 
 class _MathCountingGameState extends State<MathCountingGame> {
   int currentStep=0;
-  int totalSteps=20;
+  int totalSteps=10;
+  int correctCount=0;
 
-  List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','line1','parallelogram'];
+  List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','parallelogram'];
   List<String> fruitList = ['apple', 'banana', 'grape', 'mango', 'tangerine', 'pineapple', 'strawberry'];
 
   String correctItem = '';
@@ -36,6 +41,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
     List<String> resultList = [];
     Random rand = Random();
     int remainingCount = totalCount;
+    print("Shapes--> $shapes");
 
     while (remainingCount > 0) {
       for (String shape in shapes) {
@@ -141,8 +147,8 @@ class _MathCountingGameState extends State<MathCountingGame> {
                             spacing: 10,
                             runSpacing: 10,
                             children: resultList.asMap().entries.map((e) {
-                              // return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/${e.value}.svg",
-                              return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/line.svg",
+                              return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/${e.value}.svg",
+                              // return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/line.svg",
                                 color: currentStep%2==0?ColorResources.primary:null, height: context.width*0.16,);
                             }).toList(),
                           ),
@@ -190,9 +196,18 @@ class _MathCountingGameState extends State<MathCountingGame> {
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(
                   onTap: (){
-                    if(currentStep==7){
+                    int rightAnswerCount = resultList.where((char) => char == correctItem).length;
+                    if(answer==rightAnswerCount){
+                      correctCount++;
+                    }
+
+                    if(currentStep==9){
+                      // final score = ((correctCount / totalSteps) * 100).round();
+                      context.read<ScoreProvider>().recordScore(
+                          category: GameCategory.math, gameTitle: 'Counting Game', score: correctCount);
                       context.replaceNamed(RouteName.resultView,
-                        extra: {'score': 70, 'childWidget': CountingResultView(historyList: historyList,)},);
+                        extra: {'score': correctCount, 'childWidget': CountingResultView(historyList: historyList,)},);
+                      return;
                     }
 
                     currentStep++;
@@ -208,7 +223,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
                       padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
                       decoration: selectedTabDecoration(),
                       child:
-                      currentStep==7?Text(tr('check')):
+                      currentStep==9?Text(tr('check')):
                       SvgPicture.asset("assets/icons/next.svg")
                   ),
                 ),

@@ -1,0 +1,68 @@
+{
+  "success": true,
+  "game_type": "word_sorting",
+  "category": "english",
+  "total_questions": 10,
+  "data": [
+    {
+      "id": "word_001",
+      "word": "TIGER",
+      "image_url": "https://cdn.putueducation.com/images/tiger.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/tiger.mp3"
+    },
+    {
+      "id": "word_002",
+      "word": "CAT",
+      "image_url": "https://cdn.putueducation.com/images/cat.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/cat.mp3"
+    },
+    {
+      "id": "word_003",
+      "word": "ELEPHANT",
+      "image_url": "https://cdn.putueducation.com/images/elephant.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/elephant.mp3"
+    },
+    {
+      "id": "word_004",
+      "word": "DUCK",
+      "image_url": "https://cdn.putueducation.com/images/duck.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/duck.mp3"
+    },
+    {
+      "id": "word_005",
+      "word": "ZEBRA",
+      "image_url": "https://cdn.putueducation.com/images/zebra.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/zebra.mp3"
+    },
+    {
+      "id": "word_006",
+      "word": "MONKEY",
+      "image_url": "https://cdn.putueducation.com/images/monkey.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/monkey.mp3"
+    },
+    {
+      "id": "word_007",
+      "word": "BEAR",
+      "image_url": "https://cdn.putueducation.com/images/bear.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/bear.mp3"
+    },
+    {
+      "id": "word_008",
+      "word": "RABBIT",
+      "image_url": "https://cdn.putueducation.com/images/rabbit.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/rabbit.mp3"
+    },
+    {
+      "id": "word_009",
+      "word": "DOG",
+      "image_url": "https://cdn.putueducation.com/images/dog.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/dog.mp3"
+    },
+    {
+      "id": "word_010",
+      "word": "LION",
+      "image_url": "https://cdn.putueducation.com/images/lion.png",
+      "audio_url": "https://cdn.putueducation.com/audio/en/lion.mp3"
+    }
+  ]
+}

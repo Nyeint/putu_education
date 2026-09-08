@@ -1,3 +1,4 @@
+// Path: model/pn_ob_class.dart
 import '../model_factory.dart';
 
 class PnObClass<T extends Object?, P extends Object?> {

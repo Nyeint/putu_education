@@ -1,3 +1,4 @@
+// Path: calculate/digit_plus_minus.dart
 import 'package:flutter/material.dart';
 import 'package:putu_education/presentation/game/math/calculate/text_widget.dart';
 import 'package:putu_education/presentation/game/math/calculate/what_is.dart';
@@ -17,6 +18,7 @@ class DigitPlusMinusView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       // mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         type==CalculateType.type1?

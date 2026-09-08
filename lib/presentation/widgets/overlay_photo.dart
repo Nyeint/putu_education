@@ -1,3 +1,4 @@
+// Path: widgets/overlay_photo.dart
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';

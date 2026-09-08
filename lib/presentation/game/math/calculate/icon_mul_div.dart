@@ -1,3 +1,4 @@
+// Path: calculate/icon_mul_div.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:putu_education/app/config/config.dart';
@@ -18,9 +19,12 @@ class IconsMultiplyDivide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        type==CalculateType.type3||type==CalculateType.type4?
-        SingleChildScrollView(
+        // Text(type.toString()),
+        if(type==CalculateType.type3||type==CalculateType.type4)
+          SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
@@ -46,29 +50,28 @@ class IconsMultiplyDivide extends StatelessWidget {
               )
             ],
           ).pad(bottom: 20),
-        ):SizedBox(height: 0, width: 0,),
-        Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                type==CalculateType.type3||type==CalculateType.type4?
-                SvgPicture.asset("assets/icons/fruits/$fruitOne.svg",
-                  height: isHistory!?context.width*0.08:context.width*0.12, width: isHistory!?context.width*0.26:context.width*0.3,):
-                TextWidget(text:a.toString()),
-                TextWidget(text:type==CalculateType.type3||type==CalculateType.type5?' * ':' % '),
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.start,
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              type==CalculateType.type3||type==CalculateType.type4?
+              SvgPicture.asset("assets/icons/fruits/$fruitOne.svg",
+                height: isHistory!?context.width*0.08:context.width*0.12, width: isHistory!?context.width*0.26:context.width*0.3,)
+                  :
+              TextWidget(text:a.toString()),
+              TextWidget(text:type==CalculateType.type3||type==CalculateType.type5?' * ':' % '),
 
-                type==CalculateType.type3||type==CalculateType.type4?
-                SvgPicture.asset("assets/icons/fruits/$fruitTwo.svg",
-                  height: isHistory!?context.width*0.08:context.width*0.12, width: isHistory!?context.width*0.26:context.width*0.3,):
-                TextWidget(text:b.toString()),
-                TextWidget(text:' = '),
-                WhatIsWidget()
-              ],
-            ),
+              type==CalculateType.type3||type==CalculateType.type4?
+              SvgPicture.asset("assets/icons/fruits/$fruitTwo.svg",
+                height: isHistory!?context.width*0.08:context.width*0.12, width: isHistory!?context.width*0.26:context.width*0.3,):
+              TextWidget(text:b.toString()),
+              TextWidget(text:' = '),
+              WhatIsWidget()
+            ],
           ),
         ),
       ],

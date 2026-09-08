@@ -1,3 +1,4 @@
+// Path: dashboard/lessons_view.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -58,7 +59,11 @@ class LessonsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        // borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(20), 
+        //     topRight: Radius.circular(20)
+        // ),
         color: ColorResources.primary,
         boxShadow: [
           BoxShadow(
@@ -90,7 +95,7 @@ class LessonsView extends StatelessWidget {
               context: context,
             goTo: RouteName.myanmarView
           ),
-          SizedBox(height: 15,),
+          // SizedBox(height: 10,),
           lessonItem(
               iconName: 'bird',
               // title: '${tr('english')}${tr('language')}',
@@ -108,7 +113,7 @@ class LessonsView extends StatelessWidget {
           //     context: context,
           //     goTo: RouteName.math
           // ),
-          SizedBox(height: 15,),
+          SizedBox(height: 50,),
         ],
       ).pad(left: 16, right: 16, top: 3, bottom: 3),
     );

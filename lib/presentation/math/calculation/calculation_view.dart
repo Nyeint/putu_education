@@ -1,3 +1,4 @@
+// Path: calculation/calculation_view.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,6 +20,21 @@ class CalculationView extends StatefulWidget {
 class _CalculationViewState extends State<CalculationView> {
   int selectedIndex = 0;
   // List<IconData> itemList = [Icons.add, Icons.remove,Icons.close,Icons.percent];
+
+  Widget _calculationBody() {
+    if (selectedIndex == 0) {
+      return AdditionView(locale: 'mm');
+    }
+    if (selectedIndex == 1) {
+      return SubtractionView(locale: 'mm');
+    }
+    if (selectedIndex == 3) {
+      return DivisionView(locale: 'mm');
+    }
+    return SingleChildScrollView(
+      child: MultiplicationView(locale: 'mm'),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,18 +97,7 @@ class _CalculationViewState extends State<CalculationView> {
                     }),
               ),
               Expanded(
-                  child:
-                  SingleChildScrollView(
-                      child:
-                      selectedIndex==1?
-                      SubtractionView(
-                        locale: 'mm',
-                      ):
-                      selectedIndex==2?
-                      MultiplicationView(locale: 'mm',):
-                      selectedIndex==3?
-                      DivisionView(locale: 'mm',):AdditionView(locale: 'mm',)
-                  )
+                child: _calculationBody(),
               )
             ],
           ).pad(left: 16, right: 16,top: 24, bottom: MediaQuery.of(context).padding.bottom),

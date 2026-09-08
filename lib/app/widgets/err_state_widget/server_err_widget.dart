@@ -1,3 +1,4 @@
+// Path: err_state_widget/server_err_widget.dart
 import 'package:flutter/material.dart';
 
 class ServerErrWidget extends StatelessWidget {

@@ -1,3 +1,4 @@
+// Path: config/widget_extensions.dart
 import 'package:flutter/cupertino.dart';
 
 extension MediaQueryValues on BuildContext {

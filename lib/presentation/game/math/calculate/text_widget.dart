@@ -1,3 +1,4 @@
+// Path: calculate/text_widget.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/config.dart';
@@ -9,6 +10,9 @@ class TextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Text(context.locale.languageCode == 'en'?text:text.burmese(),style: FontFamily().medium.copyWith(fontSize: isHistory?FontSize().eighteen:FontSize().twenty));
+    return  Text(
+        context.locale.languageCode == 'en'?text:text.burmese(),
+        style: FontFamily().medium.copyWith(fontSize: FontSize().eighteen));
+        // style: FontFamily().medium.copyWith(fontSize: isHistory?FontSize().eighteen:FontSize().twenty));
   }
 }

@@ -1,3 +1,4 @@
+// Path: myanmar/myanmar_view.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/config/color_resources.dart';
 import 'package:putu_education/app/config/widget_extensions.dart';
+import 'package:putu_education/presentation/myanmar/number/number_view.dart';
 import 'package:putu_education/presentation/widgets/sub_item_widget.dart';
 import 'package:putu_education/route/my_router.dart';
 import '../../app/config/font_family.dart';
@@ -60,45 +62,39 @@ class _MyanmarViewState extends State<MyanmarView> {
                         SubItemWidget(
                             title: tr('numbers'), iconName: 'category_number',
                             onTap: (){
-                              Navigator.pushNamed(context,
-                                  RouteName.myanmarNumber);
+                              context.pushNamed(RouteName.myanmarNumber);
                             },
                         ),
                         // SizedBox(width: 16,),
                         SubItemWidget(
                             title: tr('alphabets'), iconName: 'category_mm_alphabet',
                             onTap: (){
-                              Navigator.pushNamed(context,
-                                  RouteName.myanmarNumber);
+                              context.pushNamed(RouteName.myanmarAlphabet);
                             },
                            ),
                         // SizedBox(width: 16,),
                         SubItemWidget(
                             title: tr('vocabulary'), iconName: 'category_vocabulary',
                             onTap: (){
-                              Navigator.pushNamed(context,
-                                  RouteName.englishVocabulary);
+                              context.pushNamed(RouteName.englishVocabulary);
                             },
                             ),
                         SubItemWidget(
                             title: tr('poems'), iconName: 'category_poem',
                             onTap: (){
-                              Navigator.pushNamed(context,
-                                  RouteName.englishPoem);
+                              context.pushNamed(RouteName.englishPoem);
                             },
                           ),
                         SubItemWidget(
                             title: tr('stories'), iconName: 'category_story',
                             onTap: (){
-                              Navigator.pushNamed(context,
-                                  RouteName.englishNumber);
+                              context.pushNamed(RouteName.englishNumber);
                             },
                             ),
                         SubItemWidget(
                             title: tr('songs'), iconName: 'category_song',
                             onTap: (){
-                              Navigator.pushNamed(context,
-                                  RouteName.englishNumber);
+                              context.pushNamed(RouteName.englishNumber);
                             },
                         ),
                         SubItemWidget(

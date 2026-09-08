@@ -1,8 +1,13 @@
+// Path: english/word_game.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:putu_education/app/config/config.dart';
+import 'package:putu_education/data/model/game_category.dart';
+import 'package:putu_education/data/providers/score_provider.dart';
 import 'package:putu_education/presentation/game/english/word_result.dart';
 import 'package:putu_education/presentation/game/widgets/front_flip_card_item.dart';
 import 'package:putu_education/presentation/game/widgets/progress_bar.dart';
@@ -12,6 +17,7 @@ import '../../widgets/item_decoration.dart';
 import '../../widgets/item_voice_dialog.dart';
 import '../../widgets/my_appbar.dart';
 import '../model/question_result.dart';
+import '../model/word_item.dart';
 
 class EnglishWordGame extends StatefulWidget {
   const EnglishWordGame({super.key});
@@ -21,30 +27,40 @@ class EnglishWordGame extends StatefulWidget {
 }
 
 class _EnglishWordGameState extends State<EnglishWordGame> {
-  List<String> photoList = [
-    'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg',
-    'https://images.pexels.com/photos/47547/squirrel-animal-cute-rodents-47547.jpeg?cs=srgb&dl=pexels-pixabay-47547.jpg&fm=jpg',
-    'https://images.unsplash.com/photo-1598755257130-c2aaca1f061c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2lsZCUyMGFuaW1hbHxlbnwwfHwwfHx8MA%3D%3D',
-    'https://images.unsplash.com/photo-1592670130429-fa412d400f50?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2lsZCUyMGFuaW1hbHxlbnwwfHwwfHx8MA%3D%3D'
-  ];
+  final FlutterTts flutterTts = FlutterTts();
 
-  // GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-  // FlipCardController? _controller;
-  bool showNext = false;
-
-  int currentStep=0;
-  int totalSteps=20;
+  int currentStep = 0;
+  int totalSteps = 10;
   int selectedIndex = -1;
-  List<QuestionResultModel> historyList=[];
+  int correctCount = 0;
+  List<QuestionResultModel> historyList = [];
+
+  late List<WordItem> sessionQuestions;
+  late List<WordItem> currentOptions;
+
+  WordItem get currentQuestion => sessionQuestions[currentStep];
 
   @override
   void initState() {
     super.initState();
-    speakWord("snail");
-    // _controller = FlipCardController();
+    sessionQuestions = (List<WordItem>.from(wordGameMasterList)..shuffle())
+        .take(totalSteps)
+        .toList();
+    generateOptions();
+    speakWord(currentQuestion.word);
   }
 
-  setHistoryList({required String result, required String question}){
+  // Picks the current question plus 3 other random, non-repeating items from
+  // the master list, then shuffles so the correct answer isn't always first.
+  void generateOptions() {
+    final wrongAnswers = wordGameMasterList
+        .where((item) => item.id != currentQuestion.id)
+        .toList()
+      ..shuffle();
+    currentOptions = [currentQuestion, ...wrongAnswers.take(3)]..shuffle();
+  }
+
+  setHistoryList({required String result, required String question}) {
     QuestionResultModel model = QuestionResultModel(
         result: result,
         question: question
@@ -56,6 +72,33 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
     await flutterTts.speak(word);
   }
 
+  void goToNext() {
+    if (selectedIndex == -1) return;
+
+    final selectedItem = currentOptions[selectedIndex];
+    final isCorrect = selectedItem.id == currentQuestion.id;
+    if (isCorrect) correctCount++;
+
+    setHistoryList(result: selectedItem.imageUrl, question: currentQuestion.word);
+
+    if (currentStep == totalSteps - 1) {
+      // Dashboard high scores are tracked on a 0-100 scale across all english
+      // games, but the result screen shows the raw x/totalSteps fraction.
+      // final percentageScore = ((correctCount / totalSteps) * 100).round();
+      context.read<ScoreProvider>().recordScore(
+          category: GameCategory.english, gameTitle: 'Word Game', score: correctCount);
+      context.replaceNamed(RouteName.resultView,
+        extra: {'score': correctCount, 'maxScore': totalSteps, 'childWidget': WordResultView(historyList: historyList,)},);
+      return;
+    }
+
+    setState(() {
+      currentStep++;
+      selectedIndex = -1;
+      generateOptions();
+    });
+    speakWord(currentQuestion.word);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +120,9 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
+                ProgressBarView(currentStep: currentStep + 1, totalSteps: totalSteps),
                 SizedBox(height: 24,),
-                VoiceItemView(name: 'snail', description: "Choose 'snail'",),
+                VoiceItemView(name: currentQuestion.word, description: "Listen and pick",),
                 SizedBox(height: 40,),
                 Container(
                   padding: EdgeInsets.all(20),
@@ -96,46 +139,28 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
                           crossAxisSpacing: 15, mainAxisSpacing: 15,
                           crossAxisCount: 2
                       ),
-                      itemCount: 4,
+                      itemCount: currentOptions.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                             onTap: () {
                               selectedIndex=index;
                               setState(() {});
-                              // _controller?.toggleCard();
-                              // setState(() {
-                              //   showNext=true;
-                              // });
                             },
                             child:
-                            FrontFlipCardItem(image: photoList[index],isSelected: selectedIndex==index,)
+                            FrontFlipCardItem(image: currentOptions[index].imageUrl,isSelected: selectedIndex==index,)
                         );
                       }
                   ),
                 ),
                 SizedBox(height: 20,),
-                // if(showNext)
                 Align(
                   alignment: Alignment.bottomRight,
                   child: GestureDetector(
-                    onTap: (){
-                      if(currentStep==7){
-                        context.replaceNamed(RouteName.resultView,
-                          extra: {'score': 70, 'childWidget': WordResultView(historyList: historyList,)},);
-                      }
-
-                      setHistoryList(
-                          result: photoList[selectedIndex],
-                          question: "Choose 'snail'");
-                      setState(() {
-                        currentStep++;
-                        selectedIndex = -1;
-                      });
-                    },
+                    onTap: goToNext,
                     child: Container(
                         padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
                         decoration: selectedTabDecoration(),
-                        child: currentStep==7?Text(tr('check')):
+                        child: currentStep==totalSteps-1?Text(tr('check')):
                         SvgPicture.asset("assets/icons/next.svg")
                     ),
                   ),

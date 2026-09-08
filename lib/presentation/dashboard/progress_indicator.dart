@@ -1,9 +1,12 @@
+// Path: dashboard/progress_indicator.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:putu_education/route/my_router.dart';
 import '../../app/config/config.dart';
+import '../../data/providers/score_provider.dart';
 
 class ProgressIndicatorView extends StatelessWidget {
   const ProgressIndicatorView({super.key});
@@ -33,8 +36,8 @@ class ProgressIndicatorView extends StatelessWidget {
         children: [
           Text(title, style: FontFamily().semiBold.copyWith(fontSize: context.locale.languageCode == 'en'?16:14),),
           Container(
-            width: 45,
-            height: 45,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               image: DecorationImage(
                   image:
@@ -68,8 +71,9 @@ class ProgressIndicatorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scoreProvider = context.watch<ScoreProvider>();
     return Container(
-      padding: EdgeInsets.all(24),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/yellow_slider.png",),
@@ -84,11 +88,12 @@ class ProgressIndicatorView extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                progressItem(tr('english'),'50', context, RouteName.englishGame),
+                progressItem(tr('english'),'${scoreProvider.englishScoreSum}', context, RouteName.englishGame),
                 SizedBox(width: 8,),
-                progressItem(tr('myanmar'),'40',context, RouteName.englishGame),
+                progressItem(tr('myanmar'),'${scoreProvider.myanmarScoreSum}',context,
+                    RouteName.myanmarGame),
                 SizedBox(width: 8,),
-                progressItem(tr('math'),'40',context, RouteName.mathGame),
+                progressItem(tr('math'),'${scoreProvider.mathScoreSum}', context, RouteName.mathGame),
               ],
             ),
           )

@@ -1,3 +1,4 @@
+// Path: shape/shape_view.dart
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';

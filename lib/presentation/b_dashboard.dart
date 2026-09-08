@@ -1,3 +1,4 @@
+// Path: presentation/b_dashboard.dart
 // import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 // import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 // import 'package:easy_localization/easy_localization.dart';

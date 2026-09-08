@@ -1,10 +1,14 @@
+// Path: dashboard/dashboard.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/config/color_resources.dart';
 import 'package:putu_education/app/config/widget_extensions.dart';
+import 'package:putu_education/app/utils/weekly_session_picker.dart';
+import 'package:putu_education/data/model/session_item.dart';
 import 'package:putu_education/presentation/dashboard/lessons_view.dart';
 import 'package:putu_education/presentation/dashboard/progress_indicator.dart';
 import 'package:putu_education/presentation/test/phone_number.dart';
@@ -13,7 +17,8 @@ import 'package:putu_education/presentation/widgets/my_icon.dart';
 import 'package:putu_education/route/my_router.dart';
 
 import '../../app/config/font_family.dart';
-import '../onboarding/screen_one.dart';
+import '../../app/service/locator.dart';
+import '../../data/providers/score_provider.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -23,6 +28,10 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  // Refreshed automatically every week (see WeeklySessionPicker); computed
+  // once per screen build cycle so it stays stable while this view is alive.
+  late final List<SessionItem> weeklyPicks = WeeklySessionPicker.pick();
+
   // headerItem({required String iconName,required String goTo}){
   //   return GestureDetector(
   //     onTap: ()=>context.pushNamed(goTo),
@@ -53,17 +62,38 @@ class _DashboardViewState extends State<DashboardView> {
   // }
 
 
-  pickItem({required String name}) {
+  pickItem({required SessionItem item}) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {},
-          child: Image.asset('assets/images/$name.png', width: context.width / 5
-              // 80, height: 80,
+          onTap: () => item.onTap(context),
+          child: Container(
+            width: context.width / 5,
+            height: context.width / 5,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(color: ColorResources.white, width: 3),
+              image: DecorationImage(
+                image: AssetImage('assets/images/${item.iconName}.png'),
+                fit: BoxFit.cover,
               ),
+            ),
+            // child:  Image.asset('assets/images/${item.iconName}.png',
+            //     width: context.width / 5,
+            //   // 80, height: 80,
+            // ),
+          ),
         ),
+        // GestureDetector(
+        //   onTap: () => item.onTap(context),
+        //   child: Image.asset('assets/images/${item.iconName}.png',
+        //       width: context.width / 5
+        //       // 80, height: 80,
+        //       ),
+        // ),
         Text(
-          tr(name),
+          tr(item.titleKey),
           style: FontFamily().medium.copyWith(
               fontSize: context.locale.languageCode == 'en' ? 14 : 12),
         ),
@@ -108,37 +138,55 @@ class _DashboardViewState extends State<DashboardView> {
                                height: 58,
                              ),
                            ),
-                            Image.asset(
-                              "assets/images/logo_text.png",
-                              width: 58,
-                              height: 58,
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Hi there!',
+                                  style: FontFamily().semiBold.copyWith(
+                                      fontSize: 15,
+                                      color: Color(0xff856B20)),),
+                                Text('Let\'s Learn 🎉', style: FontFamily().bold.copyWith(fontSize: 18,
+                                    color: Color(0xff563F10)),),
+
+                              ],
                             ),
+
+                            // Image.asset(
+                            //   "assets/images/logo_text.png",
+                            //   width: 58,
+                            //   height: 58,
+                            // ),
                           ],
                         ),
                         Row(
                           children: [
+                            // GestureDetector(
+                            //     onTap: () {
+                            //       context.pushNamed(RouteName.search);
+                            //     },
+                            //     child: MyIcon(iconName: 'search')),
+                            // SizedBox(
+                            //   width: 16,
+                            // ),
+
+                            // GestureDetector(
+                            //   // onTap: ()=>context.pushNamed(RouteName.language),
+                            //     onTap: () {
+                            //       Navigator.of(context).push(MaterialPageRoute(
+                            //           builder: (context) => PhoneNumberPage()));
+                            //     },
+                            //     child: MyIcon(iconName: 'notification')),
+                            // SizedBox(
+                            //   width: 16,
+                            // ),
                             GestureDetector(
-                              // onTap: ()=>context.pushNamed(RouteName.language),
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ScreenOneView()));
+                                  ScoreProvider scoreProvider = getIt<ScoreProvider>();
+                                  scoreProvider.clearScores();
+                                  print("Score Provider ${scoreProvider.englishScoreSum}");
+                                  context.pushNamed(RouteName.language);
                                 },
-                                child: MyIcon(iconName: 'search')),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            GestureDetector(
-                              // onTap: ()=>context.pushNamed(RouteName.language),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => PhoneNumberPage()));
-                                },
-                                child: MyIcon(iconName: 'notification')),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            GestureDetector(
-                                onTap: () => context.pushNamed(RouteName.language),
                                 child: MyIcon(iconName: 'setting')),
                           ],
                         )
@@ -153,7 +201,7 @@ class _DashboardViewState extends State<DashboardView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 24,
+                          height: 20,
                         ),
                         ProgressIndicatorView(),
 
@@ -184,23 +232,46 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ],
                         ),
+
+                        // SingleChildScrollView(
+                        //   scrollDirection: Axis.horizontal,
+                        //   child: Row(
+                        //     children: [
+                        //       pickItem(name: 'vocabulary'),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       pickItem(name: 'poems'),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       pickItem(name: 'stories'),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       pickItem(name: 'songs'),
+                        //       for (final item in weeklyPicks) ...[
+                        //         pickItem(item: item),
+                        //         if (item != weeklyPicks.last)
+                        //           SizedBox(
+                        //             width: 10,
+                        //           ),
+                        //       ],
+                        //     ],
+                        //   ).pad(left: 16, right: 16),
+                        // ),
+                        
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              pickItem(name: 'vocabulary'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              pickItem(name: 'poems'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              pickItem(name: 'stories'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              pickItem(name: 'songs'),
+                               for (final item in weeklyPicks) ...[
+                                pickItem(item: item),
+                                if (item != weeklyPicks.last)
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                              ],
                             ],
                           ).pad(left: 16, right: 16),
                         ),

@@ -1,3 +1,4 @@
+// Path: widgets/my_card.dart
 import 'package:flutter/material.dart';
 
 class MyCard extends StatelessWidget {

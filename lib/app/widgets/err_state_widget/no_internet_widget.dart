@@ -1,3 +1,4 @@
+// Path: err_state_widget/no_internet_widget.dart
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/config/widget_extensions.dart';

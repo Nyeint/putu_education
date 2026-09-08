@@ -1,3 +1,4 @@
+// Path: widgets/progress_bar.dart
 import 'package:flutter/material.dart';
 import '../../../app/config/config.dart';
 

@@ -1,3 +1,4 @@
+// Path: config/global_context.dart
 import 'package:flutter/material.dart';
 
 class GlobalContext {

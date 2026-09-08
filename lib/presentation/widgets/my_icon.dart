@@ -1,3 +1,4 @@
+// Path: widgets/my_icon.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:putu_education/app/config/config.dart';
@@ -43,7 +44,10 @@ class MyIcon extends StatelessWidget {
 
       padding: EdgeInsets.all(padding),
       child: icon==null?
-      SvgPicture.asset("assets/icons/$iconName.svg",color: color, height: context.width*0.045):
+      SvgPicture.asset(
+          "assets/icons/$iconName.svg",
+          color: color,
+          height: context.width*0.045):
           Icon(icon)
     );
   }

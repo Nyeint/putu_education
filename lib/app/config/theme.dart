@@ -1,3 +1,4 @@
+// Path: config/theme.dart
 import 'package:flutter/material.dart';
 
 import 'color_resources.dart';
@@ -9,7 +10,7 @@ ThemeData light = ThemeData.light().copyWith(
   primaryColor: ColorResources.primary,
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
   cardColor: ColorResources.cardLight,
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     color: ColorResources.cardLight,
     surfaceTintColor: ColorResources.cardLight,
   ),
@@ -36,7 +37,7 @@ ThemeData dark = ThemeData.dark().copyWith(
   brightness: Brightness.dark,
   primaryColor: ColorResources.primary,
   cardColor: ColorResources.cardDark,
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     color: ColorResources.cardDark,
     surfaceTintColor: ColorResources.cardDark,
   ),

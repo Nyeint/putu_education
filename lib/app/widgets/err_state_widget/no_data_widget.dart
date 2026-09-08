@@ -1,3 +1,4 @@
+// Path: err_state_widget/no_data_widget.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

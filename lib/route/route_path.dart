@@ -1,3 +1,4 @@
+// Path: route/route_path.dart
 abstract class RoutePath{
   static const String dashboard = '/dashboard';
   static const String home = '/home';
@@ -22,8 +23,10 @@ abstract class RoutePath{
   static const String englishWordGame = '/englishWordGame';
   static const String englishWordSortGame = '/englishWordSortGame';
   static const String englishSentenceSortGame = '/englishSentenceSortGame';
+  static const String myanmarWordSortGame = '/myanmarWordSortGame';
   static const String mathGame = '/mathGame';
   static const String mathCountingGame = '/mathCountingGame';
   static const String mathCalculateGame = '/mathCalculateGame';
   static const String resultView = '/resultView';
+  static const String search = '/search';
 }

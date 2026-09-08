@@ -1,4 +1,4 @@
-// Path: english/word_sort_game.dart
+// Path: myanmar/word_sort_game.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +9,7 @@ import 'package:putu_education/data/model/game_category.dart';
 import 'package:putu_education/data/providers/score_provider.dart';
 import 'package:putu_education/presentation/game/english/sort_result.dart';
 import 'package:putu_education/presentation/game/english/word_sort_game_controller.dart';
+import 'package:putu_education/presentation/game/myanmar/word_sorting_repository.dart';
 import '../../../route/route_name.dart';
 import '../../widgets/item_decoration.dart';
 import '../../widgets/my_appbar.dart';
@@ -18,21 +19,22 @@ import '../widgets/letter_tile_view.dart';
 import '../widgets/progress_bar.dart';
 import '../widgets/success_feedback_view.dart';
 
-class EnglishWordSortGame extends StatefulWidget {
-  const EnglishWordSortGame({super.key});
+class BurmeseWordSortGame extends StatefulWidget {
+  const BurmeseWordSortGame({super.key});
 
   @override
-  State<EnglishWordSortGame> createState() => _EnglishWordSortGameState();
+  State<BurmeseWordSortGame> createState() => _BurmeseWordSortGameState();
 }
 
-class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
+class _BurmeseWordSortGameState extends State<BurmeseWordSortGame> {
   late final WordSortGameController _controller;
   bool _hasNavigatedToResult = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = WordSortGameController()..loadQuestions();
+    _controller = WordSortGameController(repository: const MyanmarWordSortingRepository())
+      ..loadQuestions(language: 'my');
   }
 
   @override
@@ -46,7 +48,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
     _hasNavigatedToResult = true;
 
     context.read<ScoreProvider>().recordScore(
-          category: GameCategory.english,
+          category: GameCategory.myanmar,
           gameTitle: 'Word Sorting Game',
           score: controller.correctCount,
         );
@@ -114,15 +116,20 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                             spacing: 10,
                             runSpacing: 10,
                             children: [
-                              ...controller.selectedLetters.asMap().entries.map((entry) {
-                                return GestureDetector(
-                                  onTap: () => controller.deselectLetter(entry.key),
+                              // Myanmar letters combine into ligatures (e.g. a
+                              // consonant + its tone mark render as one glyph) —
+                              // that only happens when they share a single Text
+                              // run, so the filled-in answer is joined into one
+                              // string instead of one Text widget per letter.
+                              // Tapping it removes the most recently added letter.
+                              if (controller.selectedLetters.isNotEmpty)
+                                GestureDetector(
+                                  onTap: () => controller.deselectLetter(controller.selectedLetters.length - 1),
                                   child: Text(
-                                    entry.value.toUpperCase(),
+                                    controller.selectedLetters.join(),
                                     style: FontFamily().semiBold.copyWith(fontSize: FontSize().thirtyTwo),
                                   ),
-                                );
-                              }),
+                                ),
                               ...List.generate(
                                 question.word.length - controller.selectedLetters.length,
                                 (index) => Text(

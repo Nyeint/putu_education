@@ -1,3 +1,4 @@
+// Path: route/route.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:putu_education/presentation/dashboard/dashboard.dart';
@@ -14,11 +15,13 @@ import 'package:putu_education/presentation/game/math/calculate_game.dart';
 import 'package:putu_education/presentation/game/math/counting_game.dart';
 import 'package:putu_education/presentation/game/math/math.dart';
 import 'package:putu_education/presentation/game/myanmar/myanmar.dart';
+import 'package:putu_education/presentation/game/myanmar/word_sort_game.dart';
 import 'package:putu_education/presentation/game/widgets/result_view.dart';
 import 'package:putu_education/presentation/introduction/introduction.dart';
 import 'package:putu_education/presentation/math/calculation/calculation_view.dart';
 import 'package:putu_education/presentation/math/shape/shape_view.dart';
 import 'package:putu_education/presentation/myanmar/number/number_view.dart';
+import 'package:putu_education/presentation/search/search_view.dart';
 import 'package:putu_education/route/route_name.dart';
 import 'package:putu_education/route/route_path.dart';
 import '../presentation/english/english_view.dart';
@@ -197,6 +200,13 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
+      name: RouteName.myanmarWordSortGame,
+      path: RoutePath.myanmarWordSortGame,
+      builder: (BuildContext context, GoRouterState state) {
+        return const BurmeseWordSortGame();
+      },
+    ),
+    GoRoute(
       name: RouteName.mathCountingGame,
       path: RoutePath.mathCountingGame,
       builder: (BuildContext context, GoRouterState state) {
@@ -219,6 +229,13 @@ final GoRouter router = GoRouter(
         int score = data['score'];
         Widget childWidget = data['childWidget'];
         return ResultView(score: score, childWidget: childWidget,);
+      },
+    ),
+    GoRoute(
+      name: RouteName.search,
+      path: RoutePath.search,
+      builder: (BuildContext context, GoRouterState state) {
+        return const SearchView();
       },
     ),
   ],

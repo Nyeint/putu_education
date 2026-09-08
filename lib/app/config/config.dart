@@ -1,3 +1,4 @@
+// Path: config/config.dart
 export 'color_resources.dart';
 export 'font_family.dart';
 export 'theme.dart';

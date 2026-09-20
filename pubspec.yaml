@@ -82,6 +82,9 @@ dependencies:
   #equatable
   equatable: ^2.0.7
 
+  #bloc
+  flutter_bloc: ^8.1.6
+
   #nav bar
   awesome_bottom_bar: ^1.2.4
 
@@ -102,6 +105,12 @@ dependencies:
 
   #localization
   flutter_localization:
+
+  #markdown:
+  markdown: ^7.3.0
+
+  #html
+  flutter_widget_from_html: ^0.17.4
 
   #flip
   #  flip_card: ^0.7.0

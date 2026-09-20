@@ -17,7 +17,7 @@ class DioBaseNetwork {
       // "customer-destination-id": await SharedPref.getData(key: SharedPref.shop_city),
       // "Authorization": await SharedPref.getData(key: SharedPref.token)??'',
       "Accept": "application/json",
-      // "Content-Type": "application/json",
+      "x-api-key": "17RwMt0G^8K:@1X=,K-MVOrZ",
       // "Access-Control-Allow-Origin": '*',
       // "Access-Control-Allow-Credentials": 'true',
       // "version-ios": NOW_VERSION_IOS,

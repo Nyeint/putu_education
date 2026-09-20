@@ -1,5 +1,6 @@
 // Path: config/widget_extensions.dart
 import 'package:flutter/cupertino.dart';
+import 'package:html/parser.dart' as html_parser;
 
 extension MediaQueryValues on BuildContext {
   double get width => MediaQuery.of(this).size.width;
@@ -53,4 +54,10 @@ extension NumeralConverter on String {
     }).join('');
     return burmeseNumber;
   }
+}
+
+extension HtmlStripper on String {
+  String get toPlainText => html_parser.parse(
+      html_parser.parse(this).body?.text ?? ''
+  ).documentElement?.text ?? '';
 }

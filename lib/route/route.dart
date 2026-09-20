@@ -1,33 +1,33 @@
 // Path: route/route.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:putu_education/presentation/dashboard/dashboard.dart';
-import 'package:putu_education/presentation/dashboard/language_selection.dart';
-import 'package:putu_education/presentation/english/alphabet/alphabet_view.dart';
-import 'package:putu_education/presentation/english/number/number_view.dart';
-import 'package:putu_education/presentation/english/poem/poem_detail.dart';
-import 'package:putu_education/presentation/english/vocabulary/vocabulary_view.dart';
-import 'package:putu_education/presentation/game/english/english.dart';
-import 'package:putu_education/presentation/game/english/sentence_sort_game.dart';
-import 'package:putu_education/presentation/game/english/word_game.dart';
-import 'package:putu_education/presentation/game/english/word_sort_game.dart';
-import 'package:putu_education/presentation/game/math/calculate_game.dart';
-import 'package:putu_education/presentation/game/math/counting_game.dart';
-import 'package:putu_education/presentation/game/math/math.dart';
-import 'package:putu_education/presentation/game/myanmar/myanmar.dart';
-import 'package:putu_education/presentation/game/myanmar/word_sort_game.dart';
-import 'package:putu_education/presentation/game/widgets/result_view.dart';
-import 'package:putu_education/presentation/introduction/introduction.dart';
-import 'package:putu_education/presentation/math/calculation/calculation_view.dart';
-import 'package:putu_education/presentation/math/shape/shape_view.dart';
-import 'package:putu_education/presentation/myanmar/number/number_view.dart';
-import 'package:putu_education/presentation/search/search_view.dart';
+import 'package:putu_education/features/dashboard/dashboard.dart';
+import 'package:putu_education/features/dashboard/language_selection.dart';
+import 'package:putu_education/features/english/alphabet/alphabet_view.dart';
+import 'package:putu_education/features/english/number/number_view.dart';
+import 'package:putu_education/features/english/poem/poem_detail.dart';
+import 'package:putu_education/features/game/english/english.dart';
+import 'package:putu_education/features/topics/presentation/pages/games/sentence_sort_game.dart';
+import 'package:putu_education/features/topics/presentation/pages/games/word_game.dart';
+import 'package:putu_education/features/topics/presentation/pages/games/word_sort_game.dart';
+import 'package:putu_education/features/game/math/calculate_game.dart';
+import 'package:putu_education/features/game/math/counting_game.dart';
+import 'package:putu_education/features/game/math/math.dart';
+import 'package:putu_education/features/game/myanmar/myanmar.dart';
+import 'package:putu_education/features/game/myanmar/word_sort_game.dart';
+import 'package:putu_education/features/game/widgets/result_view.dart';
+import 'package:putu_education/features/introduction/introduction.dart';
+import 'package:putu_education/features/math/calculation/calculation_view.dart';
+import 'package:putu_education/features/math/shape/shape_view.dart';
+import 'package:putu_education/features/myanmar/number/number_view.dart';
+import 'package:putu_education/features/search/search_view.dart';
 import 'package:putu_education/route/route_name.dart';
 import 'package:putu_education/route/route_path.dart';
-import '../presentation/english/english_view.dart';
-import '../presentation/english/poem/poem_view.dart';
-import '../presentation/myanmar/alphabet/alphabet_view.dart';
-import '../presentation/myanmar/myanmar_view.dart';
+import '../features/english/english_view.dart';
+import '../features/english/poem/poem_view.dart';
+import '../features/myanmar/alphabet/alphabet_view.dart';
+import '../features/myanmar/myanmar_view.dart';
+import '../features/topics/presentation/pages/vocabulary_view.dart';
 
 final globalContext =
     router.routerDelegate.navigatorKey.currentContext;
@@ -94,16 +94,23 @@ final GoRouter router = GoRouter(
       name: RouteName.englishVocabulary,
       path: RoutePath.englishVocabulary,
       builder: (BuildContext context, GoRouterState state) {
-        return const EnglishVocabularyView();
+        return const VocabularyView(subject: 'en');
       },
     ),
     GoRoute(
-      name: RouteName.englishPoem,
-      path: RoutePath.englishPoem,
+      name: RouteName.myanmarVocabulary,
+      path: RoutePath.myanmarVocabulary,
       builder: (BuildContext context, GoRouterState state) {
-        return const EnglishPoemView();
+        return const VocabularyView(subject: 'my');
       },
     ),
+    // GoRoute(
+    //   name: RouteName.englishPoem,
+    //   path: RoutePath.englishPoem,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return const EnglishPoemView();
+    //   },
+    // ),
     GoRoute(
       name: RouteName.myanmarNumber,
       path: RoutePath.myanmarNumber,
@@ -119,13 +126,13 @@ final GoRouter router = GoRouter(
       },
     ),
 
-    GoRoute(
-      name: RouteName.poemDetail,
-      path: RoutePath.poemDetail,
-      builder: (BuildContext context, GoRouterState state) {
-        return const PoemDetailView();
-      },
-    ),
+    // GoRoute(
+    //   name: RouteName.poemDetail,
+    //   path: RoutePath.poemDetail,
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return const PoemDetailView();
+    //   },
+    // ),
     // GoRoute(
     //   name: RouteName.math,
     //   path: RoutePath.math,
@@ -182,21 +189,21 @@ final GoRouter router = GoRouter(
       name: RouteName.englishWordGame,
       path: RoutePath.englishWordGame,
       builder: (BuildContext context, GoRouterState state) {
-        return const EnglishWordGame();
+        return const EnglishWordGame(subject: 'en');
       },
     ),
     GoRoute(
       name: RouteName.englishWordSortGame,
       path: RoutePath.englishWordSortGame,
       builder: (BuildContext context, GoRouterState state) {
-        return const EnglishWordSortGame();
+        return const EnglishWordSortGame(subject: 'en');
       },
     ),
     GoRoute(
       name: RouteName.englishSentenceSortGame,
       path: RoutePath.englishSentenceSortGame,
       builder: (BuildContext context, GoRouterState state) {
-        return const EnglishSentenceSortGame();
+        return const EnglishSentenceSortGame(subject: 'en');
       },
     ),
     GoRoute(

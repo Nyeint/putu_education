@@ -371,7 +371,7 @@
       - `package:flutter_easyloading/flutter_easyloading.dart`
       - `package:provider/provider.dart`
       - `package:putu_education/app/config/global_context.dart`
-      - `package:putu_education/presentation/test/phone_number.dart`
+      - `package:putu_education/features/test/phone_number.dart`
       - `package:putu_education/route/route.dart`
     </details>
 
@@ -403,11 +403,11 @@
           - `package:lottie/lottie.dart`
           - `package:putu_education/app/config/color_resources.dart`
           - `package:putu_education/app/config/widget_extensions.dart`
-          - `package:putu_education/presentation/dashboard/lessons_view.dart`
-          - `package:putu_education/presentation/dashboard/progress_indicator.dart`
-          - `package:putu_education/presentation/test/phone_number.dart`
-          - `package:putu_education/presentation/widgets/my_appbar.dart`
-          - `package:putu_education/presentation/widgets/my_icon.dart`
+          - `package:putu_education/features/dashboard/lessons_view.dart`
+          - `package:putu_education/features/dashboard/progress_indicator.dart`
+          - `package:putu_education/features/test/phone_number.dart`
+          - `package:putu_education/features/widgets/my_appbar.dart`
+          - `package:putu_education/features/widgets/my_icon.dart`
           - `package:putu_education/route/my_router.dart`
         </details>
 
@@ -487,7 +487,7 @@
           - `package:lottie/lottie.dart`
           - `package:putu_education/app/config/color_resources.dart`
           - `package:putu_education/app/config/widget_extensions.dart`
-          - `package:putu_education/presentation/widgets/sub_item_widget.dart`
+          - `package:putu_education/features/widgets/sub_item_widget.dart`
           - `package:putu_education/route/my_router.dart`
         </details>
 
@@ -502,9 +502,9 @@
             - `package:flutter/material.dart`
             - `package:flutter_tts/flutter_tts.dart`
             - `package:putu_education/app/config/config.dart`
-            - `package:putu_education/presentation/widgets/go_button.dart`
-            - `package:putu_education/presentation/widgets/item_decoration.dart`
-            - `package:putu_education/presentation/widgets/my_appbar.dart`
+            - `package:putu_education/features/widgets/go_button.dart`
+            - `package:putu_education/features/widgets/item_decoration.dart`
+            - `package:putu_education/features/widgets/my_appbar.dart`
           </details>
 
     - 📁 **poem**
@@ -528,7 +528,7 @@
             - `package:audioplayers/audioplayers.dart`
             - `package:flutter/material.dart`
             - `package:putu_education/app/config/config.dart`
-            - `package:putu_education/presentation/english/poem/player_widget.dart`
+            - `package:putu_education/features/english/poem/player_widget.dart`
           </details>
 
       - 📄 `presentation/english/poem/poem_view.dart`
@@ -542,7 +542,7 @@
             - `package:flutter_svg/svg.dart`
             - `package:go_router/go_router.dart`
             - `package:putu_education/app/config/config.dart`
-            - `package:putu_education/presentation/widgets/item_decoration.dart`
+            - `package:putu_education/features/widgets/item_decoration.dart`
             - `package:putu_education/route/my_router.dart`
           </details>
 
@@ -558,8 +558,8 @@
             - `package:flutter/material.dart`
             - `package:flutter_tts/flutter_tts.dart`
             - `package:putu_education/app/config/config.dart`
-            - `package:putu_education/presentation/widgets/item_voice_dialog.dart`
-            - `package:putu_education/presentation/widgets/item_voice_widget.dart`
+            - `package:putu_education/features/widgets/item_voice_dialog.dart`
+            - `package:putu_education/features/widgets/item_voice_widget.dart`
           </details>
 
   - 📁 **game**
@@ -575,7 +575,7 @@
             - `package:putu_education/app/config/config.dart`
             - `package:putu_education/data/model/game_category.dart`
             - `package:putu_education/data/providers/score_provider.dart`
-            - `package:putu_education/presentation/game/widgets/title_item.dart`
+            - `package:putu_education/features/game/widgets/title_item.dart`
             - `package:putu_education/route/my_router.dart`
           </details>
 
@@ -599,7 +599,7 @@
             - `package:putu_education/app/config/config.dart`
             - `package:putu_education/data/model/game_category.dart`
             - `package:putu_education/data/providers/score_provider.dart`
-            - `package:putu_education/presentation/game/english/sort_result.dart`
+            - `package:putu_education/features/game/english/sort_result.dart`
           </details>
 
       - 📄 `presentation/game/english/sort_result.dart`
@@ -632,10 +632,10 @@
             - `package:putu_education/app/config/config.dart`
             - `package:putu_education/data/model/game_category.dart`
             - `package:putu_education/data/providers/score_provider.dart`
-            - `package:putu_education/presentation/game/english/word_result.dart`
-            - `package:putu_education/presentation/game/widgets/front_flip_card_item.dart`
-            - `package:putu_education/presentation/game/widgets/progress_bar.dart`
-            - `package:putu_education/presentation/game/widgets/voice_item.dart`
+            - `package:putu_education/features/game/english/word_result.dart`
+            - `package:putu_education/features/game/widgets/front_flip_card_item.dart`
+            - `package:putu_education/features/game/widgets/progress_bar.dart`
+            - `package:putu_education/features/game/widgets/voice_item.dart`
           </details>
 
       - 📄 `presentation/game/english/word_result.dart`
@@ -668,7 +668,7 @@
             - `package:putu_education/app/config/config.dart`
             - `package:putu_education/data/model/game_category.dart`
             - `package:putu_education/data/providers/score_provider.dart`
-            - `package:putu_education/presentation/game/english/sort_result.dart`
+            - `package:putu_education/features/game/english/sort_result.dart`
           </details>
 
     - 📁 **math**
@@ -693,8 +693,8 @@
 
               - `../calculate_game.dart`
               - `package:flutter/material.dart`
-              - `package:putu_education/presentation/game/math/calculate/text_widget.dart`
-              - `package:putu_education/presentation/game/math/calculate/what_is.dart`
+              - `package:putu_education/features/game/math/calculate/text_widget.dart`
+              - `package:putu_education/features/game/math/calculate/what_is.dart`
             </details>
 
         - 📄 `presentation/game/math/calculate/icon_mul_div.dart`
@@ -704,9 +704,9 @@
               - `package:flutter/material.dart`
               - `package:flutter_svg/svg.dart`
               - `package:putu_education/app/config/config.dart`
-              - `package:putu_education/presentation/game/math/calculate/text_widget.dart`
-              - `package:putu_education/presentation/game/math/calculate/what_is.dart`
-              - `package:putu_education/presentation/game/math/calculate_game.dart`
+              - `package:putu_education/features/game/math/calculate/text_widget.dart`
+              - `package:putu_education/features/game/math/calculate/what_is.dart`
+              - `package:putu_education/features/game/math/calculate_game.dart`
             </details>
 
         - 📄 `presentation/game/math/calculate/icon_plus_minus.dart`
@@ -716,8 +716,8 @@
               - `package:flutter/material.dart`
               - `package:flutter_svg/svg.dart`
               - `package:putu_education/app/config/config.dart`
-              - `package:putu_education/presentation/game/math/calculate/text_widget.dart`
-              - `package:putu_education/presentation/game/math/calculate/what_is.dart`
+              - `package:putu_education/features/game/math/calculate/text_widget.dart`
+              - `package:putu_education/features/game/math/calculate/what_is.dart`
             </details>
 
         - 📄 `presentation/game/math/calculate/text_widget.dart`
@@ -757,9 +757,9 @@
             - `package:putu_education/app/config/config.dart`
             - `package:putu_education/data/model/game_category.dart`
             - `package:putu_education/data/providers/score_provider.dart`
-            - `package:putu_education/presentation/game/math/calculate/digit_plus_minus.dart`
-            - `package:putu_education/presentation/game/math/calculate/icon_mul_div.dart`
-            - `package:putu_education/presentation/game/math/calculate/icon_plus_minus.dart`
+            - `package:putu_education/features/game/math/calculate/digit_plus_minus.dart`
+            - `package:putu_education/features/game/math/calculate/icon_mul_div.dart`
+            - `package:putu_education/features/game/math/calculate/icon_plus_minus.dart`
             - `package:putu_education/route/my_router.dart`
           </details>
 
@@ -793,7 +793,7 @@
             - `package:flutter_svg/svg.dart`
             - `package:go_router/go_router.dart`
             - `package:provider/provider.dart`
-            - `package:putu_education/presentation/game/math/counting/counting_result.dart`
+            - `package:putu_education/features/game/math/counting/counting_result.dart`
           </details>
 
       - 📄 `presentation/game/math/math.dart`
@@ -816,7 +816,7 @@
           <details>
             <summary>Imports</summary>
 
-            - `package:putu_education/presentation/game/math/calculate_game.dart`
+            - `package:putu_education/features/game/math/calculate_game.dart`
           </details>
 
       - 📄 `presentation/game/model/question_result.dart`
@@ -913,7 +913,7 @@
           - `package:flutter_svg/svg.dart`
           - `package:go_router/go_router.dart`
           - `package:putu_education/app/config/config.dart`
-          - `package:putu_education/presentation/widgets/item_decoration.dart`
+          - `package:putu_education/features/widgets/item_decoration.dart`
           - `package:putu_education/route/my_router.dart`
         </details>
 
@@ -927,7 +927,7 @@
             - `../../widgets/item_decoration.dart`
             - `package:easy_localization/easy_localization.dart`
             - `package:flutter/material.dart`
-            - `package:putu_education/presentation/math/calculation/widgets/example_item.dart`
+            - `package:putu_education/features/math/calculation/widgets/example_item.dart`
           </details>
 
       - 📄 `presentation/math/calculation/calculation_view.dart`
@@ -940,10 +940,10 @@
             - `package:flutter/material.dart`
             - `package:flutter_svg/svg.dart`
             - `package:putu_education/app/config/config.dart`
-            - `package:putu_education/presentation/math/calculation/addition_view.dart`
-            - `package:putu_education/presentation/math/calculation/division_view.dart`
-            - `package:putu_education/presentation/math/calculation/substraction_view.dart`
-            - `package:putu_education/presentation/widgets/item_decoration.dart`
+            - `package:putu_education/features/math/calculation/addition_view.dart`
+            - `package:putu_education/features/math/calculation/division_view.dart`
+            - `package:putu_education/features/math/calculation/substraction_view.dart`
+            - `package:putu_education/features/widgets/item_decoration.dart`
           </details>
 
       - 📄 `presentation/math/calculation/division_view.dart`
@@ -974,7 +974,7 @@
             - `../../widgets/item_decoration.dart`
             - `package:easy_localization/easy_localization.dart`
             - `package:flutter/material.dart`
-            - `package:putu_education/presentation/math/calculation/widgets/example_item.dart`
+            - `package:putu_education/features/math/calculation/widgets/example_item.dart`
           </details>
 
       - 📁 **widgets**
@@ -1001,7 +1001,7 @@
           - `package:go_router/go_router.dart`
           - `package:lottie/lottie.dart`
           - `package:putu_education/app/utils/en_types.dart`
-          - `package:putu_education/presentation/math/shape/shape_view.dart`
+          - `package:putu_education/features/math/shape/shape_view.dart`
         </details>
 
     - 📁 **shape**
@@ -1025,7 +1025,7 @@
             - `package:flutter/services.dart`
             - `package:flutter_svg/svg.dart`
             - `package:putu_education/app/config/config.dart`
-            - `package:putu_education/presentation/widgets/item_decoration.dart`
+            - `package:putu_education/features/widgets/item_decoration.dart`
           </details>
 
   - 📁 **myanmar**
@@ -1059,7 +1059,7 @@
           - `package:lottie/lottie.dart`
           - `package:putu_education/app/config/color_resources.dart`
           - `package:putu_education/app/config/widget_extensions.dart`
-          - `package:putu_education/presentation/widgets/sub_item_widget.dart`
+          - `package:putu_education/features/widgets/sub_item_widget.dart`
           - `package:putu_education/route/my_router.dart`
         </details>
 
@@ -1074,9 +1074,9 @@
             - `package:flutter/material.dart`
             - `package:flutter_tts/flutter_tts.dart`
             - `package:putu_education/app/config/config.dart`
-            - `package:putu_education/presentation/widgets/go_button.dart`
-            - `package:putu_education/presentation/widgets/item_decoration.dart`
-            - `package:putu_education/presentation/widgets/my_appbar.dart`
+            - `package:putu_education/features/widgets/go_button.dart`
+            - `package:putu_education/features/widgets/item_decoration.dart`
+            - `package:putu_education/features/widgets/my_appbar.dart`
           </details>
 
   - 📁 **onboarding**
@@ -1107,9 +1107,9 @@
           - `package:flutter_svg/svg.dart`
           - `package:go_router/go_router.dart`
           - `package:putu_education/app/config/config.dart`
-          - `package:putu_education/presentation/math/shape/shape_view.dart`
-          - `package:putu_education/presentation/widgets/my_appbar.dart`
-          - `package:putu_education/presentation/widgets/my_icon.dart`
+          - `package:putu_education/features/math/shape/shape_view.dart`
+          - `package:putu_education/features/widgets/my_appbar.dart`
+          - `package:putu_education/features/widgets/my_icon.dart`
           - `package:putu_education/route/my_router.dart`
           - `search_item.dart`
         </details>
@@ -1188,7 +1188,7 @@
           - `package:easy_localization/easy_localization.dart`
           - `package:flutter/material.dart`
           - `package:go_router/go_router.dart`
-          - `package:putu_education/presentation/widgets/my_icon.dart`
+          - `package:putu_education/features/widgets/my_icon.dart`
         </details>
 
     - 📄 `presentation/widgets/my_icon.dart`
@@ -1236,26 +1236,26 @@
         - `../presentation/myanmar/myanmar_view.dart`
         - `package:flutter/material.dart`
         - `package:go_router/go_router.dart`
-        - `package:putu_education/presentation/dashboard/dashboard.dart`
-        - `package:putu_education/presentation/dashboard/language_selection.dart`
-        - `package:putu_education/presentation/english/alphabet/alphabet_view.dart`
-        - `package:putu_education/presentation/english/number/number_view.dart`
-        - `package:putu_education/presentation/english/poem/poem_detail.dart`
-        - `package:putu_education/presentation/english/vocabulary/vocabulary_view.dart`
-        - `package:putu_education/presentation/game/english/english.dart`
-        - `package:putu_education/presentation/game/english/sentence_sort_game.dart`
-        - `package:putu_education/presentation/game/english/word_game.dart`
-        - `package:putu_education/presentation/game/english/word_sort_game.dart`
-        - `package:putu_education/presentation/game/math/calculate_game.dart`
-        - `package:putu_education/presentation/game/math/counting_game.dart`
-        - `package:putu_education/presentation/game/math/math.dart`
-        - `package:putu_education/presentation/game/myanmar/myanmar.dart`
-        - `package:putu_education/presentation/game/widgets/result_view.dart`
-        - `package:putu_education/presentation/introduction/introduction.dart`
-        - `package:putu_education/presentation/math/calculation/calculation_view.dart`
-        - `package:putu_education/presentation/math/shape/shape_view.dart`
-        - `package:putu_education/presentation/myanmar/number/number_view.dart`
-        - `package:putu_education/presentation/search/search_view.dart`
+        - `package:putu_education/features/dashboard/dashboard.dart`
+        - `package:putu_education/features/dashboard/language_selection.dart`
+        - `package:putu_education/features/english/alphabet/alphabet_view.dart`
+        - `package:putu_education/features/english/number/number_view.dart`
+        - `package:putu_education/features/english/poem/poem_detail.dart`
+        - `package:putu_education/features/english/vocabulary/vocabulary_view.dart`
+        - `package:putu_education/features/game/english/english.dart`
+        - `package:putu_education/features/game/english/sentence_sort_game.dart`
+        - `package:putu_education/features/game/english/word_game.dart`
+        - `package:putu_education/features/game/english/word_sort_game.dart`
+        - `package:putu_education/features/game/math/calculate_game.dart`
+        - `package:putu_education/features/game/math/counting_game.dart`
+        - `package:putu_education/features/game/math/math.dart`
+        - `package:putu_education/features/game/myanmar/myanmar.dart`
+        - `package:putu_education/features/game/widgets/result_view.dart`
+        - `package:putu_education/features/introduction/introduction.dart`
+        - `package:putu_education/features/math/calculation/calculation_view.dart`
+        - `package:putu_education/features/math/shape/shape_view.dart`
+        - `package:putu_education/features/myanmar/number/number_view.dart`
+        - `package:putu_education/features/search/search_view.dart`
         - `package:putu_education/route/route_name.dart`
         - `package:putu_education/route/route_path.dart`
       </details>

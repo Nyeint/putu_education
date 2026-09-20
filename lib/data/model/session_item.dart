@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:putu_education/app/utils/en_types.dart';
-import 'package:putu_education/presentation/math/math_view.dart';
+import 'package:putu_education/features/math/math_view.dart';
 import 'package:putu_education/route/my_router.dart';
 
 /// Which top-level learning category a session belongs to.
@@ -115,7 +115,7 @@ class SessionItem {
       category: SessionCategory.myanmar,
       titleKey: 'vocabulary',
       iconName: 'category_vocabulary',
-      onTap: (context) => context.pushNamed(RouteName.englishVocabulary),
+      onTap: (context) => context.pushNamed(RouteName.myanmarVocabulary),
     ),
     SessionItem(
       id: 'mm_poems',

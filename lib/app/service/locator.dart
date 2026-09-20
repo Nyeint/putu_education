@@ -3,6 +3,16 @@ import 'package:get_it/get_it.dart';
 import '../../data/providers/score_provider.dart';
 import '../../data/providers/settings_info_provider.dart';
 import '../../data/providers/timer_info_provider.dart';
+import '../../features/topics/data/repositories/game_repo_impl.dart';
+import '../../features/topics/data/repositories/poemtory_repo_impl.dart';
+import '../../features/topics/data/repositories/vocab_repo_impl.dart';
+import '../../features/topics/domain/repositories/game_repo.dart';
+import '../../features/topics/domain/repositories/poemtory_repo.dart';
+import '../../features/topics/domain/repositories/vocab_repo.dart';
+import '../../features/topics/presentation/bloc/game_bloc/game_bloc.dart';
+import '../../features/topics/presentation/bloc/poemtory_bloc/poemtory_bloc.dart';
+import '../../features/topics/presentation/bloc/vocab_bloc/vocab_bloc.dart';
+import '../../network/dio_basenetwork.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -13,4 +23,22 @@ Future<void> setupLocator() async {
   final scoreProvider = ScoreProvider();
   await scoreProvider.load();
   getIt.registerSingleton<ScoreProvider>(scoreProvider);
+
+  // Shared network client
+  getIt.registerLazySingleton<DioBaseNetwork>(() => DioBaseNetwork());
+
+  // Topics/Vocabulary feature
+  getIt.registerLazySingleton<VocabRepo>(() => VocabRepoImpl(getIt<DioBaseNetwork>()));
+  // Fresh bloc per screen visit - its state isn't shared across screens.
+  getIt.registerFactory<VocabBloc>(() => VocabBloc(getIt<VocabRepo>()));
+
+  // Topics/Poemtory (poems/stories/songs) feature
+  getIt.registerLazySingleton<PoemToryRepo>(() => PoemToryRepoImpl(getIt<DioBaseNetwork>()));
+  // Fresh bloc per screen visit - its state isn't shared across screens.
+  getIt.registerFactory<PoemToryBloc>(() => PoemToryBloc(getIt<PoemToryRepo>()));
+
+  // Topics/Games (choose-picture, etc.) feature
+  getIt.registerLazySingleton<GameRepo>(() => GameRepoImpl(getIt<DioBaseNetwork>()));
+  // Fresh bloc per screen visit - its state isn't shared across screens.
+  getIt.registerFactory<GameBloc>(() => GameBloc(getIt<GameRepo>()));
 }

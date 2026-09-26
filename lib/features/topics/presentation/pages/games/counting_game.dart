@@ -31,6 +31,28 @@ class _MathCountingGameState extends State<MathCountingGame> {
   List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','parallelogram'];
   List<String> fruitList = ['apple', 'banana', 'grape', 'mango', 'tangerine', 'pineapple', 'strawberry'];
 
+  static const Map<String, String> myNames = {
+    'triangle': 'တြိဂံ',
+    'square': 'စတုရန်း',
+    'pentagon': 'ပဉ္စဂံ',
+    'hexagon': 'ဆဋ္ဌဂံ',
+    'heptagon': 'သတ္တဂံ',
+    'octagon': 'အဋ္ဌဂံ',
+    'nonagon': 'နဝဂံ',
+    'decagon': 'ဒသဂံ',
+    'circle': 'စက်ဝိုင်း',
+    'semicircle': 'စက်ဝိုင်းခြမ်း',
+    'oval': 'ဘဲဥပုံ',
+    'parallelogram': 'အနားပြိုင်စတုဂံ',
+    'apple': 'ပန်းသီး',
+    'banana': 'ငှက်ပျောသီး',
+    'grape': 'စပျစ်သီး',
+    'mango': 'သရက်သီး',
+    'tangerine': 'လိမ္မော်သီး',
+    'pineapple': 'နာနတ်သီး',
+    'strawberry': 'စတော်ဘယ်ရီသီး',
+  };
+
   String correctItem = '';
   List<String> resultList = [];
   int answer = 0;
@@ -70,7 +92,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
     // Step 2: Generate random counts for each selected shape
     resultList = generateRandomCounts(result, 7);
     // question = 'How many $correctItem are there?';
-    question = 'how_many'.tr(args: [tr(correctItem),GlobalContext.navigatorKey.currentContext?.locale.languageCode == 'en'?'':'ခု']);
+    question = '${myNames[correctItem] ?? correctItem} ဘယ်နှစ်ခုရှိပါသလဲ';
     setState(() {});
     setHistoryList(result: resultList.where((char) => char == correctItem).length, question: question);
   }
@@ -85,7 +107,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
 
     // Step 2: Generate random counts for each selected shape
     resultList = generateRandomCounts(result, 7);
-    question = 'how_many'.tr(args: [tr(correctItem),GlobalContext.navigatorKey.currentContext?.locale.languageCode == 'en'?'':'လုံး']);
+    question = '${myNames[correctItem] ?? correctItem} ဘယ်နှစ်လုံးရှိပါသလဲ';
     setState(() {});
     setHistoryList(result: resultList.where((char) => char == correctItem).length, question: question);
   }
@@ -126,7 +148,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
             children: [
               ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
               SizedBox(height: 24,),
-              VoiceItemView(name: correctItem, description: question,),
+              VoiceItemView(name: myNames[correctItem] ?? correctItem, description: question,),
               SizedBox(height: 40,),
 
               Expanded(
@@ -178,7 +200,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
                                 alignment: Alignment.center,
                                 decoration: answer==e.key+1?selectedDecoration():unselectedDecoration(),
                                 child: Text(
-                                  context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
+                                  e.value.toString().burmese(),
                                   style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
                                 ),
                               ),

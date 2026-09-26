@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/config.dart';
 import '../../model/calculate_history.dart';
-import '../calculate_game.dart';
+import '../../../topics/presentation/pages/games/calculate_game.dart';
 import 'digit_plus_minus.dart';
 import 'icon_mul_div.dart';
 import 'icon_plus_minus.dart';

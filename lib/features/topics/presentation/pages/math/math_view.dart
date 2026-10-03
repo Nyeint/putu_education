@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/utils/en_types.dart';
-import 'package:putu_education/features/math/shape/shape_view.dart';
-
-import '../../app/config/config.dart';
-import '../../route/route_name.dart';
-import '../widgets/my_appbar.dart';
-import '../widgets/sub_item_widget.dart';
+import 'package:putu_education/features/topics/presentation/pages/math/shape/shape_view.dart';
+import '../../../../../app/config/config.dart';
+import '../../../../../route/route_name.dart';
+import '../../../../widgets/my_appbar.dart';
+import '../../../../widgets/sub_item_widget.dart';
+import 'calculation/calculation_view.dart';
 
 class MathView extends StatefulWidget {
   String? learnLanguageType;
@@ -40,7 +40,7 @@ class _MathViewState extends State<MathView> {
           child: Column(
             children: [
               MyAppBar(
-                titleWithGoBack: tr('math'),
+                titleWithGoBack: widget.learnLanguageType=='en'?'Math':'သင်္ချာ',
               ),
               Expanded(
                 child: SingleChildScrollView(
@@ -62,7 +62,8 @@ class _MathViewState extends State<MathView> {
                         runSpacing: 16,
                         children: [
                           SubItemWidget(
-                              title: tr('shapes'), iconName: 'shape',
+                              title: widget.learnLanguageType=='en'?'Shapes':'ပုံသဏ္ဍာန်များ',
+                            iconName: 'shape',
                           onTap: (){
                                 print("shape tap ${widget.learnLanguageType} and ${LearnLanguageType.en.name} and ${LearnLanguageType.mm.name}");
 
@@ -87,9 +88,16 @@ class _MathViewState extends State<MathView> {
                           // RouteName.shapeViewMm
                           ),
                           SubItemWidget(
-                              title: tr('calculation'), iconName: 'calculation',
+                              title: widget.learnLanguageType=='en'?'Calculation':'အတွက်အချက်',
+                            iconName: 'calculation',
                               onTap: (){
-                                context.pushNamed(RouteName.calculation);
+                                // context.pushNamed(RouteName.calculation);
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context){
+                                  return CalculationView(
+                                    learnLanguageType: widget.learnLanguageType ?? LearnLanguageType.mm.name,
+                                  );
+                                }));
                               },
 
                               // goTo: RouteName.calculation

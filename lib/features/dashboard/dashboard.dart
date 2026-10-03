@@ -19,6 +19,8 @@ import 'package:putu_education/route/my_router.dart';
 import '../../app/config/font_family.dart';
 import '../../app/service/locator.dart';
 import '../../data/providers/score_provider.dart';
+import '../settings/b_settings.dart';
+import '../settings/settings.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -185,7 +187,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   ScoreProvider scoreProvider = getIt<ScoreProvider>();
                                   scoreProvider.clearScores();
                                   print("Score Provider ${scoreProvider.englishScoreSum}");
-                                  context.pushNamed(RouteName.language);
+                                  // context.pushNamed(RouteName.language);
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsView()));
                                 },
                                 child: MyIcon(iconName: 'setting')),
                           ],

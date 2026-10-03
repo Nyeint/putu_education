@@ -5,12 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/config/color_resources.dart';
 import 'package:putu_education/app/config/widget_extensions.dart';
-import 'package:putu_education/features/myanmar/number/number_view.dart';
+import 'package:putu_education/features/topics/presentation/pages/numbers/burmese_number_view.dart';
 import 'package:putu_education/features/widgets/sub_item_widget.dart';
 import 'package:putu_education/route/my_router.dart';
 import '../../app/config/font_family.dart';
 import '../../app/utils/en_types.dart';
-import '../math/math_view.dart';
+import '../topics/presentation/pages/math/math_view.dart';
+import '../topics/presentation/pages/math/math_view.dart';
+import '../topics/presentation/pages/poemtory/poemtory_list_view.dart';
 import '../widgets/my_appbar.dart';
 import '../widgets/my_icon.dart';
 
@@ -81,19 +83,35 @@ class _MyanmarViewState extends State<MyanmarView> {
                         SubItemWidget(
                             title: 'ကဗျာများ', iconName: 'category_poem',
                             onTap: (){
-                              context.pushNamed(RouteName.englishPoem);
+                              // context.pushNamed(RouteName.englishPoem);
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                                      poemtoryType: 'poems', subject: 'mm',
+                                    title: 'ကဗျာများ',
+                                  ))
+                              );
                             },
                           ),
                         SubItemWidget(
                             title: 'ပုံပြင်များ', iconName: 'category_story',
                             onTap: (){
-                              context.pushNamed(RouteName.englishNumber);
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                                      poemtoryType: 'poems', subject: 'mm',
+                                    title: 'ပုံပြင်များ',
+                                  ))
+                              );
                             },
                             ),
                         SubItemWidget(
                             title: 'သီချင်းများ', iconName: 'category_song',
                             onTap: (){
-                              context.pushNamed(RouteName.englishNumber);
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                                    poemtoryType: 'songs', subject: 'mm',
+                                    title: 'သီချင်းများ',
+                                  ))
+                              );
                             },
                         ),
                         SubItemWidget(
@@ -101,7 +119,7 @@ class _MyanmarViewState extends State<MyanmarView> {
                             onTap: (){
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) =>  MathView(
-                                    learnLanguageType: LearnLanguageType.mm.name,
+                                    learnLanguageType: 'mm',
                                   ))
                                   );
                             },

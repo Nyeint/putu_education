@@ -55,7 +55,6 @@ void showImageDialog({required BuildContext context, required List<String> photo
                                   ClipRRect(
                                       borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                                       child: CachedNetworkImage(
-                                        height: context.height/3,
                                         width: context.width-60,
                                         imageUrl: photoList[selectedIndex],
                                         // placeholder: (context, url) => new CircularProgressIndicator(),
@@ -70,7 +69,7 @@ void showImageDialog({required BuildContext context, required List<String> photo
                                         ),
                                         // height: height,
                                         // width: width,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       )
                                   ),
                                   Positioned(

@@ -164,8 +164,14 @@ class _EnglishSentenceSortGameState extends State<EnglishSentenceSortGame> {
       result: formed,
       correctAnswer: target,
     ));
+    print("Formed is --> $formed");
+    print("Target is --> $target");
 
-    if (formed == target) {
+    final noSpaceFormed = formed.replaceAll(RegExp(r'\s+'), '');
+    final noSpaceTarget = target.replaceAll(RegExp(r'\s+'), '');
+    print("Formed is --> $noSpaceFormed");
+    print("Target is --> $noSpaceTarget");
+    if (noSpaceFormed == noSpaceTarget) {
       setState(() => isChecking = true);
       correctCount++;
       unawaited(SystemSound.play(SystemSoundType.click));
@@ -194,7 +200,8 @@ class _EnglishSentenceSortGameState extends State<EnglishSentenceSortGame> {
     _hasNavigatedToResult = true;
 
     context.read<ScoreProvider>().recordScore(
-        category: GameCategory.english, gameTitle: 'Sentence Sorting Game', score: correctCount);
+        category: _isEnglish?GameCategory.english:GameCategory.myanmar,
+        gameTitle: _isEnglish?GameTitle.enSentenceSort:GameTitle.mmSentenceSort, score: correctCount);
     context.replaceNamed(
       RouteName.resultView,
       extra: {
@@ -332,7 +339,12 @@ class _EnglishSentenceSortGameState extends State<EnglishSentenceSortGame> {
                       right: 16,
                       bottom: 40 + MediaQuery.of(context).padding.bottom,
                       child: GestureDetector(
-                        onTap: isAnswerFilled ? () => _manualAdvance(questions) : null,
+                        onTap: (){
+                          if(isAnswerFilled){
+                            _audioPlayer.play(AssetSource('audios/pop.mp3'));
+                            _manualAdvance(questions);
+                          }
+                        },
                         child: Container(
                           padding: EdgeInsets.only(left: 22, right: 22, top: 8, bottom: 8),
                           decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),

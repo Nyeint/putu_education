@@ -1,121 +1,120 @@
-// Path: dashboard/language_selection.dart
+// Path: settings/language_selection.dart
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:putu_education/app/config/config.dart';
 
-import '../../app/config/font_family.dart';
 import '../../data/providers/settings_info_provider.dart';
 import '../widgets/my_appbar.dart';
-import '../widgets/my_icon.dart';
 
-class LanguageSelectionView extends StatefulWidget {
+const _blue = Color(0xFF3B8FEA);
+
+class LanguageSelectionView extends StatelessWidget {
   const LanguageSelectionView({super.key});
 
   @override
-  State<LanguageSelectionView> createState() => _LanguageSelectionViewState();
-}
-
-class _LanguageSelectionViewState extends State<LanguageSelectionView> {
-  @override
   Widget build(BuildContext context) {
+    final isEn = context.locale.languageCode == 'en';
+    void select(Locale locale, Language lang) {
+      context.setLocale(locale);
+      Provider.of<SettingsInfoProvider>(context, listen: false).language = lang;
+    }
+
     return Scaffold(
       backgroundColor: ColorResources.background,
-      appBar: MyAppBar(
-        titleWithGoBack: tr('choose_language'),
-      ),
-      body: SingleChildScrollView(
+      body: Container(
+        height: context.height,
+        decoration: const BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/images/settings_bg.png'), fit: BoxFit.cover),
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 20,),
-            Image.asset("assets/images/logo_icon.png", width: context.width/3,),
-            SizedBox(height: 16,),
-            SizedBox(
-              height: 70,
-              child: Text(tr('which_language'), style: FontFamily().semiBold),
-            ),
-
-
-            GestureDetector(
-              onTap: (){
-                context.setLocale(const Locale('en', 'US'));
-                Provider.of<SettingsInfoProvider>(context, listen: false).language = Language.en;
-              },
-              child: Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: context.locale.languageCode == 'en'?ColorResources.primary:ColorResources.lightBg,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: context.locale.languageCode == 'en'?[]:[
-                    BoxShadow(
-                      color: ColorResources.primary,
-                      blurRadius: 1.0,
-                      spreadRadius: 0.4,
-                      offset: Offset(0, 2.0), // bottom shadow
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset("assets/icons/english.png", width: 32,),
-                        SizedBox(width: 16,),
-                        Text('English Language')
-                      ],
-                    ),
-                    if(context.locale.languageCode == 'en')
-                    MyIcon(iconName: 'checkmark')
-                  ],
-                )
-              ),
-            ),
-
-            SizedBox(height: 16,),
-            GestureDetector(
-              onTap: (){
-                context.setLocale(const Locale('my', 'MM'));
-                Provider.of<SettingsInfoProvider>(context, listen: false).language = Language.mm;
-              },
-              child: Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: context.locale.languageCode == 'en'?ColorResources.lightBg:ColorResources.primary,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: context.locale.languageCode != 'en'?[]:[
-                      BoxShadow(
-                        color: ColorResources.primary,
-                        blurRadius: 1.0,
-                        spreadRadius: 0.4,
-                        offset: Offset(0, 2.0), // bottom shadow
-                      ),
-                    ],
+            MyAppBar(titleWithGoBack: tr('choose_language')),
+            const SizedBox(height: 28),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  Text(
+                    tr('which_language'),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Color(0xFF3A1F0B)),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset("assets/icons/myanmar.png", width: 32,),
-                          SizedBox(width: 16,),
-                          Text('မြန်မာ ဘာသာစကား')
-                        ],
-                      ),
-                      if(context.locale.languageCode != 'en')
-                      MyIcon(iconName: 'checkmark')
-                    ],
-                  )
+                  const SizedBox(height: 6),
+                  const Text(
+                    'အသုံးပြုမည့် ဘာသာစကားကို ရွေးချယ်ပါ။',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                  ),
+                  const SizedBox(height: 24),
+                  _LangCard(
+                    flag: 'assets/icons/english.png',
+                    label: 'English Language',
+                    selected: isEn,
+                    onTap: () => select(const Locale('en', 'US'), Language.en),
+                  ),
+                  const SizedBox(height: 16),
+                  _LangCard(
+                    flag: 'assets/icons/myanmar.png',
+                    label: 'မြန်မာ ဘာသာစကား',
+                    selected: !isEn,
+                    onTap: () => select(const Locale('my', 'MM'), Language.mm),
+                  ),
+                ],
               ),
-            )
-
+            ),
           ],
-        ).pad(left: 16, right: 16 ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LangCard extends StatelessWidget {
+  const _LangCard({required this.flag, required this.label, required this.selected, required this.onTap});
+
+  final String flag, label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: selected ? const Color(0xFFDCEBFD) : Colors.white,
+          borderRadius: BorderRadius.circular(26),
+          border: selected ? Border.all(color: _blue, width: 3) : null,
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.08), blurRadius: 8, offset: const Offset(0, 3))],
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(18),
+              child: Image.asset(flag, width: 64, height: 64, fit: BoxFit.cover),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: selected ? const Color(0xFF1B2F5C) : const Color(0xFF3A1F0B),
+                ),
+              ),
+            ),
+            selected
+                ? const CircleAvatar(radius: 20, backgroundColor: _blue, child: Icon(Icons.check, color: Colors.white))
+                : Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.black26, width: 3)),
+                  ),
+          ],
+        ),
       ),
     );
   }

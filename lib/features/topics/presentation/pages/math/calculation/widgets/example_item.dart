@@ -2,9 +2,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../app/config/config.dart';
+import '../../../../../../../app/config/config.dart';
 
 class ExampleItem extends StatelessWidget {
+  String learnLanguageType;
   BuildContext context;
   String firstTens;
   String firstOnes;
@@ -15,6 +16,7 @@ class ExampleItem extends StatelessWidget {
   bool isLine;
 
   ExampleItem({super.key,
+    required this.learnLanguageType,
     required this.context,
     required this.firstTens, required this.firstOnes,
     required this.secondTens, required this.secondOnes,
@@ -29,14 +31,15 @@ class ExampleItem extends StatelessWidget {
           padding: EdgeInsets.all(5),
           color: isLine?null:ColorResources.lightBg,
           child: Text(
-            context.locale.languageCode == 'en'?
-            tens:tens.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty),),
+            learnLanguageType == 'en'?
+            tens:tens.burmese(),
+            style: FontFamily().medium.copyWith(fontSize: FontSize().twenty),),
         ),
         Container(
           padding: EdgeInsets.all(5),
           color: isLine?null:ColorResources.secondary,
           child: Text(
-            context.locale.languageCode == 'en'?
+            learnLanguageType == 'en'?
             ones:ones.burmese(), style: FontFamily().medium.copyWith(fontSize: FontSize().twenty),),
         )
       ],
@@ -56,7 +59,7 @@ class ExampleItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   color: ColorResources.lightBg
               ),
-              child: Text(tr('tens'), style: FontFamily().regular),
+              child: Text(learnLanguageType == 'en'?'Tens':'ဆယ်ဂဏန်း', style: FontFamily().regular),
             ),
             Container(
               padding: EdgeInsets.only(left: 10, right: 10,top: 5, bottom: 5),
@@ -65,7 +68,7 @@ class ExampleItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   color: ColorResources.secondary
               ),
-              child: Text(tr('ones'), style: FontFamily().regular),
+              child: Text(learnLanguageType == 'en'?'Ones':'ခုဂဏန်း', style: FontFamily().regular),
             )
           ],
         ),

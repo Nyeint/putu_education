@@ -340,15 +340,23 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        IconButton(
-                          onPressed: () =>
-                              _seekBy(const Duration(seconds: -10)),
-                          icon: SvgPicture.asset(
-                            "assets/icons/audio_previous.svg",
-                            width: context.width * 0.09,
+
+                        GestureDetector(
+                          onTap: () =>  _seekBy(const Duration(seconds: -10)),
+                          child: SizedBox(
+                            width: context.width * 0.12,
+                            child: Image.asset('assets/icons/rewind.png',),
                           ),
-                          color: ColorResources.primary,
                         ),
+                        // IconButton(
+                        //   onPressed: () =>
+                        //       _seekBy(const Duration(seconds: -10)),
+                        //   icon: SvgPicture.asset(
+                        //     "assets/icons/audio_previous.svg",
+                        //     width: context.width * 0.09,
+                        //   ),
+                        //   color: ColorResources.primary,
+                        // ),
                         IconButton(
                           key: const Key('play_button'),
                           onPressed: _isPlaying ? _pause : _play,
@@ -358,15 +366,22 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                           ),
                           color: ColorResources.primary,
                         ),
-                        IconButton(
-                          onPressed: () =>
-                              _seekBy(const Duration(seconds: 10)),
-                          icon: SvgPicture.asset(
-                            "assets/icons/audio_next.svg",
-                            width: context.width * 0.09,
+                        GestureDetector(
+                          onTap: () =>  _seekBy(const Duration(seconds: 10)),
+                          child: SizedBox(
+                            width: context.width * 0.12,
+                            child: Image.asset('assets/icons/skip_forward.png',),
                           ),
-                          color: ColorResources.primary,
                         ),
+                        // IconButton(
+                        //   onPressed: () =>
+                        //       _seekBy(const Duration(seconds: 10)),
+                        //   icon: SvgPicture.asset(
+                        //     "assets/icons/audio_next.svg",
+                        //     width: context.width * 0.09,
+                        //   ),
+                        //   color: ColorResources.primary,
+                        // ),
                       ],
                     ),
                   ],

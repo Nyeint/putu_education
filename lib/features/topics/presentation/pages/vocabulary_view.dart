@@ -3,6 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/app/service/locator.dart';
 import 'package:putu_education/app/widgets/loading_widgets.dart';
@@ -28,6 +29,8 @@ class VocabularyView extends StatefulWidget {
 
 class _VocabularyViewState extends State<VocabularyView> {
   final VocabBloc _vocabBloc = getIt<VocabBloc>();
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   /// null represents the synthetic "All" tab.
   int? _selectedCategoryId;
@@ -44,6 +47,7 @@ class _VocabularyViewState extends State<VocabularyView> {
 
   @override
   void dispose() {
+    _refreshController.dispose();
     _audioPlayer.dispose();
     _vocabBloc.close();
     super.dispose();
@@ -61,6 +65,22 @@ class _VocabularyViewState extends State<VocabularyView> {
       category: _selectedCategoryName,
     ));
     await _vocabBloc.stream.firstWhere((state) => !state.isRefreshing);
+    _refreshController.refreshCompleted();
+    _refreshController.resetNoData();
+  }
+
+  Future<void> _onLoading() async {
+    print("THisijoi fksa;");
+    _vocabBloc.add(VocabularyLoadMoreRequested(
+      subject: widget.subject,
+      category: _selectedCategoryName,
+    ));
+    await _vocabBloc.stream.firstWhere((state) => !state.isLoadingMore);
+    if (_vocabBloc.state.hasMore) {
+      _refreshController.loadComplete();
+    } else {
+      _refreshController.loadNoData();
+    }
   }
 
   String _categoryLabel(VocabCategoryModel category, BuildContext context) {
@@ -88,16 +108,19 @@ class _VocabularyViewState extends State<VocabularyView> {
       _selectedCategoryName = category?.name?.toLowerCase();
     });
     _requestVocabulary();
+    _refreshController.resetNoData();
   }
 
-  Widget _tabItem({required VocabCategoryModel? category, required String label}) {
+  Widget _tabItem(
+      {required VocabCategoryModel? category, required String label}) {
     final bool isSelected = category?.id == _selectedCategoryId;
     return GestureDetector(
       onTap: () => _selectCategory(category),
       child: Container(
         width: 100,
         height: 40,
-        decoration: isSelected ? selectedTabDecoration() : unselectedTabDecoration(),
+        decoration:
+            isSelected ? selectedTabDecoration() : unselectedTabDecoration(),
         child: Center(
           child: Text(
             label,
@@ -133,7 +156,8 @@ class _VocabularyViewState extends State<VocabularyView> {
         _tabItem(category: null, label: tr('all')),
         for (final category in state.categories) ...[
           const SizedBox(width: 10),
-          _tabItem(category: category, label: _categoryLabel(category, context)),
+          _tabItem(
+              category: category, label: _categoryLabel(category, context)),
         ],
       ],
     );
@@ -160,7 +184,8 @@ class _VocabularyViewState extends State<VocabularyView> {
     if (state.vocabularyStatus == VocabularyStatus.loading ||
         state.vocabularyStatus == VocabularyStatus.initial) {
       return _scrollableMessage(const Center(child: LoadingWidget(size: 32)));
-    } else if (state.vocabularyStatus == VocabularyStatus.failure && state.words.isEmpty) {
+    } else if (state.vocabularyStatus == VocabularyStatus.failure &&
+        state.words.isEmpty) {
       return _scrollableMessage(
         GestureDetector(
           onTap: _requestVocabulary,
@@ -177,7 +202,9 @@ class _VocabularyViewState extends State<VocabularyView> {
     final words = state.words;
     if (words.isEmpty) {
       return _scrollableMessage(
-        Center(child: Text(tr('no_data'), style: FontFamily().medium.copyWith(fontSize: 14))),
+        Center(
+            child: Text(tr('no_data'),
+                style: FontFamily().medium.copyWith(fontSize: 14))),
       );
     }
 
@@ -186,34 +213,36 @@ class _VocabularyViewState extends State<VocabularyView> {
 
     final nameList = words.map((w) => w.word ?? '').toList();
     final audioList = words.map((w) => w.audio ?? '').toList();
-    return SingleChildScrollView(
+    return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
-      child: Wrap(
-        alignment: WrapAlignment.start,
-        runAlignment: WrapAlignment.start,
-        spacing: 16.0, // gap between adjacent items
-        runSpacing: 16.0, // gap between lines
-        children: List.generate(
-          words.length,
-          (index) => GestureDetector(
-            onTap: () async {
-              await _playAudio(audioList[index]);
-              showImageDialog(
-                context: context,
-                photoList: photoList,
-                nameList: nameList,
-                audioList: audioList,
-                selectedIndex: index,
-              );
-            },
-            child: ItemVoiceWidget(
-              photo: photoList[index],
-              name: nameList[index],
-              audio: audioList[index],
+      children: [
+        Wrap(
+          alignment: WrapAlignment.start,
+          runAlignment: WrapAlignment.start,
+          spacing: 16.0, // gap between adjacent items
+          runSpacing: 16.0, // gap between lines
+          children: List.generate(
+            words.length,
+            (index) => GestureDetector(
+              onTap: () async {
+                await _playAudio(audioList[index]);
+                showImageDialog(
+                  context: context,
+                  photoList: photoList,
+                  nameList: nameList,
+                  audioList: audioList,
+                  selectedIndex: index,
+                );
+              },
+              child: ItemVoiceWidget(
+                photo: photoList[index],
+                name: nameList[index],
+                audio: audioList[index],
+              ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -229,7 +258,9 @@ class _VocabularyViewState extends State<VocabularyView> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/light_background.png",),
+                image: AssetImage(
+                  "assets/images/light_background.png",
+                ),
                 fit: BoxFit.fill),
           ),
           child: BlocListener<VocabBloc, VocabState>(
@@ -237,10 +268,12 @@ class _VocabularyViewState extends State<VocabularyView> {
             // Only fires right as a pull-to-refresh finishes, so it never
             // overlaps with the full-screen retry views shown for a first
             // load failure.
-            listenWhen: (previous, current) => previous.isRefreshing && !current.isRefreshing,
+            listenWhen: (previous, current) =>
+                previous.isRefreshing && !current.isRefreshing,
             listener: (context, state) {
-              final failed = state.categoriesStatus == CategoriesStatus.failure ||
-                  state.vocabularyStatus == VocabularyStatus.failure;
+              final failed =
+                  state.categoriesStatus == CategoriesStatus.failure ||
+                      state.vocabularyStatus == VocabularyStatus.failure;
               if (failed) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load. Please try again.')),
@@ -260,13 +293,22 @@ class _VocabularyViewState extends State<VocabularyView> {
                     ),
                     const SizedBox(height: 24),
                     Flexible(
-                      child: RefreshIndicator(
+                      child: SmartRefresher(
+                        controller: _refreshController,
+                        enablePullDown: true,
+                        enablePullUp: state.hasMore,
+                        header: WaterDropHeader(),
                         onRefresh: _onRefresh,
+                        onLoading: _onLoading,
                         child: _vocabularyGrid(state),
                       ),
                     ),
                   ],
-                ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom);
+                ).pad(
+                    left: 16,
+                    right: 16,
+                    top: 24,
+                    bottom: MediaQuery.of(context).padding.bottom);
               },
             ),
           ),

@@ -1,8 +1,8 @@
 // Path: calculation/multiplication_view.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../../app/config/config.dart';
-import '../../widgets/item_decoration.dart';
+import '../../../../../../app/config/config.dart';
+import '../../../../../widgets/item_decoration.dart';
 
 class MultiplicationView extends StatefulWidget {
   String? locale;

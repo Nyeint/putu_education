@@ -1,5 +1,5 @@
 // Path: model/calculate_history.dart
-import 'package:putu_education/features/game/math/calculate_game.dart';
+import 'package:putu_education/features/topics/presentation/pages/games/calculate_game.dart';
 
 class CalculateHistoryModel {
   CalculateType? type;

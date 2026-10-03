@@ -17,6 +17,9 @@ class VocabState extends Equatable {
   final VocabularyStatus vocabularyStatus;
   final List<VocabWordData> words;
   final ResponseOb? vocabularyError;
+  final int currentPage;
+  final bool hasMore;
+  final bool isLoadingMore;
 
   /// True while a pull-to-refresh (categories + vocabulary together) is in
   /// flight. Kept as a single flag since one pull-to-refresh gesture drives
@@ -30,6 +33,9 @@ class VocabState extends Equatable {
     this.vocabularyStatus = VocabularyStatus.initial,
     this.words = const [],
     this.vocabularyError,
+    this.currentPage = 1,
+    this.hasMore = false,
+    this.isLoadingMore = false,
     this.isRefreshing = false,
   });
 
@@ -40,6 +46,9 @@ class VocabState extends Equatable {
     VocabularyStatus? vocabularyStatus,
     List<VocabWordData>? words,
     ResponseOb? vocabularyError,
+    int? currentPage,
+    bool? hasMore,
+    bool? isLoadingMore,
     bool? isRefreshing,
   }) {
     return VocabState(
@@ -49,6 +58,9 @@ class VocabState extends Equatable {
       vocabularyStatus: vocabularyStatus ?? this.vocabularyStatus,
       words: words ?? this.words,
       vocabularyError: vocabularyError ?? this.vocabularyError,
+      currentPage: currentPage ?? this.currentPage,
+      hasMore: hasMore ?? this.hasMore,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       isRefreshing: isRefreshing ?? this.isRefreshing,
     );
   }
@@ -61,6 +73,9 @@ class VocabState extends Equatable {
         vocabularyStatus,
         words,
         vocabularyError,
+        currentPage,
+        hasMore,
+        isLoadingMore,
         isRefreshing,
       ];
 }

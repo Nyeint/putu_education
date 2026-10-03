@@ -1,4 +1,4 @@
-// Path: topics/presentation/pages/games/en_word_game.dart
+// Path: topics/presentation/pages/games/word_game.dart
 import 'package:audioplayers/audioplayers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -28,16 +28,16 @@ import '../../bloc/game_bloc/game_bloc.dart';
 /// [subject] selects both the API language and which of a question's
 /// bilingual fields are shown/played: 'en' uses `prompt`/`audio`; anything
 /// else (the API's 'my') uses `prompt_mm`/`audio_mm`.
-class EnglishWordGame extends StatefulWidget {
+class WordGame extends StatefulWidget {
   final String subject;
 
-  const EnglishWordGame({super.key, this.subject = 'en'});
+  const WordGame({super.key, this.subject = 'en'});
 
   @override
-  State<EnglishWordGame> createState() => _EnglishWordGameState();
+  State<WordGame> createState() => _WordGameState();
 }
 
-class _EnglishWordGameState extends State<EnglishWordGame> {
+class _WordGameState extends State<WordGame> {
   final GameBloc _gameBloc = getIt<GameBloc>();
   final AudioPlayer _audioPlayer = AudioPlayer();
 
@@ -64,9 +64,9 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
 
   String _prompt(GameData question) => (_isEnglish ? question.prompt : question.promptMm) ?? '';
 
-  String _audioUrl(GameData question) =>
-      question.options?.firstWhere((o) => o.isCorrect == true, orElse: () => Options()).audioUrl ?? '';
-
+  // String _audioUrl(GameData question) =>
+  //     question.options?.firstWhere((o) => o.isCorrect == true, orElse: () => Options()).audioUrl ?? '';
+  String _audioUrl(GameData question) => question.lesson!.audio ?? '';
   /// Plays the question's pre-recorded prompt audio (no TTS involved).
   Future<void> _playAudio(GameData question) async {
     await Future.delayed(Duration(milliseconds: 500));
@@ -118,7 +118,7 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
 
     context.read<ScoreProvider>().recordScore(
         category: _isEnglish ? GameCategory.english : GameCategory.myanmar,
-        gameTitle: _isEnglish ? 'Word Game' : 'စကားလုံးဂိမ်း', score: correctCount);
+        gameTitle: _isEnglish ? GameTitle.enWord : GameTitle.mmWord, score: correctCount);
     context.replaceNamed(RouteName.resultView,
       extra: {'score': correctCount, 'maxScore': totalSteps, 'childWidget': WordResultView(historyList: historyList)},);
   }

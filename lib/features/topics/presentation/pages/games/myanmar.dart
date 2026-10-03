@@ -7,7 +7,7 @@ import 'package:putu_education/data/model/game_category.dart';
 import 'package:putu_education/data/providers/score_provider.dart';
 import 'package:putu_education/features/game/widgets/title_item.dart';
 import 'package:putu_education/route/my_router.dart';
-import '../../widgets/my_appbar.dart';
+import '../../../../widgets/my_appbar.dart';
 
 class MyanmarGameView extends StatefulWidget {
   const MyanmarGameView({super.key});
@@ -42,23 +42,23 @@ class _MyanmarGameViewState extends State<MyanmarGameView> {
                     TitleItemWidget(
                         title: "စကားလုံးရှာမယ်",
                         iconName: 'mm_word',
-                        goTo: RouteName.myanmarWordSortGame,
-                        score: scoreProvider.gameHighScore(GameCategory.myanmar,
-                            "စကားလုံးဂိမ်း")),
+                        goTo: RouteName.myanmarWordGame,
+                        score: scoreProvider.gameHighScore(GameCategory.myanmar, GameTitle.mmWord
+                            )),
                     SizedBox(height: 10,),
                     TitleItemWidget(
                         title: "စကားလုံးဆက်မယ်",
                         iconName: 'mm_word_sort',
                         goTo: RouteName.myanmarWordSortGame,
                         score: scoreProvider.gameHighScore(GameCategory.myanmar,
-                            "စာလုံးစီဂိမ်း")),
+                            GameTitle.mmWordSort)),
                     SizedBox(height: 10,),
                     TitleItemWidget(
                         title: "စာကြောင်းစီမယ်",
                         iconName: 'mm_sentence_sort',
-                        goTo: RouteName.myanmarWordSortGame,
+                        goTo: RouteName.myanmarSentenceSortGame,
                         score: scoreProvider.gameHighScore(GameCategory.myanmar,
-                            "စာလုံးစီဂိမ်း")),
+                            GameTitle.mmSentenceSort)),
                   ],
                 )
                     .pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),

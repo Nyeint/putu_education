@@ -17,6 +17,7 @@ class VocabBloc extends Bloc<VocabEvent, VocabState> {
     on<CategoriesRequested>(_onCategoriesRequested);
     on<VocabularyRequested>(_onVocabularyRequested);
     on<VocabRefreshRequested>(_onVocabRefreshRequested);
+    on<VocabularyLoadMoreRequested>(_onVocabularyLoadMoreRequested);
   }
 
   Future<void> _onCategoriesRequested(
@@ -30,7 +31,8 @@ class VocabBloc extends Bloc<VocabEvent, VocabState> {
     required Emitter<VocabState> emit,
   }) async {
     try {
-      final response = await repository.getCategories(forceRefresh: forceRefresh);
+      final response =
+          await repository.getCategories(forceRefresh: forceRefresh);
       if (response.message == MsgState.data) {
         final raw = response.data;
         final List<dynamic> rawList = raw is List
@@ -62,7 +64,23 @@ class VocabBloc extends Bloc<VocabEvent, VocabState> {
     await _loadVocabulary(
       subject: event.subject,
       category: event.category,
+      page: 1,
       forceRefresh: false,
+      replace: true,
+      emit: emit,
+    );
+  }
+
+  Future<void> _onVocabularyLoadMoreRequested(
+      VocabularyLoadMoreRequested event, Emitter<VocabState> emit) async {
+    if (!state.hasMore || state.isLoadingMore) return;
+    emit(state.copyWith(isLoadingMore: true));
+    await _loadVocabulary(
+      subject: event.subject,
+      category: event.category,
+      page: state.currentPage + 1,
+      forceRefresh: false,
+      replace: false,
       emit: emit,
     );
   }
@@ -70,34 +88,47 @@ class VocabBloc extends Bloc<VocabEvent, VocabState> {
   Future<void> _loadVocabulary({
     required String subject,
     required String? category,
+    required int page,
     required bool forceRefresh,
+    required bool replace,
     required Emitter<VocabState> emit,
   }) async {
     try {
       final response = await repository.getVocabulary(
         subject: subject,
         category: category,
+        page: page,
         forceRefresh: forceRefresh,
       );
       if (response.message == MsgState.data) {
-        List<VocabWordData> vocabWordList = [];
-        response.data['data'].forEach((v) {
-          vocabWordList.add(VocabWordData.fromJson(v));
-        });
+        final model = VocabWordModel.fromJson(response.data);
+        final newWords = model.data ?? [];
+        final meta = model.meta;
+        final hasMore = meta?.currentPage != null && meta?.lastPage != null
+            ? meta!.currentPage! < meta.lastPage!
+            : false;
+        final words = replace ? newWords : [...state.words, ...newWords];
         emit(state.copyWith(
           vocabularyStatus: VocabularyStatus.success,
-          words: vocabWordList,
+          words: words,
+          currentPage: meta?.currentPage ?? page,
+          hasMore: hasMore,
+          isLoadingMore: false,
         ));
       } else {
         emit(state.copyWith(
-          vocabularyStatus: VocabularyStatus.failure,
+          vocabularyStatus:
+              replace ? VocabularyStatus.failure : state.vocabularyStatus,
           vocabularyError: response,
+          isLoadingMore: false,
         ));
       }
     } catch (e) {
       emit(state.copyWith(
-        vocabularyStatus: VocabularyStatus.failure,
+        vocabularyStatus:
+            replace ? VocabularyStatus.failure : state.vocabularyStatus,
         vocabularyError: ResponseOb(errState: ErrState.unknown_err),
+        isLoadingMore: false,
       ));
     }
   }
@@ -116,7 +147,9 @@ class VocabBloc extends Bloc<VocabEvent, VocabState> {
     await _loadVocabulary(
       subject: event.subject,
       category: event.category,
+      page: 1,
       forceRefresh: true,
+      replace: true,
       emit: emit,
     );
     emit(state.copyWith(isRefreshing: false));

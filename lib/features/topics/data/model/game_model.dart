@@ -202,13 +202,15 @@ class Lesson {
   int? id;
   String? word;
   String? imageUrl;
+  String? audio;
 
-  Lesson({this.id, this.word, this.imageUrl});
+  Lesson({this.id, this.word, this.imageUrl, this.audio});
 
   Lesson.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     word = json['word'];
     imageUrl = json['image_url'];
+    audio = json['audio'];
   }
 
   Map<String, dynamic> toJson() {
@@ -216,6 +218,7 @@ class Lesson {
     data['id'] = this.id;
     data['word'] = this.word;
     data['image_url'] = this.imageUrl;
+    data['audio'] = this.audio;
     return data;
   }
 }

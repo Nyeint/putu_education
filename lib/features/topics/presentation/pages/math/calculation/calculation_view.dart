@@ -3,15 +3,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:putu_education/app/config/config.dart';
-import 'package:putu_education/features/math/calculation/addition_view.dart';
-import 'package:putu_education/features/math/calculation/division_view.dart';
-import 'package:putu_education/features/math/calculation/substraction_view.dart';
+import 'package:putu_education/features/topics/presentation/pages/math/calculation/substraction_view.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
-import '../../widgets/my_appbar.dart';
+import '../../../../../widgets/my_appbar.dart';
+import 'addition_view.dart';
+import 'division_view.dart';
 import 'multiplication_view.dart';
 
 class CalculationView extends StatefulWidget {
-  const CalculationView({super.key});
+  final String learnLanguageType;
+  const CalculationView({super.key, required this.learnLanguageType});
 
   @override
   State<CalculationView> createState() => _CalculationViewState();
@@ -23,16 +24,16 @@ class _CalculationViewState extends State<CalculationView> {
 
   Widget _calculationBody() {
     if (selectedIndex == 0) {
-      return AdditionView(locale: 'mm');
+      return AdditionView(learnLanguageType: widget.learnLanguageType);
     }
     if (selectedIndex == 1) {
-      return SubtractionView(locale: 'mm');
+      return SubtractionView(learnLanguageType: widget.learnLanguageType);
     }
     if (selectedIndex == 3) {
-      return DivisionView(locale: 'mm');
+      return DivisionView(locale: widget.learnLanguageType);
     }
     return SingleChildScrollView(
-      child: MultiplicationView(locale: 'mm'),
+      child: MultiplicationView(locale: widget.learnLanguageType),
     );
   }
 
@@ -41,7 +42,7 @@ class _CalculationViewState extends State<CalculationView> {
     return Scaffold(
       backgroundColor: ColorResources.background,
       appBar: MyAppBar(
-        titleWithGoBack: tr('calculation'),
+        titleWithGoBack: widget.learnLanguageType == 'en' ? 'Calculation' : 'အတွက်အချက်',
       ),
       body: SafeArea(
         bottom: false,

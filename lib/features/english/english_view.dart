@@ -9,7 +9,7 @@ import 'package:putu_education/features/widgets/sub_item_widget.dart';
 import 'package:putu_education/route/my_router.dart';
 import '../../app/config/font_family.dart';
 import '../../app/utils/en_types.dart';
-import '../math/math_view.dart';
+import '../topics/presentation/pages/math/math_view.dart';
 import '../widgets/my_appbar.dart';
 
 class EnglishView extends StatefulWidget {
@@ -98,7 +98,8 @@ class _EnglishViewState extends State<EnglishView> {
                         // context.pushNamed(RouteName.englishPoem);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                                poemtoryType: 'poems', subject: 'en'
+                                poemtoryType: 'poems', subject: 'en',
+                              title: 'Poems',
                             ))
                         );
                       },
@@ -110,7 +111,8 @@ class _EnglishViewState extends State<EnglishView> {
                         // context.pushNamed(RouteName.englishNumber);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                             poemtoryType: 'stories', subject: 'en'
+                             poemtoryType: 'stories', subject: 'en',
+                              title: 'Stories',
                             ))
                         );
                       },
@@ -121,7 +123,8 @@ class _EnglishViewState extends State<EnglishView> {
                       onTap: (){
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                                poemtoryType: 'songs', subject: 'en'
+                                poemtoryType: 'songs', subject: 'en',
+                              title: 'Songs',
                             ))
                         );
                       },

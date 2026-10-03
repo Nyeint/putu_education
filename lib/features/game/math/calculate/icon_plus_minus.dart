@@ -12,9 +12,10 @@ class IconPlusMinusView extends StatelessWidget {
   final int a;
   final int b;
   final int c;
+  final int? result;
   bool? isHistory;
   IconPlusMinusView({super.key, required this.fruitOne, required this.fruitTwo, required this.fruitThree, required this.a, required this.b, required this.c,
-  this.isHistory=false});
+  this.result, this.isHistory=false});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class IconPlusMinusView extends StatelessWidget {
                 SvgPicture.asset("assets/icons/fruits/$fruitThree.svg",
                   height: isHistory!?context.width*0.08:context.width*0.12, width: isHistory!?context.width*0.26:context.width*0.3),
                 TextWidget(text:'=', isHistory: isHistory!),
-                WhatIsWidget()
+                WhatIsWidget(answer: isHistory! && result != null ? result.toString() : null)
               ],
           ),
         ),

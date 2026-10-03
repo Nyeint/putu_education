@@ -6,8 +6,9 @@ import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/data/model/game_category.dart';
 import 'package:putu_education/data/providers/score_provider.dart';
 import 'package:putu_education/features/game/widgets/title_item.dart';
+import 'package:putu_education/features/topics/presentation/pages/games/word_game.dart';
 import 'package:putu_education/route/my_router.dart';
-import '../../widgets/my_appbar.dart';
+import '../../../../widgets/my_appbar.dart';
 
 class EnglishGameView extends StatefulWidget {
   const EnglishGameView({super.key});
@@ -43,19 +44,19 @@ class _EnglishGameViewState extends State<EnglishGameView> {
                         title: "${tr('word')}${tr('game')}",
                         iconName: 'english_word',
                         goTo: RouteName.englishWordGame,
-                        score: scoreProvider.gameHighScore(GameCategory.english, 'Word Game')),
+                        score: scoreProvider.gameHighScore(GameCategory.english, GameTitle.enWord)),
                     SizedBox(height: 10,),
                     TitleItemWidget(
                         title: "${tr('word_sort')}${tr('game')}",
                         iconName: 'english_word_sort',
                         goTo: RouteName.englishWordSortGame,
-                        score: scoreProvider.gameHighScore(GameCategory.english, 'Word Sorting Game')),
+                        score: scoreProvider.gameHighScore(GameCategory.english, GameTitle.enWordSort)),
                     SizedBox(height: 10,),
                     TitleItemWidget(
                         title: "${tr('sentence_sort')}${tr('game')}",
                         iconName: 'english_sentence',
                         goTo: RouteName.englishSentenceSortGame,
-                        score: scoreProvider.gameHighScore(GameCategory.english, 'Sentence Sorting Game')),
+                        score: scoreProvider.gameHighScore(GameCategory.english, GameTitle.enSentenceSort)),
                   ],
                 )
                     .pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),

@@ -1,6 +1,7 @@
 // Path: network/dio_basenetwork.dart
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../data/model/response_ob.dart';
 
 class DioBaseNetwork {
@@ -13,11 +14,16 @@ class DioBaseNetwork {
       os = "android";
     }
 
+    final packageInfo = await PackageInfo.fromPlatform();
+
     return {
       // "customer-destination-id": await SharedPref.getData(key: SharedPref.shop_city),
       // "Authorization": await SharedPref.getData(key: SharedPref.token)??'',
       "Accept": "application/json",
       "x-api-key": "17RwMt0G^8K:@1X=,K-MVOrZ",
+      "X-App-Platform": os,
+      "X-App-Version": packageInfo.version,
+      "X-App-Build-Number": packageInfo.buildNumber,
       // "Access-Control-Allow-Origin": '*',
       // "Access-Control-Allow-Credentials": 'true',
       // "version-ios": NOW_VERSION_IOS,

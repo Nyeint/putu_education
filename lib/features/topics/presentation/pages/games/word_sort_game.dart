@@ -1,4 +1,4 @@
-// Path: topics/presentation/pages/games/word_sort_game.dart
+// Path: topics/presentation/pages/games/mm_word_sort_game.dart
 import 'dart:async';
 import 'dart:math';
 
@@ -82,10 +82,11 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
 
   String _imageFor(GameData question) => question.lesson?.imageUrl ?? question.image ?? '';
 
-  String _audioUrl(GameData question) => (_isEnglish ? question.audio : question.audioMm) ?? '';
+  String _audioUrl(GameData question) => question.lesson!.audio ?? '';
 
   /// Plays the question's pre-recorded audio (no TTS involved).
   Future<void> _playAudio(GameData question) async {
+    await Future.delayed(Duration(milliseconds: 500));
     final url = _audioUrl(question);
     if (url.isEmpty) return;
     try {
@@ -97,8 +98,12 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
     }
   }
 
+  /// One tile per code point for both languages, so Myanmar marks are
+  /// separate tiles (ပန်းသီး -> ပ န ် း သ ီ း).
+  List<String> _lettersOf(String word) => word.runes.map(String.fromCharCode).toList();
+
   List<String> _shuffledLettersOf(String word) {
-    final letters = word.split('');
+    final letters = _lettersOf(word);
     if (letters.length <= 1) return letters;
 
     List<String> shuffled;
@@ -140,7 +145,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
   void _manualAdvance(List<GameData> questions) {
     final question = questions[currentStep];
     final word = _wordFor(question);
-    if (selectedLetters.length != word.length || isChecking) return;
+    if (selectedLetters.length != _lettersOf(word).length || isChecking) return;
 
     final formed = selectedLetters.join();
     historyList.add(QuestionResultModel(
@@ -178,7 +183,8 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
     _hasNavigatedToResult = true;
 
     context.read<ScoreProvider>().recordScore(
-        category: GameCategory.english, gameTitle: 'Word Sorting Game', score: correctCount);
+        category: _isEnglish ? GameCategory.english : GameCategory.myanmar,
+        gameTitle: _isEnglish ? GameTitle.enWordSort:GameTitle.mmWordSort, score: correctCount);
     context.replaceNamed(
       RouteName.resultView,
       extra: {
@@ -193,7 +199,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff7AEEFC),
-      appBar: MyAppBar(titleWithGoBack: '${tr('word_sort')} ${tr('game')}'),
+      appBar: MyAppBar(titleWithGoBack: _isEnglish ? '${tr('word_sort')} ${tr('game')}' : 'စကားလုံးဆက်မယ်'),
       body: SafeArea(
         bottom: false,
         child: Container(
@@ -246,7 +252,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
 
                 final question = questions[currentStep];
                 final word = _wordFor(question);
-                final isAnswerFilled = selectedLetters.length == word.length;
+                final isAnswerFilled = selectedLetters.length == _lettersOf(word).length;
 
                 return Stack(
                   children: [
@@ -259,7 +265,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                             description: 'Listen and arrange',
                             onPlayAudio: () => _playAudio(question),
                           ),
-                          SizedBox(height: 40),
+                          SizedBox(height: 24),
                           SizedBox(
                             width: context.width * 0.45,
                             height: context.width * 0.45,
@@ -272,17 +278,28 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                             spacing: 10,
                             runSpacing: 10,
                             children: [
-                              ...selectedLetters.asMap().entries.map((entry) {
-                                return GestureDetector(
-                                  onTap: () => _deselectLetter(entry.key),
+                              // Myanmar letters only ligate when they share one Text run,
+                              // so non-English answers are joined; tap removes the last letter.
+                              if (_isEnglish)
+                                ...selectedLetters.asMap().entries.map((entry) {
+                                  return GestureDetector(
+                                    onTap: () => _deselectLetter(entry.key),
+                                    child: Text(
+                                      entry.value.toUpperCase(),
+                                      style: FontFamily().semiBold.copyWith(fontSize: FontSize().thirtyTwo),
+                                    ),
+                                  );
+                                })
+                              else if (selectedLetters.isNotEmpty)
+                                GestureDetector(
+                                  onTap: () => _deselectLetter(selectedLetters.length - 1),
                                   child: Text(
-                                    entry.value.toUpperCase(),
+                                    selectedLetters.join(),
                                     style: FontFamily().semiBold.copyWith(fontSize: FontSize().thirtyTwo),
                                   ),
-                                );
-                              }),
+                                ),
                               ...List.generate(
-                                word.length - selectedLetters.length,
+                                _lettersOf(word).length - selectedLetters.length,
                                 (index) => Text(
                                   '_',
                                   style: FontFamily().semiBold.copyWith(fontSize: FontSize().thirtyTwo),
@@ -304,7 +321,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                               );
                             }).toList(),
                           ),
-                          SizedBox(height: 90),
+                          // SizedBox(height: 90),
                         ],
                       ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
                     ),
@@ -312,7 +329,13 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                       right: 16,
                       bottom: 40 + MediaQuery.of(context).padding.bottom,
                       child: GestureDetector(
-                        onTap: isAnswerFilled ? () => _manualAdvance(questions) : null,
+                        onTap: (){
+                          if(isAnswerFilled) {
+                            _audioPlayer.play(AssetSource('audios/pop.mp3'));
+                            _manualAdvance(questions);
+                          }
+                          // isAnswerFilled ? () => _manualAdvance(questions) : null;
+                        },
                         child: Container(
                           padding: EdgeInsets.only(left: 22, right: 22, top: 8, bottom: 8),
                           decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),

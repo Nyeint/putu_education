@@ -27,7 +27,7 @@ class ScoreProvider extends ChangeNotifier {
   static const String _webStorageKey = 'game_high_scores';
   static const String _webWeekKeyStorageKey = 'game_high_scores_week_key';
 
-  final Map<GameCategory, Map<String, int>> _gameHighScores = {
+  final Map<GameCategory, Map<GameTitle, int>> _gameHighScores = {
     for (final category in GameCategory.values) category: {},
   };
 
@@ -54,7 +54,7 @@ class ScoreProvider extends ChangeNotifier {
   int get myanmarScoreSum => categoryScoreSum(GameCategory.myanmar);
   int get mathScoreSum => categoryScoreSum(GameCategory.math);
 
-  int gameHighScore(GameCategory category, String gameTitle) => _gameHighScores[category]![gameTitle] ?? 0;
+  int gameHighScore(GameCategory category, GameTitle gameTitle) => _gameHighScores[category]![gameTitle] ?? 0;
 
   Future<File> _scoreFile() async {
     final dir = await _directoryProvider();
@@ -91,12 +91,23 @@ class ScoreProvider extends ChangeNotifier {
     final scores = (decoded['scores'] as Map<String, dynamic>?) ?? {};
     for (final entry in scores.entries) {
       final category = GameCategory.values.byName(entry.key);
-      final games = (entry.value as Map<String, dynamic>).map(
-        (title, score) => MapEntry(title, score as int),
-      );
-      _gameHighScores[category] = games;
+      _gameHighScores[category] = _decodeGames(entry.value as Map<String, dynamic>);
     }
   }
+
+  /// Stored keys are enum names; unknown (renamed/removed) titles are dropped.
+  Map<GameTitle, int> _decodeGames(Map<String, dynamic> raw) {
+    final byName = GameTitle.values.asNameMap();
+    return {
+      for (final e in raw.entries)
+        if (byName[e.key] != null) byName[e.key]!: e.value as int,
+    };
+  }
+
+  Map<String, Map<String, int>> _encodeScores() => {
+        for (final c in _gameHighScores.entries)
+          c.key.name: {for (final g in c.value.entries) g.key.name: g.value},
+      };
 
   Future<void> _loadFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
@@ -111,10 +122,7 @@ class ScoreProvider extends ChangeNotifier {
       final decoded = jsonDecode(raw) as Map<String, dynamic>;
       for (final entry in decoded.entries) {
         final category = GameCategory.values.byName(entry.key);
-        final games = (entry.value as Map<String, dynamic>).map(
-          (title, score) => MapEntry(title, score as int),
-        );
-        _gameHighScores[category] = games;
+        _gameHighScores[category] = _decodeGames(entry.value as Map<String, dynamic>);
       }
     }
   }
@@ -123,7 +131,7 @@ class ScoreProvider extends ChangeNotifier {
   /// previous best; otherwise leaves everything untouched, per spec.
   Future<void> recordScore({
     required GameCategory category,
-    required String gameTitle,
+    required GameTitle gameTitle,
     required int score,
   }) async {
     print("Record-->? $category, $gameTitle, $score");
@@ -141,9 +149,7 @@ class ScoreProvider extends ChangeNotifier {
 
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
-      final encoded = jsonEncode({
-        for (final entry in _gameHighScores.entries) entry.key.name: entry.value,
-      });
+      final encoded = jsonEncode(_encodeScores());
       await prefs.setString(_webStorageKey, encoded);
       await prefs.setString(_webWeekKeyStorageKey, weekKey);
       return;
@@ -152,7 +158,7 @@ class ScoreProvider extends ChangeNotifier {
     final file = await _scoreFile();
     final encoded = jsonEncode({
       'weekKey': weekKey,
-      'scores': {for (final entry in _gameHighScores.entries) entry.key.name: entry.value},
+      'scores': _encodeScores(),
     });
     await file.writeAsString(encoded);
   }

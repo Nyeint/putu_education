@@ -11,13 +11,16 @@ abstract class VocabRepo {
 
   /// [subject] is the API's language code for the vocabulary set: 'en' for
   /// English, 'my' for Myanmar. [category] is the category's name (e.g.
-  /// 'fruit'); omit it to request every category ("All" tab).
+  /// 'fruit'); omit it to request every category ("All" tab). [page] is the
+  /// 1-based page to request.
   ///
   /// Subject to the same 5 minute cache rule as [getCategories], keyed per
-  /// [subject]/[category] combination.
+  /// [subject]/[category] combination - caching/throttling only applies to
+  /// page 1, "load more" pages always go straight to the network.
   Future<ResponseOb> getVocabulary({
     required String subject,
     String? category,
+    int page = 1,
     bool forceRefresh = false,
   });
 }

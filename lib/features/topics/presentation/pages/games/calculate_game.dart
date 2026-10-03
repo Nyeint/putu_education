@@ -1,5 +1,6 @@
 // Path: math/calculate_game.dart
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,12 +13,12 @@ import 'package:putu_education/features/game/math/calculate/digit_plus_minus.dar
 import 'package:putu_education/features/game/math/calculate/icon_mul_div.dart';
 import 'package:putu_education/features/game/math/calculate/icon_plus_minus.dart';
 import 'package:putu_education/route/my_router.dart';
-import '../../widgets/item_decoration.dart';
-import '../../widgets/my_appbar.dart';
-import '../model/calculate_history.dart';
-import '../widgets/progress_bar.dart';
-import '../widgets/voice_item.dart';
-import 'calculate/calculation_result.dart';
+import '../../../../widgets/item_decoration.dart';
+import '../../../../widgets/my_appbar.dart';
+import '../../../../game/model/calculate_history.dart';
+import '../../../../game/widgets/progress_bar.dart';
+import '../../../../game/widgets/voice_item.dart';
+import '../results/calculation_result.dart';
 
 enum CalculateType{ type1, type2, type3, type4, type5, type6, type7 }
 
@@ -30,6 +31,7 @@ class MathCalculationGame extends StatefulWidget {
 }
 
 class _MathCalculationGameState extends State<MathCalculationGame> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
   int currentStep=0;
   int totalSteps=10;
   int correctCount=0;
@@ -70,6 +72,11 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
     setState(() {});
   }
 
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 
   threeNumberProblem(){
     a = Random().nextInt(20);
@@ -171,6 +178,8 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
 
   @override
   Widget build(BuildContext context) {
+    final isAnswerFilled = answer != 0;
+
     return Scaffold(
       backgroundColor: Color(0xff7AEEFC),
       appBar: MyAppBar(
@@ -188,13 +197,22 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
           ),
           child: Column(
             children: [
-              ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
+              ProgressBarView(currentStep: currentStep+1, totalSteps: totalSteps),
               SizedBox(height: 24,),
-              VoiceItemView(name: correctItem, description: "What is  '?'",),
-              SizedBox(height: 40,),
-
+              // VoiceItemView(name: correctItem, description: "What is  '?'",),
+              // SizedBox(height: 40,),
               Container(
-                padding: EdgeInsets.all(20),
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(top: 8, bottom: 8, right: 20, left: 20),
+                  // width: context.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage("assets/images/dotted_rectangle.png",), fit: BoxFit.fill),
+                  ),
+                  child: Text(tr('what_is_answer'), style: FontFamily().semiBold,)
+              ),
+              SizedBox(height: 30,),
+              Container(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
                 decoration: BoxDecoration(
                     border: Border.all(color: ColorResources.primary, width: 1),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -212,48 +230,40 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
               ),
 
               SizedBox(height: 40,),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.center,
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: optionList.asMap().entries.map((e) {
-                        // int index = e.key;
-                        // String value = e.value;
-                        return GestureDetector(
+              Row(
+                  children: optionList.asMap().entries.map((e) {
+                    return Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: GestureDetector(
                           onTap: (){
                             answer = e.value;
-                            print("Evalue is ${e.value} and ${e.key} $answer and $rightAnswer");
-                            // int rightAnswerCount = resultList.where((char) => char == correctItem).length;
-                            if(answer==rightAnswer){
-                              print("You are right");
-                            }else{
-                              print("You are wrong");
-                            }
                             setState(() {});
                           },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            height: MediaQuery.of(context).size.width * 0.2,
-                            alignment: Alignment.center,
-                            decoration: optionList.indexOf(answer)==e.key?selectedDecoration():unselectedDecoration(),
-                            child: Text(
-                              context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
-                              style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: optionList.indexOf(answer)==e.key?selectedDecoration():unselectedDecoration(),
+                              child: Text(
+                                context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
+                                style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+                              ),
                             ),
                           ),
-                        );
-                      }).toList()
-                  ),
-                ),
+                        ),
+                      ),
+                    );
+                  }).toList()
               ),
+
+              Expanded(child: SizedBox()),
 
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: isAnswerFilled ? (){
+                    _audioPlayer.play(AssetSource('audios/pop.mp3'));
                     if(answer==rightAnswer){
                       correctCount++;
                     }
@@ -261,7 +271,7 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
                     if(currentStep==9){
                       // final score = ((correctCount / totalSteps) * 100).round();
                       context.read<ScoreProvider>().recordScore(
-                          category: GameCategory.math, gameTitle: 'Calculate Game', score: correctCount);
+                          category: GameCategory.math, gameTitle: GameTitle.calculate, score: correctCount);
                       context.replaceNamed(RouteName.resultView,
                         extra: {'score': correctCount, 'childWidget': CalculationResultView(historyList: historyList,)},);
                       return;
@@ -280,10 +290,10 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
                     setState(() {});
 
                     // quitAlert(context);
-                  },
+                  } : null,
                   child: Container(
                       padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                      decoration: selectedTabDecoration(),
+                      decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
                       child:
                       currentStep==9?Text(tr('check')):
                       SvgPicture.asset("assets/icons/next.svg")

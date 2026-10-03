@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:putu_education/app/utils/en_types.dart';
-import 'package:putu_education/features/math/math_view.dart';
 import 'package:putu_education/route/my_router.dart';
+
+import '../../features/topics/presentation/pages/math/math_view.dart';
 
 /// Which top-level learning category a session belongs to.
 enum SessionCategory { english, myanmar }

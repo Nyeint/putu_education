@@ -2,7 +2,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/config.dart';
-import '../../model/question_result.dart';
+import '../../../../game/model/question_result.dart';
 
 class CountingResultView extends StatelessWidget {
   List<QuestionResultModel> historyList;
@@ -33,23 +33,21 @@ class CountingResultView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          width: context.width*0.7,
-                          // color: Colors.amber,
-                          child: Wrap(
-                            // mainAxisSize: MainAxisSize.min,
-                            // direction: Axis.horizontal,
-                            // alignment: WrapAlignment.start,
-                            children: [
-                              Text(
-                                  '${context.locale.languageCode == 'en'?(index+1).toString():(index+1).toString().burmese()} .',
-                                style: FontFamily().medium
-                              ),
-                              SizedBox(width: 10,),
-                              Text(data.question!),
-                            ],
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: ColorResources.primary.withOpacity(0.15),
+                            shape: BoxShape.circle,
                           ),
+                          child: Icon(Icons.check_rounded, color: ColorResources.math, size: 20),
                         ),
+                        // Text(
+                        //     '${context.locale.languageCode == 'en'?(index+1).toString():(index+1).toString().burmese()} .',
+                        //   style: FontFamily().medium
+                        // ),
                         SizedBox(width: 10,),
+                        Expanded(child: Text(data.question!)),
+                        SizedBox(width: 14,),
                         Text(
                           context.locale.languageCode == 'en'?data.result.toString():data.result.toString().burmese(),
                           style: FontFamily().bold.copyWith(color: ColorResources.math),),

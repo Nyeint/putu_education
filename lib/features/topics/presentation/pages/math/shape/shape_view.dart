@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
-import '../../widgets/my_appbar.dart';
-import '../../widgets/my_icon.dart';
+import '../../../../../widgets/my_appbar.dart';
+import '../../../../../widgets/my_icon.dart';
 
 /// Shapes lesson text follows [locale] (learn track: [LearnLanguageType.mm.name] or [LearnLanguageType.en.name]),
 /// not the global EasyLocalization locale — so Myanmar math can show Myanmar copy while the app UI stays English.

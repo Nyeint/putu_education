@@ -17,17 +17,19 @@ abstract class RouteName{
   // static const String math = 'math';
   // static const String shapeViewEn = 'shapeViewEn';
   // static const String shapeViewMm = 'shapeViewMm';
-  static const String calculation = 'calculation';
+  // static const String calculation = 'calculation';
   static const String introduction = 'introduction';
   static const String englishGame = 'englishGame';
   static const String myanmarGame = 'myanmarGame';
   static const String englishWordGame = 'englishWordGame';
   static const String englishWordSortGame = 'englishWordSortGame';
   static const String englishSentenceSortGame = 'englishSentenceSortGame';
+  static const String myanmarWordGame = 'myanmarWordGame';
   static const String myanmarWordSortGame = 'myanmarWordSortGame';
+  static const String myanmarSentenceSortGame = 'myanmarSentenceSortGame';
   static const String mathGame = 'mathGame';
   static const String mathCountingGame = 'mathCountingGame';
   static const String mathCalculateGame = 'mathCalculateGame';
   static const String resultView = 'resultView';
-  static const String search = 'search';
+  // static const String search = 'search';
 }

@@ -45,13 +45,13 @@ class _MathGameViewState extends State<MathGameView> {
                             title: "${tr('counting')} ${tr('game')}",
                             iconName: 'math_count',
                             goTo: RouteName.mathCountingGame,
-                            score: scoreProvider.gameHighScore(GameCategory.math, 'Counting Game')),
+                            score: scoreProvider.gameHighScore(GameCategory.math, GameTitle.counting)),
                         SizedBox(height: 24,),
                         TitleItemWidget(
                             title: "${tr('calculating')} ${tr('game')}",
                             iconName: 'math_calculate',
                             goTo: RouteName.mathCalculateGame,
-                            score: scoreProvider.gameHighScore(GameCategory.math, 'Calculate Game')),
+                            score: scoreProvider.gameHighScore(GameCategory.math, GameTitle.calculate)),
                       ],
                     )
                         .pad(left: 16, right: 16, top: 24, bottom: 24),

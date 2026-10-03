@@ -84,16 +84,16 @@ class _ResultViewState extends State<ResultView> {
                                   style: FontFamily().bold.copyWith(
                                       fontSize: FontSize().fortyEight, color: ColorResources.primary),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4, bottom: 8),
-                                  child: Text(
-                                    '/10',
-                                    // '/${context.locale.languageCode == 'en' ? widget.maxScore.toString() : widget.maxScore.toString().burmese()}',
-                                    style: FontFamily()
-                                        .semiBold
-                                        .copyWith(fontSize: FontSize().twenty, color: ColorResources.subText),
-                                  ),
-                                ),
+                                // Padding(
+                                //   padding: EdgeInsets.only(left: 4, bottom: 8),
+                                //   child: Text(
+                                //     '/10',
+                                //     // '/${context.locale.languageCode == 'en' ? widget.maxScore.toString() : widget.maxScore.toString().burmese()}',
+                                //     style: FontFamily()
+                                //         .semiBold
+                                //         .copyWith(fontSize: FontSize().twenty, color: ColorResources.subText),
+                                //   ),
+                                // ),
                               ],
                             ),
                             SizedBox(height: 16),

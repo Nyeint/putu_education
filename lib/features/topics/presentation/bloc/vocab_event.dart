@@ -37,3 +37,15 @@ class VocabRefreshRequested extends VocabEvent {
   @override
   List<Object?> get props => [subject, category];
 }
+
+/// Requests the next page and appends it to the currently loaded vocabulary.
+/// No-ops if there is no more data or a page is already loading.
+class VocabularyLoadMoreRequested extends VocabEvent {
+  final String subject;
+  final String? category;
+
+  const VocabularyLoadMoreRequested({required this.subject, this.category});
+
+  @override
+  List<Object?> get props => [subject, category];
+}

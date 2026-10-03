@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' as markdown;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/app/service/locator.dart';
 import 'package:putu_education/app/widgets/loading_widgets.dart';
@@ -24,14 +25,15 @@ import '../../bloc/poemtory_bloc/poemtory_bloc.dart';
 /// part of the API path; [subject] is the API's language code for the
 /// content ('en' for English, 'my' for Myanmar).
 class PoemToryListView extends StatefulWidget {
+  final String title;
   final String poemtoryType;
   final String subject;
 
-  const PoemToryListView({
-    super.key,
-    required this.poemtoryType,
-    required this.subject
-  });
+  const PoemToryListView(
+      {super.key,
+      required this.title,
+      required this.poemtoryType,
+      required this.subject});
 
   @override
   State<PoemToryListView> createState() => _PoemToryListViewState();
@@ -39,21 +41,18 @@ class PoemToryListView extends StatefulWidget {
 
 class _PoemToryListViewState extends State<PoemToryListView> {
   final PoemToryBloc _poemtoryBloc = getIt<PoemToryBloc>();
-  final ScrollController _scrollController = ScrollController();
-
-  static const double _loadMoreThreshold = 200;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
     _requestPoemTories();
-    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    _refreshController.dispose();
     _poemtoryBloc.close();
     super.dispose();
   }
@@ -65,32 +64,39 @@ class _PoemToryListViewState extends State<PoemToryListView> {
     ));
   }
 
-  void _onScroll() {
-    if (!_scrollController.hasClients) return;
-    final position = _scrollController.position;
-    if (position.pixels >= position.maxScrollExtent - _loadMoreThreshold) {
-      _poemtoryBloc.add(PoemToriesLoadMoreRequested(
-        poemtoryType: widget.poemtoryType,
-        subject: widget.subject,
-      ));
-    }
-  }
-
   Future<void> _onRefresh() async {
     _poemtoryBloc.add(PoemToriesRefreshRequested(
       poemtoryType: widget.poemtoryType,
       subject: widget.subject,
     ));
     await _poemtoryBloc.stream.firstWhere((state) => !state.isRefreshing);
+    _refreshController.refreshCompleted();
+    _refreshController.resetNoData();
+  }
+
+  Future<void> _onLoading() async {
+    _poemtoryBloc.add(PoemToriesLoadMoreRequested(
+      poemtoryType: widget.poemtoryType,
+      subject: widget.subject,
+    ));
+    await _poemtoryBloc.stream.firstWhere((state) => !state.isLoadingMore);
+    if (_poemtoryBloc.state.hasMore) {
+      _refreshController.loadComplete();
+    } else {
+      _refreshController.loadNoData();
+    }
   }
 
   Widget _poemtoryItem(PoemToryData item) {
     return GestureDetector(
       // onTap: () => context.pushNamed(RouteName.poemDetail, extra: {'id': item.id}),
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PoemToryDetailView(
-          data: item,
-        )));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PoemToryDetailView(
+                      data: item,
+                    )));
       },
       child: Container(
         padding: EdgeInsets.all(10),
@@ -105,13 +111,17 @@ class _PoemToryListViewState extends State<PoemToryListView> {
                 width: context.width / 3.5,
                 height: context.width / 3.5,
                 imageUrl: item.image ?? '',
-                errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                errorWidget: (context, url, error) =>
+                    Center(child: Icon(Icons.error)),
                 placeholder: (context, url) => Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
                     border: Border.all(color: ColorResources.lightBg),
                   ),
-                  child: Icon(Icons.image, color: ColorResources.primary, size: context.width / 3.5),
+                  child: Icon(Icons.image,
+                      color: ColorResources.primary, size: context.width / 3.5),
                 ),
                 fit: BoxFit.cover,
               ),
@@ -124,11 +134,15 @@ class _PoemToryListViewState extends State<PoemToryListView> {
                 children: [
                   Text(
                     item.title ?? '',
-                    style: FontFamily().semiBold.copyWith(fontSize: FontSize().sixteen),
+                    style: FontFamily()
+                        .semiBold
+                        .copyWith(fontSize: FontSize().sixteen),
                   ),
                   SizedBox(height: 4),
                   _ExpandableText(
-                    text: markdown.markdownToHtml(item.description ?? '').toPlainText,
+                    text: markdown
+                        .markdownToHtml(item.description ?? '')
+                        .toPlainText,
                     maxLines: 3,
                     style: FontFamily().regular.copyWith(
                           fontSize: 15,
@@ -149,7 +163,8 @@ class _PoemToryListViewState extends State<PoemToryListView> {
                       ),
                       GestureDetector(
                         onTap: () {},
-                        child: SvgPicture.asset("assets/icons/next.svg", height: 16),
+                        child: SvgPicture.asset("assets/icons/next.svg",
+                            height: 16),
                       ),
                     ],
                   )
@@ -181,9 +196,11 @@ class _PoemToryListViewState extends State<PoemToryListView> {
   }
 
   Widget _poemtoryList(PoemToryState state) {
-    if (state.status == PoemToriesStatus.loading || state.status == PoemToriesStatus.initial) {
+    if (state.status == PoemToriesStatus.loading ||
+        state.status == PoemToriesStatus.initial) {
       return _scrollableMessage(Center(child: LoadingWidget(size: 32)));
-    } else if (state.status == PoemToriesStatus.failure && state.poemtories.isEmpty) {
+    } else if (state.status == PoemToriesStatus.failure &&
+        state.poemtories.isEmpty) {
       return _scrollableMessage(
         GestureDetector(
           onTap: _onRefresh,
@@ -200,24 +217,17 @@ class _PoemToryListViewState extends State<PoemToryListView> {
     final poemtories = state.poemtories;
     if (poemtories.isEmpty) {
       return _scrollableMessage(
-        Center(child: Text(tr('no_data'), style: FontFamily().medium.copyWith(fontSize: 14))),
+        Center(
+            child: Text(tr('no_data'),
+                style: FontFamily().medium.copyWith(fontSize: 14))),
       );
     }
 
     return ListView.builder(
-      controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.only(left: 16, right: 16, top: 24),
-      itemCount: poemtories.length + (state.hasMore ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index >= poemtories.length) {
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: LoadingWidget(size: 24)),
-          );
-        }
-        return _poemtoryItem(poemtories[index]);
-      },
+      itemCount: poemtories.length,
+      itemBuilder: (context, index) => _poemtoryItem(poemtories[index]),
     );
   }
 
@@ -226,7 +236,8 @@ class _PoemToryListViewState extends State<PoemToryListView> {
     return Scaffold(
         backgroundColor: ColorResources.background,
         appBar: MyAppBar(
-          titleWithGoBack: tr(widget.poemtoryType),
+          titleWithGoBack: widget.title,
+          // titleWithGoBack: tr(widget.poemtoryType),
         ),
         body: SafeArea(
             child: Container(
@@ -242,17 +253,23 @@ class _PoemToryListViewState extends State<PoemToryListView> {
               // Background refresh/load-more failures keep the existing list
               // on screen, so surface them as a toast instead of an
               // interruptive full-screen error.
-              if (state.status == PoemToriesStatus.failure && state.poemtories.isNotEmpty) {
+              if (state.status == PoemToriesStatus.failure &&
+                  state.poemtories.isNotEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load. Please try again.')),
                 );
               }
             },
-            child: RefreshIndicator(
-              onRefresh: _onRefresh,
-              child: BlocBuilder<PoemToryBloc, PoemToryState>(
-                bloc: _poemtoryBloc,
-                builder: (context, state) => _poemtoryList(state),
+            child: BlocBuilder<PoemToryBloc, PoemToryState>(
+              bloc: _poemtoryBloc,
+              builder: (context, state) => SmartRefresher(
+                controller: _refreshController,
+                enablePullDown: true,
+                enablePullUp: state.hasMore,
+                header: WaterDropHeader(),
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                child: _poemtoryList(state),
               ),
             ),
           ),
@@ -330,8 +347,8 @@ class _ExpandableTextState extends State<_ExpandableText> {
         final truncated = widget.text.substring(0, endIndex).trimRight();
 
         return
-          // Text(truncated, style: widget.style,);
-          RichText(
+            // Text(truncated, style: widget.style,);
+            RichText(
           text: TextSpan(
             children: [
               TextSpan(text: '$truncated…', style: widget.style),

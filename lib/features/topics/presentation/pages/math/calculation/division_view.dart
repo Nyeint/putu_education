@@ -1,8 +1,9 @@
 // Path: calculation/division_view.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../app/config/config.dart';
-import '../../widgets/item_decoration.dart';
+import '../../../../../../app/config/config.dart';
+import '../../../../../../app/config/widget_extensions.dart';
+import '../../../../../widgets/item_decoration.dart';
 
 const double _kTabBarExtent = 64;
 

@@ -153,6 +153,7 @@ class _PoemToryDetailViewState extends State<PoemToryDetailView> {
         : computedMax.toDouble();
     return SafeArea(
         top: false,
+        bottom: false,
         child: Scaffold(
           backgroundColor: ColorResources.background,
           appBar: MyAppBar(
@@ -192,19 +193,6 @@ class _PoemToryDetailViewState extends State<PoemToryDetailView> {
                       children: [
                         Text(widget.data.title ?? '', style: FontFamily().bold),
                         SizedBox(height: 10),
-                        // Text(
-                        //   'By reading the A Little Turtle poem, your little one would understand the characteristics of a turtle in just a few lines. ',
-                        //   style: FontFamily().regular,
-                        // ),
-                        // SizedBox(height: 20),
-                        // Align(
-                        //   alignment: Alignment.topLeft,
-                        //   child: Text(
-                        //     '1 page | 2 mins',
-                        //     style: FontFamily().regular,
-                        //   ),
-                        // ),
-                        // const SizedBox(height: 20),
                         HtmlWidget(
                           markdown.markdownToHtml(widget.data.description ?? ''),
                           textStyle: FontFamily().regular.copyWith(
@@ -212,35 +200,6 @@ class _PoemToryDetailViewState extends State<PoemToryDetailView> {
                             // color: ColorResources.primaryText.withValues(alpha: 0.7),
                           ),
                         ),
-                        // Container(
-                        //   width: context.width,
-                        //   padding: EdgeInsets.all(16),
-                        //   decoration: BoxDecoration(
-                        //     color: ColorResources.lightBg,
-                        //     borderRadius:
-                        //         BorderRadius.all(Radius.circular(20))
-                        //   ),
-                        //   child: markdown.markdownToHtml(widget.data.description ?? ''),
-                          // Text(
-                          //   'There was a little turtle.\nHe lived in a box.\nHe swam in a puddle.\nHe climbed on the rocks.\n'
-                          //       'He snapped at a mosquito.\n'
-                          //       'He snapped at a flea.\nHe snapped at a minnow.\nAnd he snapped at me.\n'
-                          //       'He caught the mosquito.\nHe caught the flea.\nHe caught the minnow.\nBut he didn’t catch me.'
-                          //       'There was a little turtle.\nHe lived in a box.\nHe swam in a puddle.\nHe climbed on the rocks.\n'
-                          //       'He snapped at a mosquito.\n'
-                          //       'He snapped at a flea.\nHe snapped at a minnow.\nAnd he snapped at me.\n'
-                          //       'He caught the mosquito.\nHe caught the flea.\nHe caught the minnow.\nBut he didn’t catch me.'
-                          //       'There was a little turtle.\nHe lived in a box.\nHe swam in a puddle.\nHe climbed on the rocks.\n'
-                          //       'He snapped at a mosquito.\n'
-                          //       'He snapped at a flea.\nHe snapped at a minnow.\nAnd he snapped at me.\n'
-                          //       'He caught the mosquito.\nHe caught the flea.\nHe caught the minnow.\nBut he didn’t catch me.'
-                          //       'There was a little turtle.\nHe lived in a box.\nHe swam in a puddle.\nHe climbed on the rocks.\n'
-                          //       'He snapped at a mosquito.\n'
-                          //       'He snapped at a flea.\nHe snapped at a minnow.\nAnd he snapped at me.\n'
-                          //       'He caught the mosquito.\nHe caught the flea.\nHe caught the minnow.\nBut he didn’t catch me.',
-                          //   textAlign: TextAlign.center,
-                          // ),
-                        // ),
                       ],
                     ),
                   ),

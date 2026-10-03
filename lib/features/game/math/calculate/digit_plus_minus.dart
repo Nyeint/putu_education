@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:putu_education/features/game/math/calculate/text_widget.dart';
 import 'package:putu_education/features/game/math/calculate/what_is.dart';
 
-import '../calculate_game.dart';
+import '../../../topics/presentation/pages/games/calculate_game.dart';
 
 class DigitPlusMinusView extends StatelessWidget {
   final int a;
@@ -21,15 +21,13 @@ class DigitPlusMinusView extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       // mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        type==CalculateType.type1?
-        TextWidget(text: a.toString(), isHistory: isHistory!,):WhatIsWidget(),
+        TextWidget(text: a.toString(), isHistory: isHistory!,),
         TextWidget(text: '+'),
         TextWidget(text: b.toString(), isHistory: isHistory!),
         TextWidget(text: '-'),
         TextWidget(text: c.toString(), isHistory: isHistory!),
         TextWidget(text: '='),
-        type==CalculateType.type1?WhatIsWidget():
-        TextWidget(text: result.toString(), isHistory: isHistory!),
+        WhatIsWidget(answer: isHistory! ? result.toString() : null),
       ],
     );
   }

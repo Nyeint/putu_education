@@ -1,20 +1,21 @@
 // Path: math/counting_game.dart
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:putu_education/features/game/math/counting/counting_result.dart';
-import '../../../app/config/config.dart';
-import '../../../data/model/game_category.dart';
-import '../../../data/providers/score_provider.dart';
-import '../../../route/route_name.dart';
-import '../../widgets/item_decoration.dart';
-import '../../widgets/my_appbar.dart';
-import '../model/question_result.dart';
-import '../widgets/progress_bar.dart';
-import '../widgets/voice_item.dart';
+import 'package:putu_education/features/topics/presentation/pages/results/counting_result.dart';
+import '../../../../../app/config/config.dart';
+import '../../../../../data/model/game_category.dart';
+import '../../../../../data/providers/score_provider.dart';
+import '../../../../../route/route_name.dart';
+import '../../../../widgets/item_decoration.dart';
+import '../../../../widgets/my_appbar.dart';
+import '../../../../game/model/question_result.dart';
+import '../../../../game/widgets/progress_bar.dart';
+import '../../../../game/widgets/voice_item.dart';
 
 class MathCountingGame extends StatefulWidget {
   const MathCountingGame({super.key});
@@ -24,34 +25,13 @@ class MathCountingGame extends StatefulWidget {
 }
 
 class _MathCountingGameState extends State<MathCountingGame> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
   int currentStep=0;
   int totalSteps=10;
   int correctCount=0;
 
   List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','parallelogram'];
   List<String> fruitList = ['apple', 'banana', 'grape', 'mango', 'tangerine', 'pineapple', 'strawberry'];
-
-  static const Map<String, String> myNames = {
-    'triangle': 'တြိဂံ',
-    'square': 'စတုရန်း',
-    'pentagon': 'ပဉ္စဂံ',
-    'hexagon': 'ဆဋ္ဌဂံ',
-    'heptagon': 'သတ္တဂံ',
-    'octagon': 'အဋ္ဌဂံ',
-    'nonagon': 'နဝဂံ',
-    'decagon': 'ဒသဂံ',
-    'circle': 'စက်ဝိုင်း',
-    'semicircle': 'စက်ဝိုင်းခြမ်း',
-    'oval': 'ဘဲဥပုံ',
-    'parallelogram': 'အနားပြိုင်စတုဂံ',
-    'apple': 'ပန်းသီး',
-    'banana': 'ငှက်ပျောသီး',
-    'grape': 'စပျစ်သီး',
-    'mango': 'သရက်သီး',
-    'tangerine': 'လိမ္မော်သီး',
-    'pineapple': 'နာနတ်သီး',
-    'strawberry': 'စတော်ဘယ်ရီသီး',
-  };
 
   String correctItem = '';
   List<String> resultList = [];
@@ -92,7 +72,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
     // Step 2: Generate random counts for each selected shape
     resultList = generateRandomCounts(result, 7);
     // question = 'How many $correctItem are there?';
-    question = '${myNames[correctItem] ?? correctItem} ဘယ်နှစ်ခုရှိပါသလဲ';
+    question = 'how_many'.tr(args: [tr(correctItem),GlobalContext.navigatorKey.currentContext?.locale.languageCode == 'en'?'':'ခု']);
     setState(() {});
     setHistoryList(result: resultList.where((char) => char == correctItem).length, question: question);
   }
@@ -107,7 +87,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
 
     // Step 2: Generate random counts for each selected shape
     resultList = generateRandomCounts(result, 7);
-    question = '${myNames[correctItem] ?? correctItem} ဘယ်နှစ်လုံးရှိပါသလဲ';
+    question = 'how_many'.tr(args: [tr(correctItem),GlobalContext.navigatorKey.currentContext?.locale.languageCode == 'en'?'':'လုံး']);
     setState(() {});
     setHistoryList(result: resultList.where((char) => char == correctItem).length, question: question);
   }
@@ -128,7 +108,15 @@ class _MathCountingGameState extends State<MathCountingGame> {
   }
 
   @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isAnswerFilled = answer != 0;
+
     return Scaffold(
       backgroundColor: Color(0xff7AEEFC),
       appBar: MyAppBar(
@@ -146,10 +134,19 @@ class _MathCountingGameState extends State<MathCountingGame> {
           ),
           child: Column(
             children: [
-              ProgressBarView(currentStep: currentStep, totalSteps: totalSteps),
+              ProgressBarView(currentStep: currentStep+1, totalSteps: totalSteps),
               SizedBox(height: 24,),
-              VoiceItemView(name: myNames[correctItem] ?? correctItem, description: question,),
-              SizedBox(height: 40,),
+              // VoiceItemView(name: myNames[correctItem] ?? correctItem, description: question,),
+              Container(
+                alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(top: 8, bottom: 8, right: 20, left: 20),
+                  // width: context.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage("assets/images/dotted_rectangle.png",), fit: BoxFit.fill),
+                  ),
+                  child: Text(question, style: FontFamily().semiBold,)
+              ),
+              SizedBox(height: 30,),
 
               Expanded(
                 child: SingleChildScrollView(
@@ -177,36 +174,70 @@ class _MathCountingGameState extends State<MathCountingGame> {
                         ),
 
                       SizedBox(height: 40,),
-                      Wrap(
-                          direction: Axis.horizontal,
-                          alignment: WrapAlignment.center,
-                          spacing: 10,
-                          runSpacing: 10,
+
+                      Row(
                           children: [1,2,3,4,5].asMap().entries.map((e) {
-                            return GestureDetector(
-                              onTap: (){
-                                answer = e.value;
-                                int rightAnswerCount = resultList.where((char) => char == correctItem).length;
-                                if(answer==rightAnswerCount){
-                                  print("You are right");
-                                }else{
-                                  print("You are wrong");
-                                }
-                                setState(() {});
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                height: MediaQuery.of(context).size.width * 0.2,
-                                alignment: Alignment.center,
-                                decoration: answer==e.key+1?selectedDecoration():unselectedDecoration(),
-                                child: Text(
-                                  e.value.toString().burmese(),
-                                  style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+                            return Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    answer = e.value;
+                                    int rightAnswerCount = resultList.where((char) => char == correctItem).length;
+                                    if(answer==rightAnswerCount){
+                                      print("You are right");
+                                    }else{
+                                      print("You are wrong");
+                                    }
+                                    setState(() {});
+                                  },
+                                  child: AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: answer==e.key+1?selectedDecoration():unselectedDecoration(),
+                                      child: Text(
+                                        context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
+                                        style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
                           }).toList()
                       ),
+
+                      // Wrap(
+                      //     direction: Axis.horizontal,
+                      //     alignment: WrapAlignment.center,
+                      //     spacing: 10,
+                      //     runSpacing: 10,
+                      //     children: [1,2,3,4,5].asMap().entries.map((e) {
+                      //       return GestureDetector(
+                      //         onTap: (){
+                      //           answer = e.value;
+                      //           int rightAnswerCount = resultList.where((char) => char == correctItem).length;
+                      //           if(answer==rightAnswerCount){
+                      //             print("You are right");
+                      //           }else{
+                      //             print("You are wrong");
+                      //           }
+                      //           setState(() {});
+                      //         },
+                      //         child: Container(
+                      //           width: MediaQuery.of(context).size.width * 0.2,
+                      //           height: MediaQuery.of(context).size.width * 0.2,
+                      //           alignment: Alignment.center,
+                      //           decoration: answer==e.key+1?selectedDecoration():unselectedDecoration(),
+                      //           child: Text(
+                      //             context.locale.languageCode == 'en'?e.value.toString():e.value.toString().burmese(),
+                      //             style:  FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+                      //           ),
+                      //         ),
+                      //       );
+                      //     }).toList()
+                      // ),
                       SizedBox(height: 20,),
                     ],
                   ),
@@ -217,7 +248,8 @@ class _MathCountingGameState extends State<MathCountingGame> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: isAnswerFilled ? (){
+                    _audioPlayer.play(AssetSource('audios/pop.mp3'));
                     int rightAnswerCount = resultList.where((char) => char == correctItem).length;
                     if(answer==rightAnswerCount){
                       correctCount++;
@@ -226,7 +258,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
                     if(currentStep==9){
                       // final score = ((correctCount / totalSteps) * 100).round();
                       context.read<ScoreProvider>().recordScore(
-                          category: GameCategory.math, gameTitle: 'Counting Game', score: correctCount);
+                          category: GameCategory.math, gameTitle: GameTitle.counting, score: correctCount);
                       context.replaceNamed(RouteName.resultView,
                         extra: {'score': correctCount, 'childWidget': CountingResultView(historyList: historyList,)},);
                       return;
@@ -240,10 +272,10 @@ class _MathCountingGameState extends State<MathCountingGame> {
                     }else{
                       getRandomFruitList();
                     }
-                  },
+                  } : null,
                   child: Container(
                       padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                      decoration: selectedTabDecoration(),
+                      decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
                       child:
                       currentStep==9?Text(tr('check')):
                       SvgPicture.asset("assets/icons/next.svg")

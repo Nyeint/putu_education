@@ -33,12 +33,18 @@ class VocabRepoImpl implements VocabRepo {
   Future<ResponseOb> getVocabulary({
     required String subject,
     String? category,
+    int page = 1,
     bool forceRefresh = false,
   }) {
+    // Caching/throttling only applies to the first page - "load more" pages
+    // always go straight to the network.
+    if (page != 1) {
+      return _requestVocabularyFromNetwork(subject, category, page);
+    }
     return _cachedRequest(
       cacheKey: _vocabularyCacheKey(subject, category),
       forceRefresh: forceRefresh,
-      request: () => _requestVocabularyFromNetwork(subject, category),
+      request: () => _requestVocabularyFromNetwork(subject, category, page),
     );
   }
 
@@ -76,7 +82,8 @@ class VocabRepoImpl implements VocabRepo {
     return completer.future;
   }
 
-  Future<ResponseOb> _requestVocabularyFromNetwork(String subject, String? category) {
+  Future<ResponseOb> _requestVocabularyFromNetwork(
+      String subject, String? category, int page) {
     final completer = Completer<ResponseOb>();
     network.dioReq(
       ReqType.Get,
@@ -84,6 +91,7 @@ class VocabRepoImpl implements VocabRepo {
       params: {
         'subject': subject,
         if (category != null) 'category': category,
+        'page': page,
       },
       callBack: (ResponseOb ob) => completer.complete(ob),
     );
@@ -107,7 +115,8 @@ class VocabRepoImpl implements VocabRepo {
       return null;
     }
 
-    if (!_hasData(json)) return null; // no data -> ignore the 5 min rule, refetch
+    if (!_hasData(json))
+      return null; // no data -> ignore the 5 min rule, refetch
 
     final cachedAt = DateTime.fromMillisecondsSinceEpoch(cachedAtMillis);
     final isFresh = DateTime.now().difference(cachedAt) < _cacheTtl;

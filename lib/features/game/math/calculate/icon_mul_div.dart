@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/features/game/math/calculate/text_widget.dart';
 import 'package:putu_education/features/game/math/calculate/what_is.dart';
-import 'package:putu_education/features/game/math/calculate_game.dart';
+import 'package:putu_education/features/topics/presentation/pages/games/calculate_game.dart';
 
 class IconsMultiplyDivide extends StatelessWidget {
   final String fruitOne;
@@ -12,9 +12,10 @@ class IconsMultiplyDivide extends StatelessWidget {
   final int a;
   final int b;
   final CalculateType type;
+  final int? result;
   bool? isHistory;
   IconsMultiplyDivide({super.key, required this.fruitOne, required this.fruitTwo, required this.a, required this.b, required this.type,
-  this.isHistory=false});
+  this.result, this.isHistory=false});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class IconsMultiplyDivide extends StatelessWidget {
                 height: isHistory!?context.width*0.08:context.width*0.12, width: isHistory!?context.width*0.26:context.width*0.3,):
               TextWidget(text:b.toString()),
               TextWidget(text:' = '),
-              WhatIsWidget()
+              WhatIsWidget(answer: isHistory! && result != null ? result.toString() : null)
             ],
           ),
         ),

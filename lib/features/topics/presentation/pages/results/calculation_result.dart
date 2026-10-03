@@ -2,11 +2,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/config.dart';
-import '../../model/calculate_history.dart';
-import '../../../topics/presentation/pages/games/calculate_game.dart';
-import 'digit_plus_minus.dart';
-import 'icon_mul_div.dart';
-import 'icon_plus_minus.dart';
+import '../../../../game/model/calculate_history.dart';
+import '../games/calculate_game.dart';
+import '../../../../game/math/calculate/digit_plus_minus.dart';
+import '../../../../game/math/calculate/icon_mul_div.dart';
+import '../../../../game/math/calculate/icon_plus_minus.dart';
 
 class CalculationResultView extends StatelessWidget {
   List<CalculateHistoryModel> historyList;
@@ -17,6 +17,7 @@ class CalculationResultView extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
+
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         width: context.width-32,
         decoration: BoxDecoration(
@@ -35,13 +36,10 @@ class CalculationResultView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          width: context.width*0.7,
-                          // color: Colors.amber,
+                        Expanded(
                           child: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.start,
                             runAlignment: WrapAlignment.start,
                             alignment: WrapAlignment.start,
                             // // alignment: WrapAlignment.start,
@@ -49,9 +47,18 @@ class CalculationResultView extends StatelessWidget {
                             // direction: Axis.horizontal,
                             // alignment: WrapAlignment.start,
                             children: [
-                              Text(
-                                  '${context.locale.languageCode == 'en'?(index+1).toString():(index+1).toString().burmese()} .',
-                                  style: FontFamily().medium
+                              // Text(
+                              //     '${context.locale.languageCode == 'en'?(index+1).toString():(index+1).toString().burmese()} .',
+                              //     style: FontFamily().medium
+                              // ),
+                              Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  color: ColorResources.primary.withOpacity(0.15),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(Icons.check_rounded, color: ColorResources.math, size: 20),
                               ),
                               SizedBox(width: 10,),
                               // Text(data.type.toString()),
@@ -72,6 +79,7 @@ class CalculationResultView extends StatelessWidget {
                                 a: data.data![0],
                                 b: data.data![1],
                                 c: data.data![2],
+                                result: data.result,
                                 isHistory: true,
                               ):
                                   // Text(data.type.toString())
@@ -81,13 +89,14 @@ class CalculationResultView extends StatelessWidget {
                                 type: data.type!,
                                 fruitOne: data.fruit![0],
                                 fruitTwo: data.fruit![1],
+                                result: data.result,
                                 isHistory: true,
                               )
                             ],
                           ),
                         ),
                         SizedBox(width: 10,),
-                        Text(data.result.toString(), style: FontFamily().bold.copyWith(color: ColorResources.math),),
+                        // Text(data.result.toString(), style: FontFamily().bold.copyWith(color: ColorResources.math),),
                       ],
                     ),
                     if(data!=historyList.last)

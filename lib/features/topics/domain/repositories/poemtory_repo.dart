@@ -7,7 +7,7 @@ abstract class PoemToryRepo {
   /// code for the content: 'en' for English, 'my' for Myanmar. [page] is the
   /// 1-based page to request.
   ///
-  /// Page 1 is subject to a 5 minute cache: a call within 5 minutes of the
+  /// Page 1 is subject to a 10 minute cache: a call within 10 minutes of the
   /// last one that returned data is served from cache instead of hitting the
   /// network, unless [forceRefresh] is set (pull-to-refresh) or the cached
   /// result had no data, in which case the cache is bypassed and the network

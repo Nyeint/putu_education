@@ -8,7 +8,7 @@ abstract class PoemToryEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Initial load of page 1. Serves cached data when it's fresh (< 5 minutes
+/// Initial load of page 1. Serves cached data when it's fresh (< 10 minutes
 /// old) and non-empty; otherwise hits the network.
 /// [poemtoryType] selects the content type (e.g. 'poem', 'story', 'song').
 /// [subject] is 'en' for English, 'my' for Myanmar.
@@ -23,7 +23,7 @@ class PoemToriesRequested extends PoemToryEvent {
 }
 
 /// Pull-to-refresh: always re-fetches page 1 from the network (bypassing the
-/// 5 minute cache rule) and overwrites the cache with the fresh result.
+/// 10 minute cache rule) and overwrites the cache with the fresh result.
 class PoemToriesRefreshRequested extends PoemToryEvent {
   final String poemtoryType;
   final String subject;

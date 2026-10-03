@@ -14,7 +14,7 @@ class PoemToryRepoImpl implements PoemToryRepo {
 
   PoemToryRepoImpl(this.network);
 
-  static const Duration _cacheTtl = Duration(minutes: 5);
+  static const Duration _cacheTtl = Duration(minutes: 10);
 
   String _cacheKey(String poemtoryType, String subject) =>
       'poemtory_cache_${poemtoryType}_$subject';
@@ -59,7 +59,7 @@ class PoemToryRepoImpl implements PoemToryRepo {
   }
 
   /// Returns the cached page-1 response body, or null if there is no cache,
-  /// the cache is stale (older than 5 minutes), or the cached result had no
+  /// the cache is stale (older than 10 minutes), or the cached result had no
   /// data - in every one of those cases the caller should hit the network.
   Future<Map<String, dynamic>?> _readCache(String poemtoryType, String subject) async {
     final prefs = await SharedPreferences.getInstance();

@@ -1,15 +1,16 @@
 // Path: calculation/addition_view.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:putu_education/features/math/calculation/widgets/example_item.dart';
-import '../../../app/config/config.dart';
-import '../../widgets/item_decoration.dart';
+import 'package:putu_education/features/topics/presentation/pages/math/calculation/widgets/example_item.dart';
+import '../../../../../../app/config/config.dart';
+import '../../../../../widgets/item_decoration.dart';
 
 const double _kTabBarExtent = 64;
 
 class AdditionView extends StatefulWidget {
-  final String? locale;
-  AdditionView({super.key, required this.locale});
+  // final String? locale;
+  final String? learnLanguageType;
+  AdditionView({super.key, required this.learnLanguageType});
 
   @override
   State<AdditionView> createState() => _AdditionViewState();
@@ -34,7 +35,7 @@ class _AdditionViewState extends State<AdditionView> {
             : unselectedTabDecoration(),
         child: Center(
           child: Text(
-            widget.locale == 'en'
+            widget.learnLanguageType == 'en'
                 ? '${number + 1} - ${number + 5}'
                 : '${(number + 1).toString().burmese()} - ${(number + 5).toString().burmese()}',
             style: FontFamily().medium.copyWith(fontSize: 16),
@@ -46,7 +47,7 @@ class _AdditionViewState extends State<AdditionView> {
 
   Widget textWidget(String text) {
     return Text(
-      widget.locale == 'en' ? text : text.burmese(),
+      widget.learnLanguageType == 'en' ? text : text.burmese(),
       style: FontFamily().medium.copyWith(fontSize: FontSize().twenty),
     );
   }
@@ -78,6 +79,7 @@ class _AdditionViewState extends State<AdditionView> {
                       secondOnes: '6',
                       thirdTens: '7',
                       thirdOnes: '9',
+                      learnLanguageType: widget.learnLanguageType!,
                     ),
                     Container(
                       padding: EdgeInsets.all(5),
@@ -85,7 +87,7 @@ class _AdditionViewState extends State<AdditionView> {
                         border: Border.all(color: Colors.black, width: 2),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(tr('answer'), style: FontFamily().regular),
+                      child: Text(widget.learnLanguageType == 'en' ? 'Answer':'အဖြေ', style: FontFamily().regular),
                     ),
                   ],
                 ),

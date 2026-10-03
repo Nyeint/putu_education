@@ -1,4 +1,4 @@
-// Path: topics/presentation/pages/games/word_game.dart
+// Path: topics/presentation/pages/games/en_word_game.dart
 import 'package:audioplayers/audioplayers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:putu_education/features/game/widgets/progress_bar.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
 import 'package:putu_education/features/widgets/my_appbar.dart';
 import 'package:putu_education/route/route_name.dart';
+import '../../../../game/widgets/audio_prompt_view.dart';
 import '../../../data/model/game_model.dart';
 import '../../bloc/game_bloc/game_bloc.dart';
 
@@ -63,11 +64,19 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
 
   String _prompt(GameData question) => (_isEnglish ? question.prompt : question.promptMm) ?? '';
 
-  String _audioUrl(GameData question) => (_isEnglish ? question.audio : question.audioMm) ?? '';
+  String _audioUrl(GameData question) =>
+      question.options?.firstWhere((o) => o.isCorrect == true, orElse: () => Options()).audioUrl ?? '';
 
   /// Plays the question's pre-recorded prompt audio (no TTS involved).
   Future<void> _playAudio(GameData question) async {
+    await Future.delayed(Duration(milliseconds: 500));
+    print("Question--> ${question.toJson()}");
+    print('One--> ${question.options![0].toJson()}');
+    print('Two--> ${question.options![1].toJson()}');
+    print('Three--> ${question.options![2].toJson()}');
+    print('Four--> ${question.options![3].toJson()}');
     final url = _audioUrl(question);
+    print("Url--> $url");
     if (url.isEmpty) return;
     try {
       await _audioPlayer.stop();
@@ -108,7 +117,8 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
     _hasNavigatedToResult = true;
 
     context.read<ScoreProvider>().recordScore(
-        category: GameCategory.english, gameTitle: 'Word Game', score: correctCount);
+        category: _isEnglish ? GameCategory.english : GameCategory.myanmar,
+        gameTitle: _isEnglish ? 'Word Game' : 'စကားလုံးဂိမ်း', score: correctCount);
     context.replaceNamed(RouteName.resultView,
       extra: {'score': correctCount, 'maxScore': totalSteps, 'childWidget': WordResultView(historyList: historyList)},);
   }
@@ -118,7 +128,7 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
     return Scaffold(
       backgroundColor: Color(0xff7AEEFC),
       appBar: MyAppBar(
-        titleWithGoBack: '${tr('word')} ${tr('game')}',
+        titleWithGoBack: _isEnglish ? '${tr('word')} ${tr('game')}' : 'စကားလုံးရှာမယ်',
       ),
       body: SafeArea(
         bottom: false,
@@ -171,72 +181,69 @@ class _EnglishWordGameState extends State<EnglishWordGame> {
                 final question = questions[currentStep];
                 final options = question.options ?? [];
 
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ProgressBarView(currentStep: currentStep + 1, totalSteps: questions.length),
-                      SizedBox(height: 24,),
-                      GestureDetector(
-                        onTap: () => _playAudio(question),
-                        child: Container(
-                          padding: EdgeInsets.only(top: 8, bottom: 8, right: 20, left: 20),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: AssetImage("assets/images/dotted_rectangle.png"), fit: BoxFit.fill),
+                return Stack(
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ProgressBarView(currentStep: currentStep + 1, totalSteps: questions.length),
+                          SizedBox(height: 24,),
+                          AudioPromptView(
+                            description: _prompt(question),
+                            onPlayAudio: () => _playAudio(question),
                           ),
-                          child: Row(
-                            children: [
-                              Icon(Icons.volume_up_rounded, color: ColorResources.primary),
-                              SizedBox(width: 10,),
-                              Expanded(
-                                child: Text(_prompt(question), style: FontFamily().semiBold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 40,),
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: ColorResources.primary, width: 1),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: ColorResources.lightBg.withOpacity(0.5)
-                        ),
-                        child: GridView.builder(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 1,
-                                crossAxisSpacing: 15, mainAxisSpacing: 15,
-                                crossAxisCount: 2
+                          SizedBox(height: 24,),
+                          Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: ColorResources.primary, width: 1),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                color: ColorResources.lightBg.withOpacity(0.5)
                             ),
-                            itemCount: options.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                  onTap: () => setState(() => selectedIndex = index),
-                                  child: FrontFlipCardItem(
-                                    image: options[index].imageUrl ?? options[index].image ?? '',
-                                    isSelected: selectedIndex == index,
-                                  )
-                              );
-                            }
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: GestureDetector(
-                          onTap: selectedIndex == -1 ? null : () => _goToNext(questions),
-                          child: Container(
-                              padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                              decoration: selectedIndex == -1 ? unselectedDecoration() : selectedTabDecoration(),
-                              child: currentStep == questions.length - 1 ? Text(tr('check')):
-                              SvgPicture.asset("assets/icons/next.svg")
+                            child: GridView.builder(
+                              padding: EdgeInsets.zero,
+                                physics: ScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 1,
+                                    crossAxisSpacing: 15, mainAxisSpacing: 15,
+                                    crossAxisCount: 2
+                                ),
+                                itemCount: options.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                      onTap: () => setState(() => selectedIndex = index),
+                                      child: FrontFlipCardItem(
+                                        image: options[index].imageUrl ?? options[index].image ?? '',
+                                        isSelected: selectedIndex == index,
+                                      )
+                                  );
+                                }
+                            ),
                           ),
+                          SizedBox(height: 90,),
+                        ],
+                      ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
+                    ),
+                    Positioned(
+                      right: 16,
+                      bottom: 80 + MediaQuery.of(context).padding.bottom,
+                      child: GestureDetector(
+                        onTap: () {
+                          if(selectedIndex!=-1){
+                            _audioPlayer.play(AssetSource('audios/pop.mp3'));
+                            _goToNext(questions);
+                          }
+                        },
+                        child: Container(
+                            padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
+                            decoration: selectedIndex == -1 ? unselectedDecoration() : selectedTabDecoration(),
+                            child: currentStep == questions.length - 1 ? Text(tr('check')):
+                            SvgPicture.asset("assets/icons/next.svg")
                         ),
                       ),
-                    ],
-                  ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
+                    ),
+                  ],
                 );
               },
             ),

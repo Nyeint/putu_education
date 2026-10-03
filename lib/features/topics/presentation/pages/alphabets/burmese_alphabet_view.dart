@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:putu_education/app/config/config.dart';
 
-import '../../widgets/go_button.dart';
-import '../../widgets/item_decoration.dart';
-import '../../widgets/my_appbar.dart';
-import '../../widgets/my_icon.dart';
+import '../../../../widgets/go_button.dart';
+import '../../../../widgets/item_decoration.dart';
+import '../../../../widgets/my_appbar.dart';
+import '../../../../widgets/my_icon.dart';
 
 class MyanmarAlphabetView extends StatefulWidget {
   const MyanmarAlphabetView({super.key});
@@ -56,7 +56,7 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
     return Scaffold(
       backgroundColor: ColorResources.background,
       appBar: MyAppBar(
-        titleWithGoBack: tr('alphabets'),
+        titleWithGoBack: 'အက္ခရာများ',
       ),
       body: SafeArea(
         bottom: false,

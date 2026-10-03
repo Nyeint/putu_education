@@ -23,7 +23,7 @@ class _MyanmarGameViewState extends State<MyanmarGameView> {
     return Scaffold(
       backgroundColor: Color(0xff7AEEFC),
       appBar: MyAppBar(
-        titleWithGoBack: '${tr('myanmar')} ${tr('game')}',
+        titleWithGoBack: 'ကစားကြမယ်',
       ),
       body: Container(
         height: context.height,
@@ -40,11 +40,25 @@ class _MyanmarGameViewState extends State<MyanmarGameView> {
                 child: Column(
                   children: [
                     TitleItemWidget(
-                        title: "${tr('word_sort')}${tr('game')}",
+                        title: "စကားလုံးရှာမယ်",
+                        iconName: 'mm_word',
+                        goTo: RouteName.myanmarWordSortGame,
+                        score: scoreProvider.gameHighScore(GameCategory.myanmar,
+                            "စကားလုံးဂိမ်း")),
+                    SizedBox(height: 10,),
+                    TitleItemWidget(
+                        title: "စကားလုံးဆက်မယ်",
                         iconName: 'mm_word_sort',
                         goTo: RouteName.myanmarWordSortGame,
                         score: scoreProvider.gameHighScore(GameCategory.myanmar,
-                            'Word Sorting Game')),
+                            "စာလုံးစီဂိမ်း")),
+                    SizedBox(height: 10,),
+                    TitleItemWidget(
+                        title: "စာကြောင်းစီမယ်",
+                        iconName: 'mm_sentence_sort',
+                        goTo: RouteName.myanmarWordSortGame,
+                        score: scoreProvider.gameHighScore(GameCategory.myanmar,
+                            "စာလုံးစီဂိမ်း")),
                   ],
                 )
                     .pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),

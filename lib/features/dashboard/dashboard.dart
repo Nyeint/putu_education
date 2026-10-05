@@ -97,7 +97,8 @@ class _DashboardViewState extends State<DashboardView> {
         Text(
           tr(item.titleKey),
           style: FontFamily().medium.copyWith(
-              fontSize: context.locale.languageCode == 'en' ? 14 : 12),
+              fontSize: context.locale.languageCode == 'en' ? 14 : 12,
+          fontWeight: FontWeight.w400),
         ),
       ],
     );

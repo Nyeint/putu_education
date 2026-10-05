@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:putu_education/app/config/config.dart';
+import 'package:putu_education/app/widgets/banner_ad_widget.dart';
 import 'package:putu_education/data/model/game_category.dart';
 import 'package:putu_education/data/providers/score_provider.dart';
 import 'package:putu_education/features/game/widgets/title_item.dart';
@@ -26,6 +27,7 @@ class _EnglishGameViewState extends State<EnglishGameView> {
       appBar: MyAppBar(
         titleWithGoBack: '${tr('english')} ${tr('game')}',
       ),
+      // bottomNavigationBar: const BannerAdWidget(),
       body: Container(
         height: context.height,
         width: context.width,

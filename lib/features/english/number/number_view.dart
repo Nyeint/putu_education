@@ -7,6 +7,7 @@ import 'package:putu_education/features/widgets/go_button.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
 import 'package:putu_education/features/widgets/my_appbar.dart';
 import '../../../app/service/tts_service.dart';
+import '../../../app/widgets/banner_ad_widget.dart';
 import '../../widgets/my_icon.dart';
 
 class EnglishNumberView extends StatefulWidget {
@@ -55,8 +56,9 @@ class _EnglishNumberViewState extends State<EnglishNumberView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
-        titleWithGoBack: tr('english'),
+        titleWithGoBack: 'Numbers',
       ),
       body: SafeArea(
         bottom: false,
@@ -143,18 +145,17 @@ class _EnglishNumberViewState extends State<EnglishNumberView> {
                 ),
               ),
               if(currentPage>1)
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: GestureDetector(
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: GestureDetector(
                     onTap: () {
                       setState(() {
                         currentPage--;
                         selectedNumber = ((currentPage-1)*10+1).toInt();
-                      });
-                    },
+                      });},
                     child: GoButton(isNext: false),
-                ).pad(bottom: 10),
-              ),
+                  ).pad(bottom: 16),
+                ).pad(bottom: 16),
               if(currentPage<=lastPage)
               Align(
                 alignment: Alignment.bottomRight,
@@ -166,8 +167,8 @@ class _EnglishNumberViewState extends State<EnglishNumberView> {
                       });
                     },
                     child: GoButton(isNext: true),
-                )
-              )
+                ).pad(bottom: 16)
+              ).pad(bottom: 16)
             ],
           ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
         ),

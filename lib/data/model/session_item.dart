@@ -5,6 +5,7 @@ import 'package:putu_education/app/utils/en_types.dart';
 import 'package:putu_education/route/my_router.dart';
 
 import '../../features/topics/presentation/pages/math/math_view.dart';
+import '../../features/topics/presentation/pages/poemtory/poemtory_list_view.dart';
 
 /// Which top-level learning category a session belongs to.
 enum SessionCategory { english, myanmar }
@@ -88,77 +89,82 @@ class SessionItem {
         ),
       ),
     ),
-    SessionItem(
-      id: 'en_game',
-      category: SessionCategory.english,
-      titleKey: 'game',
-      iconName: 'playing_game',
-      onTap: (context) => context.pushNamed(RouteName.englishGame),
-    ),
+    // SessionItem(
+    //   id: 'en_game',
+    //   category: SessionCategory.english,
+    //   titleKey: 'game',
+    //   iconName: 'playing_game',
+    //   onTap: (context) => context.pushNamed(RouteName.englishGame),
+    // ),
 
     // ---- Myanmar (8) ----
     SessionItem(
       id: 'mm_numbers',
       category: SessionCategory.myanmar,
-      titleKey: 'numbers',
+      titleKey: 'နံပါတ်များ',
       iconName: 'category_number',
       onTap: (context) => context.pushNamed(RouteName.myanmarNumber),
     ),
     SessionItem(
       id: 'mm_alphabets',
       category: SessionCategory.myanmar,
-      titleKey: 'alphabets',
+      titleKey: 'အက္ခရာများ',
       iconName: 'category_mm_alphabet',
       onTap: (context) => context.pushNamed(RouteName.myanmarAlphabet),
     ),
     SessionItem(
       id: 'mm_vocabulary',
       category: SessionCategory.myanmar,
-      titleKey: 'vocabulary',
+      titleKey: 'ဝေါဟာရ',
       iconName: 'category_vocabulary',
       onTap: (context) => context.pushNamed(RouteName.myanmarVocabulary),
     ),
     SessionItem(
       id: 'mm_poems',
       category: SessionCategory.myanmar,
-      titleKey: 'poems',
+      titleKey: 'ကဗျာများ',
       iconName: 'category_poem',
-      onTap: (context) => context.pushNamed(RouteName.englishPoem),
+      onTap: (context) =>  Navigator.push(context,
+          MaterialPageRoute(builder: (context) =>  PoemToryListView(
+            poemtoryType: 'poems', subject: 'mm',
+            title: 'ကဗျာများ',
+          ))
+      ),
     ),
     SessionItem(
       id: 'mm_stories',
       category: SessionCategory.myanmar,
-      titleKey: 'stories',
+      titleKey: 'ပုံပြင်များ',
       iconName: 'category_story',
-      onTap: (context) => context.pushNamed(RouteName.englishNumber),
+      onTap: (context) =>  Navigator.push(context,
+          MaterialPageRoute(builder: (context) =>  PoemToryListView(
+            poemtoryType: 'poems', subject: 'mm',
+            title: 'ပုံပြင်များ',
+          ))
+      ),
     ),
     SessionItem(
       id: 'mm_songs',
       category: SessionCategory.myanmar,
-      titleKey: 'songs',
+      titleKey: 'သီချင်းများ',
       iconName: 'category_song',
-      onTap: (context) => context.pushNamed(RouteName.englishNumber),
+      onTap: (context) => Navigator.push(context,
+          MaterialPageRoute(builder: (context) =>  PoemToryListView(
+            poemtoryType: 'songs', subject: 'mm',
+            title: 'သီချင်းများ',
+          ))
+      ),
     ),
     SessionItem(
       id: 'mm_math',
       category: SessionCategory.myanmar,
-      titleKey: 'math',
+      titleKey: 'သင်္ချာ',
       iconName: 'category_math',
-      onTap: (context) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MathView(
-            learnLanguageType: LearnLanguageType.mm.name,
-          ),
-        ),
+      onTap: (context) => Navigator.push(context,
+          MaterialPageRoute(builder: (context) =>  MathView(
+            learnLanguageType: 'mm',
+          ))
       ),
-    ),
-    SessionItem(
-      id: 'mm_game',
-      category: SessionCategory.myanmar,
-      titleKey: 'game',
-      iconName: 'playing_game',
-      onTap: (context) => context.pushNamed(RouteName.myanmarGame),
-    ),
+    )
   ];
 }

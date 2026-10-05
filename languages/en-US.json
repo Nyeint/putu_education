@@ -98,5 +98,19 @@
   "search_hint": "Search for fun...",
   "no_result_title": "Oops! Let's try another word!",
   "no_result_desc": "We couldn't find anything for that.",
-  "go_back": "Go Back"
+  "go_back": "Go Back",
+
+  "check_for_update": "Check for Update",
+  "tap_for_check_version": "Tap to check for a new version",
+  "no_need_update_title": "You're up to date!",
+  "no_need_update_description": "You are using the latest version.\nVersion {}",
+  "new_version_available_title": "A new version is available!",
+  "new_version_available_description": "Version {} is now available.",
+
+  "contact_us": "Contact Us",
+  "contact_us_description": "Get in touch with us",
+
+  "about_putu": "About PuTu",
+  "about_putu_description": "App information and details",
+  "about_putu_detail": "PuTu is an educational app specially designed to help children learn English, Burmese, and mathematics. The app includes letters, words, sentences, stories, songs, and math games that support children’s learning and help develop their skills."
 }

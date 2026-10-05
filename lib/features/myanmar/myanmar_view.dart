@@ -10,6 +10,7 @@ import 'package:putu_education/features/widgets/sub_item_widget.dart';
 import 'package:putu_education/route/my_router.dart';
 import '../../app/config/font_family.dart';
 import '../../app/utils/en_types.dart';
+import '../../app/widgets/banner_ad_widget.dart';
 import '../topics/presentation/pages/math/math_view.dart';
 import '../topics/presentation/pages/math/math_view.dart';
 import '../topics/presentation/pages/poemtory/poemtory_list_view.dart';
@@ -28,6 +29,7 @@ class _MyanmarViewState extends State<MyanmarView> {
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: ColorResources.background,
+      // bottomNavigationBar: const BannerAdWidget(),
       body: Container(
         height: context.height,
         decoration: BoxDecoration(

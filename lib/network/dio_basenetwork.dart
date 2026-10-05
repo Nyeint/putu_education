@@ -2,9 +2,28 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter/material.dart';
+import '../app/config/global_context.dart';
+import '../app/widgets/err_state_widget/maintain_widget.dart';
 import '../data/model/response_ob.dart';
 
 class DioBaseNetwork {
+  static bool _maintenanceShown = false;
+
+  // Full-screen maintenance page; "Try Again" closes it and re-sends the request.
+  void _showMaintenance(Future<void> Function() retry) {
+    final nav = GlobalContext.navigatorKey.currentState;
+    if (_maintenanceShown || nav == null) return;
+    _maintenanceShown = true;
+    nav.push(MaterialPageRoute(
+      builder: (_) => ServerMaintenance(fun: () {
+        _maintenanceShown = false;
+        nav.pop();
+        retry();
+      }),
+    ));
+  }
+
   Future<Map<String, String?>> getHeader() async {
     String os = "";
 
@@ -126,7 +145,11 @@ class DioBaseNetwork {
 
       int? statusCode = response.statusCode;
       ResponseOb respOb = ResponseOb(); //data,message,err
-
+// if(statusCode==200){
+//   _showMaintenance(() => dioReq(rt,
+//       url: url, params: params, fd: fd, callBack: callBack, isCached: isCached));
+//   return;
+// }
       if (statusCode == 200) {
 
         respOb.message = MsgState.data;
@@ -150,9 +173,9 @@ class DioBaseNetwork {
           respOb.data = "Internal Server Error";
           respOb.errState = ErrState.server_error;
         } else if (e.response!.statusCode == 503) {
-          respOb.message = MsgState.error;
-          respOb.data = "System Maintenance";
-          respOb.errState = ErrState.server_maintain;
+          _showMaintenance(() => dioReq(rt,
+              url: url, params: params, fd: fd, callBack: callBack, isCached: isCached));
+          return;
         } else if (e.response!.statusCode == 404) {
           respOb.message = MsgState.error;
           respOb.data = "Your requested data not found";

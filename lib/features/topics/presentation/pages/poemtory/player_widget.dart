@@ -370,7 +370,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                           onTap: () =>  _seekBy(const Duration(seconds: 10)),
                           child: SizedBox(
                             width: context.width * 0.12,
-                            child: Image.asset('assets/icons/skip_forward.png',),
+                            child: Image.asset('assets/icons/skip_forward.png',)
                           ),
                         ),
                         // IconButton(

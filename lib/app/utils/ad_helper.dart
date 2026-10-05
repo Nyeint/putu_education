@@ -1,13 +1,18 @@
 // Path: utils/ad_helper.dart
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 
 class AdHelper {
-
+  // Debug builds always use Google's official test IDs.
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
-      return 'ca-app-pub-3940256099942544/6300978111';
+      return kDebugMode
+          ? 'ca-app-pub-3940256099942544/6300978111'
+          : 'TODO_ANDROID_BANNER_AD_UNIT_ID'; // TODO: real Android banner ID
     } else if (Platform.isIOS) {
-      return 'ca-app-pub-3940256099942544/2934735716';
+      return kDebugMode
+          ? 'ca-app-pub-3940256099942544/2934735716'
+          : 'TODO_IOS_BANNER_AD_UNIT_ID'; // TODO: real iOS banner ID
     } else {
       throw UnsupportedError('Unsupported platform');
     }

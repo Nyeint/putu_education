@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/features/topics/presentation/pages/poemtory/player_widget.dart';
 import 'package:putu_education/features/topics/data/model/poemtory_list_model.dart';
+import '../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../widgets/my_appbar.dart';
 import 'package:markdown/markdown.dart' as markdown;
 
@@ -156,6 +157,7 @@ class _PoemToryDetailViewState extends State<PoemToryDetailView> {
         bottom: false,
         child: Scaffold(
           backgroundColor: ColorResources.background,
+          bottomNavigationBar: const BannerAdWidget(),
           appBar: MyAppBar(
             titleWithGoBack: widget.data.title ?? '',
           ),

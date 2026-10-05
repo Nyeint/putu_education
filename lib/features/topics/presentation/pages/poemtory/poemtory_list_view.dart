@@ -16,6 +16,7 @@ import 'package:putu_education/app/widgets/loading_widgets.dart';
 import 'package:putu_education/features/topics/presentation/pages/poemtory/poemtory_detail.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
 import 'package:putu_education/route/my_router.dart';
+import '../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../widgets/my_appbar.dart';
 import '../../../data/model/poemtory_list_model.dart';
 import '../../bloc/poemtory_bloc/poemtory_bloc.dart';
@@ -235,6 +236,7 @@ class _PoemToryListViewState extends State<PoemToryListView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorResources.background,
+        bottomNavigationBar: const BannerAdWidget(),
         appBar: MyAppBar(
           titleWithGoBack: widget.title,
           // titleWithGoBack: tr(widget.poemtoryType),

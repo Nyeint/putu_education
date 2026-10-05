@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -20,7 +21,7 @@ class AboutPutuView extends StatelessWidget {
         ),
         child: Column(
           children: [
-            MyAppBar(titleWithGoBack: 'About PuTu'),
+            MyAppBar(titleWithGoBack: tr('about_putu')),
             const SizedBox(height: 28),
             Expanded(
               child: ListView(
@@ -35,7 +36,7 @@ class AboutPutuView extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(28),
@@ -57,14 +58,17 @@ class AboutPutuView extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 10),
-                                  const Text(
-                                    'A fun learning app for kids to explore languages, words, numbers and more.',
-                                    style: TextStyle(fontSize: 16, height: 1.4),
-                                  ),
+
                                 ],
                               ),
                             ),
                           ],
+                        ),
+                        Text(
+                          tr('about_putu_detail'),
+                          style:
+                          TextStyle(fontSize: 15, height: 1.4,
+                          fontWeight: FontWeight.w400,),
                         ),
                         const SizedBox(height: 16),
                         GestureDetector(

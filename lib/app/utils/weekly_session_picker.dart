@@ -12,7 +12,7 @@ import 'package:putu_education/data/model/session_item.dart';
 class WeeklySessionPicker {
   WeeklySessionPicker._();
 
-  static const int pickCount = 4;
+  static const int pickCount = 14;
 
   /// Returns [pickCount] sessions drawn from all 16, stable for the week
   /// containing [now] (defaults to the current time).

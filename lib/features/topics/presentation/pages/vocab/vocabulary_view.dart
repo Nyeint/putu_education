@@ -9,11 +9,12 @@ import 'package:putu_education/app/service/locator.dart';
 import 'package:putu_education/app/widgets/loading_widgets.dart';
 import 'package:putu_education/features/widgets/item_voice_dialog.dart';
 import 'package:putu_education/features/widgets/item_voice_widget.dart';
-import '../../../widgets/item_decoration.dart';
-import '../../../widgets/my_appbar.dart';
-import '../bloc/vocab_bloc/vocab_bloc.dart';
-import '../../data/model/vocab_category_model.dart';
-import '../../data/model/vocab_word_model.dart';
+import '../../../../../app/widgets/banner_ad_widget.dart';
+import '../../../../widgets/item_decoration.dart';
+import '../../../../widgets/my_appbar.dart';
+import '../../bloc/vocab_bloc/vocab_bloc.dart';
+import '../../../data/model/vocab_category_model.dart';
+import '../../../data/model/vocab_word_model.dart';
 
 /// Shared vocabulary screen for both languages. [subject] is the API's
 /// language code for the words being requested ('en' or 'my') and also
@@ -250,6 +251,7 @@ class _VocabularyViewState extends State<VocabularyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
         titleWithGoBack: tr('vocabulary'),
       ),

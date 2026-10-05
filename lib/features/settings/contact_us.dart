@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,7 +20,7 @@ class ContactUsView extends StatelessWidget {
         ),
         child: Column(
           children: [
-            MyAppBar(titleWithGoBack: 'Contact Us'),
+            MyAppBar(titleWithGoBack: tr('contact_us')),
             const SizedBox(height: 28),
             Expanded(
               child: ListView(

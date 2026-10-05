@@ -1,12 +1,6 @@
-// Path: alphabet/burmese_alphabet_view.dart
 import 'dart:math';
-
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:provider/single_child_widget.dart';
 import 'package:putu_education/app/config/config.dart';
 
 import '../../../../../app/widgets/banner_ad_widget.dart';
@@ -23,30 +17,20 @@ class EnglishAlphabetView extends StatefulWidget {
 }
 
 class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
-  late FlutterTts flutterTts;
   List<String> letterList = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-  List<String> pronounceList = ['a/eɪ/','bee/biː/','cee/siː/','dee/diː/','e/iː/','ef/ɛf/','gee/dʒiː/','(h)aitch/(h)eɪtʃ/',
-    'i/aɪ/','jay/dʒeɪ/','kay/keɪ/','el/ɛl/','em/ɛm/','en/ɛn/','o/oʊ/','pee/piː/','cue/kjuː/','ar/ɑːr/','ess/ɛs/','tee/tiː/','u/juː','vee/viː/',
-    'double-u/ˈdʌbəl.juː/','ex/ɛks/','wy/waɪ/','zee/zed/zi/zɛd/'];
+  List<String> pronounceList = ['[eɪ]','[biː]','[siː]','[diː]','[iː]','[ɛf]','[dʒiː]','[eɪtʃ]',
+    '[aɪ]','[dʒeɪ]','[keɪ]','[ɛl]','[ɛm]','[ɛn]','[oʊ]','[piː]','[kjuː]','[ar]','[ɛs]','[tiː]','[juː]','[viː]',
+    '[dʌbəl.juː]','[ɛks]','[waɪ]','[ziː]'];
   int selectedIndex = 0;
   static const _pageSize = 10;
   int _page = 0;
   int get _pageCount => (letterList.length / _pageSize).ceil();
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    initTts();
-  }
-
-  Future _setAwaitOptions() async {
-    await flutterTts.awaitSpeakCompletion(true);
-  }
-
-  initTts() {
-    flutterTts = FlutterTts();
-    _setAwaitOptions();
   }
 
   @override
@@ -101,7 +85,9 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
                       right: 16,
                       top: 16,
                       child: GestureDetector(
-                          onTap: () async => await flutterTts.speak(letterList[selectedIndex].toLowerCase()),
+                          onTap: (){
+                            _audioPlayer.play(AssetSource('audios/english-alphabet/${letterList[selectedIndex].toLowerCase()}.mp3'));
+                          },
                           child: MyIcon(iconName: 'volume',)),
                     )
                   ],
@@ -123,13 +109,14 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
                             setState(() {
                               selectedIndex = index;
                             });
-                            await flutterTts.setLanguage("en-US");
-                            // await flutterTts.setVolume(0.9);
-                            await flutterTts.setSpeechRate(0.2);
-                            await flutterTts.setPitch(0.9);
-
-
-                            await flutterTts.speak(letterList[selectedIndex].toLowerCase());
+                            // await flutterTts.setLanguage("en-US");
+                            // // await flutterTts.setVolume(0.9);
+                            // await flutterTts.setSpeechRate(0.2);
+                            // await flutterTts.setPitch(0.9);
+                            //
+                            //
+                            // await flutterTts.speak(letterList[selectedIndex].toLowerCase());
+                            _audioPlayer.play(AssetSource('audios/english-alphabet/${letterList[index].toLowerCase()}.mp3'));
                           },
                           child: Container(
                             width: context.width/5,

@@ -71,7 +71,7 @@ class _SettingsViewState extends State<SettingsView> {
                   _Tile(
                     icon: Icons.language,
                     color: const Color(0xFF42A5F5),
-                    title: 'Language',
+                    title: tr('language'),
                     subtitle: 'English / မြန်မာ',
                     // onTap: () => context.setLocale(isEn
                     //     ? const Locale('my', 'MM')
@@ -84,22 +84,22 @@ class _SettingsViewState extends State<SettingsView> {
                   _Tile(
                     icon: Icons.sync,
                     color: const Color(0xFF4CAF50),
-                    title: 'Check for Updates',
-                    subtitle: 'Tap to check for a new version',
+                    title: tr('check_for_update'),
+                    subtitle: tr('tap_for_check_version'),
                     onTap: () => _bloc.add(const CheckUpdateEvent()),
                   ),
                   _Tile(
                     icon: Icons.mail_rounded,
                     color: const Color(0xFFF5A623),
-                    title: 'Contact Us',
-                    subtitle: 'Get in touch with us',
+                    title: tr('contact_us'),
+                    subtitle: tr('contact_us_description'),
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactUsView())),
                   ),
                   _Tile(
                     icon: Icons.info_outline_rounded,
                     color: const Color(0xFFE5576B),
-                    title: 'About PuTu',
-                    subtitle: 'App information and details',
+                    title: tr('about_putu'),
+                    subtitle: tr('about_putu_description'),
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPutuView())),
                   ),
                 ],
@@ -148,8 +148,8 @@ class _Tile extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
                       color: color, borderRadius: BorderRadius.circular(18)),
                   child: Icon(icon, color: Colors.white, size: 34),
@@ -161,11 +161,11 @@ class _Tile extends StatelessWidget {
                     children: [
                       Text(title,
                           style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w800)),
+                              fontSize: 17, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 2),
                       Text(subtitle,
                           style: const TextStyle(
-                              fontSize: 15, color: Colors.black54)),
+                              fontSize: 14, color: Colors.black54)),
                     ],
                   ),
                 ),

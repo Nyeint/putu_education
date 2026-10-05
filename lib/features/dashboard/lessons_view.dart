@@ -90,7 +90,7 @@ class LessonsView extends StatelessWidget {
           lessonItem(
               iconName: 'cat',
               // title: '${tr('myanmar')}${tr('language')}',
-              title: 'မြန်မာစာ',
+              title: tr('myanmar'),
               bodyText: tr('learn_myanmar_lang'),
               context: context,
             goTo: RouteName.myanmarView

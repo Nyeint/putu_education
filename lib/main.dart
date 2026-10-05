@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:putu_education/app/config/global_context.dart';
 import 'package:putu_education/features/test/phone_number.dart';
 import 'package:putu_education/route/route.dart';
@@ -19,7 +20,7 @@ import 'data/providers/timer_info_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  // MobileAds.instance.initialize();
+  MobileAds.instance.initialize();
   configLoading();
   TtsService.instance;
   await setupLocator();

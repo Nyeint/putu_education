@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:putu_education/features/dashboard/dashboard.dart';
 import 'package:putu_education/features/settings/language_selection.dart';
-import 'package:putu_education/features/english/alphabet/alphabet_view.dart';
 import 'package:putu_education/features/english/number/number_view.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/english.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/sentence_sort_game.dart';
@@ -20,10 +19,11 @@ import 'package:putu_education/features/topics/presentation/pages/numbers/burmes
 import 'package:putu_education/route/route_name.dart';
 import 'package:putu_education/route/route_path.dart';
 import '../features/english/english_view.dart';
+import '../features/topics/presentation/pages/alphabets/english_alphabet_view.dart';
 import '../features/topics/presentation/pages/alphabets/burmese_alphabet_view.dart';
 import '../features/myanmar/myanmar_view.dart';
 import '../features/topics/presentation/pages/math/calculation/calculation_view.dart';
-import '../features/topics/presentation/pages/vocabulary_view.dart';
+import '../features/topics/presentation/pages/vocab/vocabulary_view.dart';
 
 final globalContext =
     router.routerDelegate.navigatorKey.currentContext;

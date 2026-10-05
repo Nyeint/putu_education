@@ -1,16 +1,14 @@
 // Path: alphabet/burmese_alphabet_view.dart
+import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:putu_education/app/config/config.dart';
-import 'package:putu_education/app/service/locator.dart';
-import 'package:putu_education/app/widgets/loading_widgets.dart';
 
+import '../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../widgets/go_button.dart';
 import '../../../../widgets/item_decoration.dart';
 import '../../../../widgets/my_appbar.dart';
 import '../../../../widgets/my_icon.dart';
-import '../../bloc/alphabet_bloc/alphabet_bloc.dart';
 
 class MyanmarAlphabetView extends StatefulWidget {
   const MyanmarAlphabetView({super.key});
@@ -20,197 +18,128 @@ class MyanmarAlphabetView extends StatefulWidget {
 }
 
 class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
-  final AlphabetBloc _bloc = getIt<AlphabetBloc>();
+  List<String> letterList = ['က','ခ','ဂ','ဃ','င','စ','ဆ','ဇ','ဈ','ည','ဋ','ဌ',
+    'ဍ','ဎ','ဏ','တ','ထ','ဒ','ဓ','န','ပ','ဖ','ဗ','ဘ','မ','ယ','ရ','လ','ဝ','သ','ဟ','ဠ','အ'];
+  List<String> pronounceList = ['ကကြီး','ခခွေး','ဂငယ်','ဃကြီး','င','စလုံး','ဆလိမ်','ဇကွဲ','ဈမြဉ်ဆွဲ','ညကြီး','ဋသန်းလင်းချိတ်','ဌဝမ်းဘဲ',
+    'ဍရင်ကောက်','ဎရင်မှုတ်','ဏကြီး','တဝမ်းပူ','ထဆင်ထူး','ဒဒွေး','ဓအောက်ခြိုက်','နငယ်','ပစောက်','ဖဦးထုပ်','ဗထက်ခြိုက်','ဘကုန်း','မ',
+    'ယပက်လက်','ရကောက်','လငယ်','ဝ','သ','ဟ','ဠကြီး','အ'];
+  int selectedIndex = 0;
+  static const _pageSize = 11;
+  int _page = 0;
+  int get _pageCount => (letterList.length / _pageSize).ceil();
   final AudioPlayer _audioPlayer = AudioPlayer();
-  int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc.add(const AlphabetsRequested(subject: 'mm'));
-  }
 
   @override
   void dispose() {
     _audioPlayer.dispose();
-    _bloc.close();
     super.dispose();
   }
 
-  Future<void> _playAudio(String? audioUrl) async {
-    if (audioUrl == null || audioUrl.isEmpty) return;
-    await _audioPlayer.stop();
-    await _audioPlayer.play(UrlSource(audioUrl));
-  }
-
-  void _requestPage(int page) {
-    setState(() => _selectedIndex = 0);
-    _bloc.add(AlphabetsRequested(subject: 'mm', page: page));
-  }
-
-  Future<void> _onRefresh() async {
-    setState(() => _selectedIndex = 0);
-    _bloc.add(
-        const AlphabetsRequested(subject: 'mm', page: 1, forceRefresh: true));
-    await _bloc.stream
-        .firstWhere((state) => state.status != AlphabetsStatus.loading);
-  }
+  void _play(int index) =>
+      _audioPlayer.play(AssetSource('audios/burmese-alphabet/${index + 1}.mp3'));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
         titleWithGoBack: 'အက္ခရာများ',
       ),
       body: SafeArea(
         bottom: false,
         child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
                 image: AssetImage('assets/images/light_background.png'),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: BlocBuilder<AlphabetBloc, AlphabetState>(
-              bloc: _bloc,
-              builder: (context, state) {
-                if (state.status == AlphabetsStatus.loading &&
-                    state.alphabets.isEmpty) {
-                  return const Center(child: LoadingWidget(size: 32));
-                }
-                if (state.status == AlphabetsStatus.failure &&
-                    state.alphabets.isEmpty) {
-                  return GestureDetector(
-                    onTap: () => _bloc.add(AlphabetsRequested(
-                        subject: 'mm', page: state.currentPage)),
-                    child: Center(
-                      child: Text(
-                        'Failed to load alphabets. Tap to retry.',
-                        style: FontFamily().medium.copyWith(fontSize: 14),
+                fit: BoxFit.fill),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SingleChildScrollView(
+                child: Stack(
+                  fit: StackFit.loose,
+                  children: [
+                    Container(
+                      height: 200,
+                      width: context.width,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: ColorResources.secondary,
+                        border: Border.all(color: ColorResources.lightBg, width: 2),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ),
-                  );
-                }
-
-                final alphabets = state.alphabets;
-                final selectedIndex = _selectedIndex.clamp(
-                    0, alphabets.isEmpty ? 0 : alphabets.length - 1);
-                final selected =
-                    alphabets.isEmpty ? null : alphabets[selectedIndex];
-
-                return RefreshIndicator(
-                  onRefresh: _onRefresh,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      SingleChildScrollView(
+                      child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            Container(
-                              height: 200,
-                              width: context.width,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: ColorResources.secondary,
-                                border: Border.all(
-                                    color: ColorResources.lightBg, width: 2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: GestureDetector(
-                                      onTap: () => _playAudio(selected?.audio),
-                                      child: MyIcon(iconName: 'volume'),
-                                    ),
-                                  ).pad(right: 16, top: 16),
-                                  Text(
-                                    selected?.letter ?? '',
-                                    style: FontFamily().semiBold.copyWith(
-                                          fontSize: FontSize().sixteenFour,
-                                        ),
-                                  ),
-                                  Text(
-                                    selected?.word ?? '',
-                                    style: FontFamily().semiBold.copyWith(
-                                          fontSize: FontSize().twentyFour,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            Text(letterList[selectedIndex],
+                                style: FontFamily().semiBold.copyWith(fontSize: FontSize().sixteenFour)),
+                            Text(pronounceList[selectedIndex],
+                                style: FontFamily().semiBold.copyWith(fontSize: FontSize().twentyFour)),
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Wrap(
-                            alignment: WrapAlignment.center,
-                            spacing: 8.0,
-                            runSpacing: 8.0,
-                            children: List.generate(
-                              alphabets.length,
-                              (index) {
-                                final data = alphabets[index];
-                                return GestureDetector(
-                                  key: ValueKey('alphabet_${data.id}'),
-                                  onTap: () {
-                                    setState(() => _selectedIndex = index);
-                                    _playAudio(data.audio);
-                                  },
-                                  child: Container(
-                                    width: context.width / 5,
-                                    height: context.width / 5,
-                                    decoration: index == selectedIndex
-                                        ? selectedDecoration()
-                                        : unselectedDecoration(),
-                                    child: Center(
-                                      child: Text(
-                                        data.letter ?? '',
-                                        style: FontFamily().bold.copyWith(
-                                              fontSize: FontSize().twenty,
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
+                    ),
+                    Positioned(
+                      right: 16,
+                      top: 16,
+                      child: GestureDetector(
+                          onTap: () => _play(selectedIndex),
+                          child: MyIcon(iconName: 'volume')),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: [
+                      for (var index = _page * _pageSize;
+                          index < min((_page + 1) * _pageSize, letterList.length);
+                          index++)
+                        GestureDetector(
+                          onTap: () {
+                            setState(() => selectedIndex = index);
+                            _play(index);
+                          },
+                          child: Container(
+                            width: context.width / 5,
+                            height: context.width / 5,
+                            decoration: index == selectedIndex
+                                ? selectedDecoration()
+                                : unselectedDecoration(),
+                            child: Center(
+                              child: Text(letterList[index],
+                                  style: FontFamily().bold.copyWith(fontSize: FontSize().twenty)),
                             ),
                           ),
-                        ).pad(top: 20),
-                      ),
-                      Stack(
-                        children: [
-                          if (state.hasPrev)
-                            Align(
-                                alignment: Alignment.bottomLeft,
-                                child: GestureDetector(
-                                  onTap: () =>
-                                      _requestPage(state.currentPage - 1),
-                                  child: GoButton(isNext: false),
-                                )),
-                          if (state.hasNext)
-                            Align(
-                                alignment: Alignment.bottomRight,
-                                child: GestureDetector(
-                                  onTap: () =>
-                                      _requestPage(state.currentPage + 1),
-                                  child: GoButton(isNext: true),
-                                )),
-                        ],
-                      ),
+                        ),
                     ],
-                  ),
-                );
-              },
-            ).pad(
-                left: 10,
-                right: 10,
-                top: 24,
-                bottom: MediaQuery.of(context).padding.bottom)),
+                  ).pad(bottom: 10),
+                ).pad(top: 10),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _page > 0
+                      ? GestureDetector(
+                          onTap: () => setState(() => _page--),
+                          child: GoButton(isNext: false))
+                      : const SizedBox.shrink(),
+                  _page < _pageCount - 1
+                      ? GestureDetector(
+                          onTap: () => setState(() => _page++),
+                          child: GoButton(isNext: true))
+                      : const SizedBox.shrink(),
+                ],
+              ).pad(top: 8, bottom: 16),
+            ],
+          ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
+        ),
       ),
     );
   }

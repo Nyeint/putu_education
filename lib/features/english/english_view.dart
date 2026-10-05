@@ -60,7 +60,7 @@ class _EnglishViewState extends State<EnglishView> {
                   ),
                 ],
               ),
-              Lottie.asset("assets/anims/bird.json", width: context.width / 4.5),
+              // Lottie.asset("assets/anims/bird.json", width: context.width / 4.5),
               Wrap(
                 spacing: 12,
                 runSpacing: 12,
@@ -96,9 +96,15 @@ class _EnglishViewState extends State<EnglishView> {
                       iconName: 'category_poem',
                       onTap: (){
                         // context.pushNamed(RouteName.englishPoem);
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                        //         poemtoryType: 'poems', subject: 'en',
+                        //       title: 'Poems',
+                        //     ))
+                        // );
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                                poemtoryType: 'poems', subject: 'en',
+                              poemtoryType: 'poems', subject: 'en',
                               title: 'Poems',
                             ))
                         );
@@ -111,7 +117,7 @@ class _EnglishViewState extends State<EnglishView> {
                         // context.pushNamed(RouteName.englishNumber);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                             poemtoryType: 'stories', subject: 'en',
+                              poemtoryType: 'stories', subject: 'en',
                               title: 'Stories',
                             ))
                         );
@@ -123,7 +129,7 @@ class _EnglishViewState extends State<EnglishView> {
                       onTap: (){
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                                poemtoryType: 'songs', subject: 'en',
+                              poemtoryType: 'songs', subject: 'en',
                               title: 'Songs',
                             ))
                         );

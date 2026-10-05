@@ -29,16 +29,17 @@ class LanguageSelectionView extends StatelessWidget {
         ),
         child: Column(
           children: [
-            MyAppBar(titleWithGoBack: tr('choose_language')),
+            MyAppBar(titleWithGoBack: tr('language')),
             const SizedBox(height: 28),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
                   Text(
-                    tr('which_language'),
+                    // tr('which_language'),
+                    'Which langauge do you want to use?',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: Color(0xFF3A1F0B)),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Color(0xFF3A1F0B)),
                   ),
                   const SizedBox(height: 6),
                   const Text(
@@ -93,7 +94,7 @@ class _LangCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(18),
-              child: Image.asset(flag, width: 64, height: 64, fit: BoxFit.cover),
+              child: Image.asset(flag, width: 50, height: 50, fit: BoxFit.cover),
             ),
             const SizedBox(width: 20),
             Expanded(
@@ -107,10 +108,10 @@ class _LangCard extends StatelessWidget {
               ),
             ),
             selected
-                ? const CircleAvatar(radius: 20, backgroundColor: _blue, child: Icon(Icons.check, color: Colors.white))
+                ? const CircleAvatar(radius: 15, backgroundColor: _blue, child: Icon(Icons.check, color: Colors.white))
                 : Container(
-                    width: 40,
-                    height: 40,
+                    width: 30,
+                    height: 30,
                     decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.black26, width: 3)),
                   ),
           ],

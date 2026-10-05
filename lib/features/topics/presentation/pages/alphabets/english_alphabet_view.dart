@@ -1,4 +1,6 @@
 // Path: alphabet/burmese_alphabet_view.dart
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +9,11 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:putu_education/app/config/config.dart';
 
-import '../../widgets/item_decoration.dart';
-import '../../widgets/my_appbar.dart';
-import '../../widgets/my_icon.dart';
+import '../../../../../app/widgets/banner_ad_widget.dart';
+import '../../../../widgets/go_button.dart';
+import '../../../../widgets/item_decoration.dart';
+import '../../../../widgets/my_appbar.dart';
+import '../../../../widgets/my_icon.dart';
 
 class EnglishAlphabetView extends StatefulWidget {
   const EnglishAlphabetView({super.key});
@@ -25,6 +29,9 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
     'i/aɪ/','jay/dʒeɪ/','kay/keɪ/','el/ɛl/','em/ɛm/','en/ɛn/','o/oʊ/','pee/piː/','cue/kjuː/','ar/ɑːr/','ess/ɛs/','tee/tiː/','u/juː','vee/viː/',
     'double-u/ˈdʌbəl.juː/','ex/ɛks/','wy/waɪ/','zee/zed/zi/zɛd/'];
   int selectedIndex = 0;
+  static const _pageSize = 10;
+  int _page = 0;
+  int get _pageCount => (letterList.length / _pageSize).ceil();
 
   @override
   void initState() {
@@ -46,8 +53,9 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
-        titleWithGoBack: tr('alphabets'),
+        titleWithGoBack: 'Alphabets',
       ),
       body: SafeArea(
         bottom: false,
@@ -106,9 +114,11 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
                     spacing: 8.0, // gap between adjacent items
                     runSpacing: 8.0, // gap between lines
                     children:
-                    List.generate(
-                      26,
-                          (index) => GestureDetector(
+                    [
+                      for (var index = _page * _pageSize;
+                          index < min((_page + 1) * _pageSize, letterList.length);
+                          index++)
+                          GestureDetector(
                           onTap: () async {
                             setState(() {
                               selectedIndex = index;
@@ -134,10 +144,25 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
                             ),
                           )
                       ),
-                    ),
+                    ],
                   ).pad(bottom: 10)
                 ).pad(top: 10),
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _page > 0
+                      ? GestureDetector(
+                          onTap: () => setState(() => _page--),
+                          child: GoButton(isNext: false))
+                      : const SizedBox.shrink(),
+                  _page < _pageCount - 1
+                      ? GestureDetector(
+                          onTap: () => setState(() => _page++),
+                          child: GoButton(isNext: true))
+                      : const SizedBox.shrink(),
+                ],
+              ).pad(top: 8, bottom: 16),
             ],
           ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
         ),

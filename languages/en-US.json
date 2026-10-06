@@ -112,5 +112,12 @@
 
   "about_putu": "About PuTu",
   "about_putu_description": "App information and details",
-  "about_putu_detail": "PuTu is an educational app specially designed to help children learn English, Burmese, and mathematics. The app includes letters, words, sentences, stories, songs, and math games that support children’s learning and help develop their skills."
+  "about_putu_detail": "PuTu is an educational app specially designed to help children learn English, Burmese, and mathematics. The app includes letters, words, sentences, stories, songs, and math games that support children’s learning and help develop their skills.",
+
+  "choose_questions": "Choose Questions",
+  "choose_questions_desc": "What would you like to practice?",
+  "play_old_questions": "Play Old Questions",
+  "play_old_questions_desc": "Practice with the same questions you've already played.",
+  "play_new_questions": "Play New Questions",
+  "play_new_questions_desc": "Get a fresh set of questions to learn and practice."
 }

@@ -11,6 +11,7 @@ import 'package:putu_education/app/utils/weekly_session_picker.dart';
 import 'package:putu_education/data/model/session_item.dart';
 import 'package:putu_education/features/dashboard/lessons_view.dart';
 import 'package:putu_education/features/dashboard/progress_indicator.dart';
+import 'package:putu_education/features/onboarding/on_boarding.dart';
 import 'package:putu_education/features/test/phone_number.dart';
 import 'package:putu_education/features/widgets/my_appbar.dart';
 import 'package:putu_education/features/widgets/my_icon.dart';
@@ -188,8 +189,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   ScoreProvider scoreProvider = getIt<ScoreProvider>();
                                   scoreProvider.clearScores();
                                   print("Score Provider ${scoreProvider.englishScoreSum}");
-                                  // context.pushNamed(RouteName.language);
-                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsView()));
+                                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsView()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>OnBoardingView()));
                                 },
                                 child: MyIcon(iconName: 'setting')),
                           ],

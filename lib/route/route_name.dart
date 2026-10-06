@@ -14,11 +14,6 @@ abstract class RouteName{
   static const String myanmarAlphabet = 'myanmarAlphabet';
   static const String myanmarVocabulary = 'myanmarVocabulary';
   static const String poemDetail = 'poemDetail';
-  // static const String math = 'math';
-  // static const String shapeViewEn = 'shapeViewEn';
-  // static const String shapeViewMm = 'shapeViewMm';
-  // static const String calculation = 'calculation';
-  static const String introduction = 'introduction';
   static const String englishGame = 'englishGame';
   static const String myanmarGame = 'myanmarGame';
   static const String englishWordGame = 'englishWordGame';

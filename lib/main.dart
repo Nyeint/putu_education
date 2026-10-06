@@ -1,6 +1,8 @@
 // Path: lib/main.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:putu_education/features/onboarding/on_boarding.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -24,6 +26,7 @@ Future<void> main() async {
   configLoading();
   TtsService.instance;
   await setupLocator();
+  onboardingSeen = (await SharedPreferences.getInstance()).getBool(onboardingSeenKey) ?? false;
   // runApp(MyApp());
   runApp(
       EasyLocalization(

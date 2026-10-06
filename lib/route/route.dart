@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:putu_education/features/dashboard/dashboard.dart';
+import 'package:putu_education/features/onboarding/on_boarding.dart';
 import 'package:putu_education/features/settings/language_selection.dart';
 import 'package:putu_education/features/english/number/number_view.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/english.dart';
@@ -14,7 +15,6 @@ import 'package:putu_education/features/game/math/math.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/myanmar.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/mm_word_sort_game.dart';
 import 'package:putu_education/features/game/widgets/result_view.dart';
-import 'package:putu_education/features/introduction/introduction.dart';
 import 'package:putu_education/features/topics/presentation/pages/numbers/burmese_number_view.dart';
 import 'package:putu_education/route/route_name.dart';
 import 'package:putu_education/route/route_path.dart';
@@ -22,7 +22,6 @@ import '../features/english/english_view.dart';
 import '../features/topics/presentation/pages/alphabets/english_alphabet_view.dart';
 import '../features/topics/presentation/pages/alphabets/burmese_alphabet_view.dart';
 import '../features/myanmar/myanmar_view.dart';
-import '../features/topics/presentation/pages/math/calculation/calculation_view.dart';
 import '../features/topics/presentation/pages/vocab/vocabulary_view.dart';
 
 final globalContext =
@@ -33,8 +32,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const DashboardView();
-        // return PhoneNumberPage();
+        return onboardingSeen ? const DashboardView() : const OnBoardingView();
       },
     ),
     GoRoute(
@@ -42,13 +40,6 @@ final GoRouter router = GoRouter(
       path: RoutePath.dashboard,
       builder: (BuildContext context, GoRouterState state) {
         return const DashboardView();
-      },
-    ),
-    GoRoute(
-      name: RouteName.introduction,
-      path: RoutePath.introduction,
-      builder: (BuildContext context, GoRouterState state) {
-        return const IntroductionView();
       },
     ),
     GoRoute(

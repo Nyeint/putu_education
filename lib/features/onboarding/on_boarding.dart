@@ -1,17 +1,21 @@
-// Path: onboarding/screen_one.dart
+// Path: onboarding/on_boarding.dart
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/features/dashboard/dashboard.dart';
 import 'package:putu_education/route/my_router.dart';
 
-class ScreenOneView extends StatefulWidget {
-  const ScreenOneView({super.key});
+const onboardingSeenKey = 'onboarding_seen';
+bool onboardingSeen = false; // loaded in main()
+
+class OnBoardingView extends StatefulWidget {
+  const OnBoardingView({super.key});
 
   @override
-  State<ScreenOneView> createState() => _ScreenOneViewState();
+  State<OnBoardingView> createState() => _OnBoardingViewState();
 }
 
-class _ScreenOneViewState extends State<ScreenOneView> {
+class _OnBoardingViewState extends State<OnBoardingView> {
   late PageController _pageController;
   int _currentPage = 0;
 
@@ -45,6 +49,15 @@ class _ScreenOneViewState extends State<ScreenOneView> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  Future<void> _finish() async {
+    onboardingSeen = true;
+    SharedPreferences.getInstance().then((p) => p.setBool(onboardingSeenKey, true));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const DashboardView()),
+        (route) => false);
   }
 
   @override
@@ -164,8 +177,7 @@ class _ScreenOneViewState extends State<ScreenOneView> {
                         //   _currentPage=0;
                         // });
 
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardView()),
-                                (route) => false);
+                        _finish();
                         // Handle completion action - go to next screen or finish onboarding
                       }
                     },
@@ -183,8 +195,7 @@ class _ScreenOneViewState extends State<ScreenOneView> {
                   GestureDetector(
                     onTap: () {
                       // Handle skip action
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardView()),
-                              (route) => false);
+                      _finish();
                     },
                     child: const Text(
                       'ကျော်သွားမယ်',

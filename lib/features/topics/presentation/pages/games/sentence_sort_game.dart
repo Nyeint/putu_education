@@ -16,6 +16,7 @@ import 'package:putu_education/data/providers/score_provider.dart';
 import 'package:putu_education/features/topics/presentation/pages/results/sort_result.dart';
 import 'package:putu_education/features/game/model/question_result.dart';
 import 'package:putu_education/features/game/widgets/audio_prompt_view.dart';
+import 'package:putu_education/features/game/widgets/choose_questions_alert.dart';
 import 'package:putu_education/features/game/widgets/front_flip_card_item.dart';
 import 'package:putu_education/features/game/widgets/progress_bar.dart';
 import 'package:putu_education/features/game/widgets/word_tile_view.dart';
@@ -23,6 +24,7 @@ import 'package:putu_education/features/widgets/item_decoration.dart';
 import 'package:putu_education/features/widgets/my_appbar.dart';
 import 'package:putu_education/route/route_name.dart';
 import '../../../data/model/game_model.dart';
+import '../../../domain/repositories/game_repo.dart';
 import '../../bloc/game_bloc/game_bloc.dart';
 
 /// Sentence Sorting game: fetches a set of sentences from
@@ -68,7 +70,14 @@ class _EnglishSentenceSortGameState extends State<EnglishSentenceSortGame> {
   @override
   void initState() {
     super.initState();
-    _gameBloc.add(SentenceSortingGameRequested(subject: widget.subject));
+    _start();
+  }
+
+  Future<void> _start() async {
+    final hasCache = await getIt<GameRepo>().hasSentenceSortingCache(subject: widget.subject);
+    final forceRefresh = hasCache && mounted ? await showChooseQuestionsAlert(context) : false;
+    if (!mounted) return;
+    _gameBloc.add(SentenceSortingGameRequested(subject: widget.subject, forceRefresh: forceRefresh));
   }
 
   @override

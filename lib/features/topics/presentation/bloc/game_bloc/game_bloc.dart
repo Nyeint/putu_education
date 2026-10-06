@@ -22,7 +22,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       ChoosePictureGameRequested event, Emitter<GameState> emit) async {
     emit(state.copyWith(choosePictureStatus: GameLoadStatus.loading));
     try {
-      final response = await repository.getChoosePictureGame(subject: event.subject);
+      final response = await repository.getChoosePictureGame(subject: event.subject, forceRefresh: event.forceRefresh);
       if (response.message == MsgState.data) {
         final model = GameModel.fromJson(response.data);
         emit(state.copyWith(
@@ -48,7 +48,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       WordSortingGameRequested event, Emitter<GameState> emit) async {
     emit(state.copyWith(wordSortingStatus: GameLoadStatus.loading));
     try {
-      final response = await repository.getWordSortingGame(subject: event.subject);
+      final response = await repository.getWordSortingGame(subject: event.subject, forceRefresh: event.forceRefresh);
       print("RESPONSE--> $response");
       if (response.message == MsgState.data) {
         final model = GameModel.fromJson(response.data);
@@ -75,7 +75,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       SentenceSortingGameRequested event, Emitter<GameState> emit) async {
     emit(state.copyWith(sentenceSortingStatus: GameLoadStatus.loading));
     try {
-      final response = await repository.getSentenceSortingGame(subject: event.subject);
+      final response = await repository.getSentenceSortingGame(subject: event.subject, forceRefresh: event.forceRefresh);
       if (response.message == MsgState.data) {
         final model = GameModel.fromJson(response.data);
         emit(state.copyWith(

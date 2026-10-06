@@ -1,6 +1,8 @@
 // Path: onboarding/screen_one.dart
 import 'package:flutter/material.dart';
 import 'package:putu_education/app/config/config.dart';
+import 'package:putu_education/features/dashboard/dashboard.dart';
+import 'package:putu_education/route/my_router.dart';
 
 class ScreenOneView extends StatefulWidget {
   const ScreenOneView({super.key});
@@ -16,19 +18,19 @@ class _ScreenOneViewState extends State<ScreenOneView> {
   // Screen data
   final List<Map<String, dynamic>> _screens = [
     {
-      'title': 'Easy Learning',
+      'title': 'လွယ်လွယ်ကူကူ သင်ယူမယ်',
       'description':
-          'Kids can easily learn English, Myanmar and Mathematics with phone.',
+          'အင်္ဂလိပ်စာ၊ မြန်မာစာနဲ့ သင်္ချာကို ဖုန်းတစ်လုံးနဲ့ အချိန်မရွေး လွယ်ကူစွာ သင်ယူနိုင်ပါတယ်။',
       'image': 'assets/images/easy_learning.png',
     },
     {
-      'title': 'Listen & Learn',
-      'description': 'Kids can listen stories, poems, songs and have fun time.',
+      'title': 'နားထောင်ရင်း သင်ယူမယ်',
+      'description': 'ပုံပြင်၊ ကဗျာနဲ့ သီချင်းလေးတွေကို နားထောင်ရင်း ပျော်ပျော်ရွှင်ရွှင် သင်ယူနိုင်ပါတယ်။',
       'image': 'assets/images/listen_learn.png',
     },
     {
-      'title': 'Playing Game',
-      'description': 'Kids can play English games, Myanmar games and Mathematics games.',
+      'title': 'ကစားရင်း သင်ယူမယ်',
+      'description': 'အင်္ဂလိပ်စာ၊ မြန်မာစာနဲ့ သင်္ချာကို ပျော်စရာဂိမ်းလေးတွေ ကစားရင်း သင်ယူနိုင်ပါတယ်။',
       'image': 'assets/images/playing_game.png',
     },
   ];
@@ -75,27 +77,27 @@ class _ScreenOneViewState extends State<ScreenOneView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/logo_icon.png',
-                          height: 50,
+                          'assets/icons/putu_logo.png',
+                          width: context.width * 0.4,
                         ),
                         const SizedBox(width: 10),
-                        const Text(
-                          'PuTu',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'serif',
-                          ),
-                        ),
+                        // const Text(
+                        //   'PuTu',
+                        //   style: TextStyle(
+                        //     fontSize: 20,
+                        //     fontWeight: FontWeight.bold,
+                        //     fontFamily: 'serif',
+                        //   ),
+                        // ),
                       ],
                     ),
 
-                    const SizedBox(height: 30),
+                    // const SizedBox(height: 10),
 
                     // Dynamic title button
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 50, vertical: 7),
+                          horizontal: 15, vertical: 7),
                       decoration: BoxDecoration(
                         color: Color(0xffFFECB5),
                         // color: const Color(0xFFFFF8DC),
@@ -158,10 +160,12 @@ class _ScreenOneViewState extends State<ScreenOneView> {
                           _currentPage++;
                         });
                       } else {
-                        setState(() {
-                          _currentPage=0;
-                        });
+                        // setState(() {
+                        //   _currentPage=0;
+                        // });
 
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardView()),
+                                (route) => false);
                         // Handle completion action - go to next screen or finish onboarding
                       }
                     },
@@ -179,9 +183,11 @@ class _ScreenOneViewState extends State<ScreenOneView> {
                   GestureDetector(
                     onTap: () {
                       // Handle skip action
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const DashboardView()),
+                              (route) => false);
                     },
                     child: const Text(
-                      'Skip',
+                      'ကျော်သွားမယ်',
                       style: TextStyle(
                         fontSize: 16,
                         color: Color(0xFF333333),

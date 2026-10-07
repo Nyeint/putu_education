@@ -42,7 +42,7 @@ class _WordTileViewState extends State<WordTileView> {
           // row. Vertical centering comes from symmetric padding instead, so
           // the tile still hugs its text width and multiple tiles can sit
           // side by side before wrapping to the next line.
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: context.width * 0.04),
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: context.width * 0.03),
           decoration: unselectedDecoration(),
           child: Text(
             widget.word,

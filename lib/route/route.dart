@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:putu_education/features/dashboard/dashboard.dart';
 import 'package:putu_education/features/onboarding/on_boarding.dart';
 import 'package:putu_education/features/settings/language_selection.dart';
-import 'package:putu_education/features/english/number/number_view.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/english.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/sentence_sort_game.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/word_game.dart';
@@ -15,7 +14,7 @@ import 'package:putu_education/features/game/math/math.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/myanmar.dart';
 import 'package:putu_education/features/topics/presentation/pages/games/mm_word_sort_game.dart';
 import 'package:putu_education/features/game/widgets/result_view.dart';
-import 'package:putu_education/features/topics/presentation/pages/numbers/burmese_number_view.dart';
+import 'package:putu_education/features/topics/presentation/pages/numbers/numbers_view.dart';
 import 'package:putu_education/route/route_name.dart';
 import 'package:putu_education/route/route_path.dart';
 import '../features/english/english_view.dart';
@@ -67,7 +66,7 @@ final GoRouter router = GoRouter(
       name: RouteName.englishNumber,
       path: RoutePath.englishNumber,
       builder: (BuildContext context, GoRouterState state) {
-        return const EnglishNumberView();
+        return const NumbersView(subject: 'en', title: 'Numbers');
       },
     ),
     GoRoute(
@@ -102,7 +101,7 @@ final GoRouter router = GoRouter(
       name: RouteName.myanmarNumber,
       path: RoutePath.myanmarNumber,
       builder: (BuildContext context, GoRouterState state) {
-        return const MyanmarNumberView();
+        return const NumbersView(subject: 'mm', title: 'နံပါတ်များ');
       },
     ),
     GoRoute(

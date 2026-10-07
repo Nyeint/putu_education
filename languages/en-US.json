@@ -119,5 +119,10 @@
   "play_old_questions": "Play Old Questions",
   "play_old_questions_desc": "Practice with the same questions you've already played.",
   "play_new_questions": "Play New Questions",
-  "play_new_questions_desc": "Get a fresh set of questions to learn and practice."
+  "play_new_questions_desc": "Get a fresh set of questions to learn and practice.",
+
+  "dividend": "Dividend",
+  "divisor": "Divisor",
+  "quotient": "Quotient",
+  "remainder": "Remainder"
 }

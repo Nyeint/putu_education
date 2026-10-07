@@ -1,9 +1,7 @@
 // Path: providers/score_provider.dart
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/game_category.dart';
@@ -13,19 +11,12 @@ import '../model/game_category.dart';
 /// Category totals are derived rather than stored separately, so they can
 /// never drift out of sync with the per-game data.
 ///
-/// Scores are stored in the platform cache directory (not SharedPreferences)
-/// so that clearing the app's cache also clears scores, while a normal
-/// app restart/force-close does not. Web has no OS-level "clear cache" and
-/// no real filesystem, so it falls back to SharedPreferences there.
+/// Scores live in SharedPreferences (survive app restarts and clearing from
+/// recents) and are scoped to the calendar month (Jan, Feb, ...): the first
+/// load in a new month wipes the previous month's scores.
 class ScoreProvider extends ChangeNotifier {
-  ScoreProvider({Future<Directory> Function()? directoryProvider})
-      : _directoryProvider = directoryProvider ?? getTemporaryDirectory;
-
-  final Future<Directory> Function() _directoryProvider;
-
-  static const String _fileName = 'game_high_scores.json';
-  static const String _webStorageKey = 'game_high_scores';
-  static const String _webWeekKeyStorageKey = 'game_high_scores_week_key';
+  static const String _storageKey = 'game_high_scores';
+  static const String _monthStorageKey = 'game_high_scores_month';
 
   final Map<GameCategory, Map<GameTitle, int>> _gameHighScores = {
     for (final category in GameCategory.values) category: {},
@@ -34,15 +25,9 @@ class ScoreProvider extends ChangeNotifier {
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
 
-  String? _weekKey;
-
-  /// Scores are grouped into 7-day windows measured from the 1st of the
-  /// current month (days 1-7 = week 1, 8-14 = week 2, ... up to a short
-  /// final window), not calendar (Mon-Sun) weeks. Crossing into a new
-  /// window wipes the previous window's scores.
-  String _weekKeyFor(DateTime date) {
-    final weekOfMonth = ((date.day - 1) ~/ 7) + 1;
-    return '${date.year}-${date.month}-$weekOfMonth';
+  static String _currentMonthKey() {
+    final now = DateTime.now();
+    return '${now.year}-${now.month}';
   }
 
   int categoryScoreSum(GameCategory category) {
@@ -56,43 +41,26 @@ class ScoreProvider extends ChangeNotifier {
 
   int gameHighScore(GameCategory category, GameTitle gameTitle) => _gameHighScores[category]![gameTitle] ?? 0;
 
-  Future<File> _scoreFile() async {
-    final dir = await _directoryProvider();
-    return File('${dir.path}/$_fileName');
-  }
-
   Future<void> load() async {
-    _weekKey = _weekKeyFor(DateTime.now());
+    final prefs = await SharedPreferences.getInstance();
+    final month = _currentMonthKey();
+    if (prefs.getString(_monthStorageKey) != month) {
+      // New calendar month (or first run): last month's scores no longer apply.
+      await prefs.remove(_storageKey);
+      await prefs.setString(_monthStorageKey, month);
+    }
 
-    if (kIsWeb) {
-      await _loadFromPrefs();
-    } else {
-      await _loadFromCacheFile();
+    final raw = prefs.getString(_storageKey);
+    if (raw != null) {
+      final decoded = jsonDecode(raw) as Map<String, dynamic>;
+      for (final entry in decoded.entries) {
+        final category = GameCategory.values.byName(entry.key);
+        _gameHighScores[category] = _decodeGames(entry.value as Map<String, dynamic>);
+      }
     }
 
     _isLoaded = true;
     notifyListeners();
-  }
-
-  Future<void> _loadFromCacheFile() async {
-    final file = await _scoreFile();
-    if (!await file.exists()) return;
-
-    final raw = await file.readAsString();
-    if (raw.isEmpty) return;
-
-    final decoded = jsonDecode(raw) as Map<String, dynamic>;
-    final storedWeekKey = decoded['weekKey'] as String?;
-    if (storedWeekKey != null && storedWeekKey != _weekKey) {
-      // A new 7-day window has started; last window's scores no longer apply.
-      return;
-    }
-
-    final scores = (decoded['scores'] as Map<String, dynamic>?) ?? {};
-    for (final entry in scores.entries) {
-      final category = GameCategory.values.byName(entry.key);
-      _gameHighScores[category] = _decodeGames(entry.value as Map<String, dynamic>);
-    }
   }
 
   /// Stored keys are enum names; unknown (renamed/removed) titles are dropped.
@@ -108,24 +76,6 @@ class ScoreProvider extends ChangeNotifier {
         for (final c in _gameHighScores.entries)
           c.key.name: {for (final g in c.value.entries) g.key.name: g.value},
       };
-
-  Future<void> _loadFromPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedWeekKey = prefs.getString(_webWeekKeyStorageKey);
-    if (storedWeekKey != null && storedWeekKey != _weekKey) {
-      await prefs.remove(_webStorageKey);
-    }
-    await prefs.setString(_webWeekKeyStorageKey, _weekKey!);
-
-    final raw = prefs.getString(_webStorageKey);
-    if (raw != null) {
-      final decoded = jsonDecode(raw) as Map<String, dynamic>;
-      for (final entry in decoded.entries) {
-        final category = GameCategory.values.byName(entry.key);
-        _gameHighScores[category] = _decodeGames(entry.value as Map<String, dynamic>);
-      }
-    }
-  }
 
   /// Overwrites the game title's stored score only if [score] beats its
   /// previous best; otherwise leaves everything untouched, per spec.
@@ -145,32 +95,14 @@ class ScoreProvider extends ChangeNotifier {
   }
 
   Future<void> _persist() async {
-    final weekKey = _weekKey ?? _weekKeyFor(DateTime.now());
-
-    if (kIsWeb) {
-      final prefs = await SharedPreferences.getInstance();
-      final encoded = jsonEncode(_encodeScores());
-      await prefs.setString(_webStorageKey, encoded);
-      await prefs.setString(_webWeekKeyStorageKey, weekKey);
-      return;
-    }
-
-    final file = await _scoreFile();
-    final encoded = jsonEncode({
-      'weekKey': weekKey,
-      'scores': _encodeScores(),
-    });
-    await file.writeAsString(encoded);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_storageKey, jsonEncode(_encodeScores()));
+    await prefs.setString(_monthStorageKey, _currentMonthKey());
   }
 
   Future<void> clearScores() async {
-    if (kIsWeb) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_webStorageKey);
-    } else {
-      final file = await _scoreFile();
-      if (await file.exists()) await file.delete();
-    }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_storageKey);
     for (final category in GameCategory.values) {
       _gameHighScores[category]!.clear();
     }

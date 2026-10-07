@@ -1,6 +1,6 @@
 // Path: calculation/division_view.dart
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../../../../../app/config/config.dart';
 import '../../../../../../app/config/widget_extensions.dart';
 import '../../../../../widgets/item_decoration.dart';
@@ -51,6 +51,88 @@ class _DivisionViewState extends State<DivisionView> {
     );
   }
 
+  Widget _chip(String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(color: Colors.black87),
+      ),
+      child: Text(text, style: FontFamily().medium.copyWith(fontSize: 22)),
+    );
+  }
+
+  Widget _num(String text) {
+    return Text(
+      widget.locale == 'en' ? text : text.burmese(),
+      style: FontFamily().medium.copyWith(fontSize: 32),
+    );
+  }
+
+  Widget _line(double width, {double height = 2}) =>
+      Container(width: width, height: height, color: Colors.black87);
+
+  // Fixed-size canvas (545 x h) scaled down to fit; children placed by (left, top).
+  Widget _card(double h, List<Widget> children) {
+    return Container(
+      width: context.width,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: ColorResources.stroke),
+      ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child:
+            SizedBox(width: 545, height: h, child: Stack(children: children)),
+      ),
+    );
+  }
+
+  Widget _at(double left, double top, Widget child) =>
+      Positioned(left: left, top: top, child: child);
+
+  // Static 10 / 2 = 5 example, as a fraction and as long division.
+  Widget _divisionDiagrams() {
+    return Column(
+      children: [
+        _card(292, [
+          _at(125, 28, _chip(widget.locale == 'en'?'Dividend':'တည်ကိန်း')),
+          _at(
+              150,
+              95,
+              Container(
+                alignment: Alignment.center,
+                width: 70,
+                child: Column(
+                  children: [_num('10'), _line(40), _num('2')],
+                ),
+              )),
+          _at(222, 112, _num('=')),
+          _at(257, 112, _num('5')),
+          _at(290, 118, _chip(widget.locale == 'en'?'Quotient':'စားလဒ်')),
+          _at(140, 215, _chip(widget.locale == 'en'?'Divisor':'စားကိန်း')),
+        ]),
+        SizedBox(height: 24),
+        _card(280, [
+          _at(233, 26, _chip(widget.locale == 'en'?'Quotient':'စားလဒ်')),
+          _at(280, 70, _num('5')),
+          _at(85, 115, _chip(widget.locale == 'en'?'Divisor':'စားကိန်း')),
+          _at(205, 125, _num('2')),
+          _at(240, 118, _line(70)),
+          _at(240, 118, Container(width: 2, height: 74, color: Colors.black87)),
+          _at(262, 125, _num('10')),
+          _at(247, 157, _num('-10')),
+          _at(258, 198, _line(42)),
+          _at(280, 207, _num('0')),
+          _at(325, 118, _chip(widget.locale == 'en'?'Dividend':'တည်ကိန်း')),
+          _at(325, 200, _chip(widget.locale == 'en'?'Remainder':'အကြွင်း')),
+        ]),
+        SizedBox(height: 24),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -60,62 +142,7 @@ class _DivisionViewState extends State<DivisionView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 24),
-              Container(
-                width: context.width,
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: ColorResources.stroke),
-                ),
-                child: SvgPicture.asset(
-                  "assets/images/division_one.svg",
-                  width: context.width * 0.5,
-                ),
-              ),
-              SizedBox(height: 24),
-              Container(
-                width: context.width,
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: ColorResources.stroke),
-                ),
-                child: SvgPicture.asset(
-                  "assets/images/division_two.svg",
-                  width: context.width * 0.6,
-                ),
-              ),
-              SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'Divident',
-                    style: FontFamily().medium
-                        .copyWith(fontSize: FontSize().twenty),
-                  ),
-                  Text(
-                    '/',
-                    style: FontFamily().medium
-                        .copyWith(fontSize: FontSize().twenty),
-                  ),
-                  Text(
-                    'Divisor',
-                    style: FontFamily().medium
-                        .copyWith(fontSize: FontSize().twenty),
-                  ),
-                  Text(
-                    '=',
-                    style: FontFamily().medium
-                        .copyWith(fontSize: FontSize().twenty),
-                  ),
-                  Text(
-                    'Quotient',
-                    style: FontFamily().medium
-                        .copyWith(fontSize: FontSize().twenty),
-                  ),
-                ],
-              ),
+              _divisionDiagrams(),
               SizedBox(height: 10),
             ],
           ),
@@ -172,13 +199,15 @@ class _DivisionViewState extends State<DivisionView> {
                             textWidget(dividend.toString()),
                             Text(
                               '/',
-                              style: FontFamily().medium
+                              style: FontFamily()
+                                  .medium
                                   .copyWith(fontSize: FontSize().twenty),
                             ),
                             textWidget(divisor.toString()),
                             Text(
                               '=',
-                              style: FontFamily().medium
+                              style: FontFamily()
+                                  .medium
                                   .copyWith(fontSize: FontSize().twenty),
                             ),
                             textWidget(quotient.toString()),

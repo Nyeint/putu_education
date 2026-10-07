@@ -36,9 +36,9 @@ class NumberListModel {
 
 class NumberData {
   int? id;
-  String? number;
+  dynamic number;
   String? word;
-  Null? phonetic;
+  String? phonetic;
   String? audio;
 
   NumberData({this.id, this.number, this.word, this.phonetic, this.audio});

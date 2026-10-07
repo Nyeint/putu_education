@@ -325,7 +325,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                             children: scrambledLetters.asMap().entries.map((entry) {
                               return LetterTileView(
                                 letter: entry.value,
-                                size: context.width * 0.2,
+                                size: context.width * 0.16,
                                 onTap: isChecking ? null : () => _selectLetter(entry.key),
                               );
                             }).toList(),

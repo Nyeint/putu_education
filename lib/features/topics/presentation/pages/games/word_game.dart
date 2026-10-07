@@ -103,10 +103,13 @@ class _WordGameState extends State<WordGame> {
     final selectedOption = question.options![selectedIndex];
     final isCorrect = selectedOption.isCorrect ?? false;
     if (isCorrect) correctCount++;
+    final correctOption = question.options!
+        .firstWhere((o) => o.isCorrect ?? false, orElse: () => selectedOption);
 
     historyList.add(QuestionResultModel(
       question: _prompt(question),
-      result: selectedOption.imageUrl ?? selectedOption.image ?? '',
+      // Review shows the correct picture, not the one the player picked.
+      result: correctOption.imageUrl ?? correctOption.image ?? '',
     ));
 
     if (currentStep == questions.length - 1) {

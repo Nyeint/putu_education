@@ -69,24 +69,24 @@ Future<bool> showChooseQuestionsAlert(BuildContext context) async {
             top: 0,
             child: Image.asset('assets/images/bear_wink.png', width: bearSize),
           ),
-          Positioned(
-            // top: bearSize * 0.5 + 4,
-            top: -20,
-            right: -10,
-            child: GestureDetector(
-              onTap: () => Navigator.pop(context, false),
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4)],
-                  border: Border.all(color: ColorResources.primary, width: 2),
-                ),
-                child: Icon(Icons.close_rounded, weight: 20, color: ColorResources.border, size: 20),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   // top: bearSize * 0.5 + 4,
+          //   top: -20,
+          //   right: -10,
+          //   child: GestureDetector(
+          //     onTap: () => Navigator.pop(context, false),
+          //     child: Container(
+          //       padding: EdgeInsets.all(8),
+          //       decoration: BoxDecoration(
+          //         color: Colors.white,
+          //         shape: BoxShape.circle,
+          //         boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4)],
+          //         border: Border.all(color: ColorResources.primary, width: 2),
+          //       ),
+          //       child: Icon(Icons.close_rounded, weight: 20, color: ColorResources.border, size: 20),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     ),

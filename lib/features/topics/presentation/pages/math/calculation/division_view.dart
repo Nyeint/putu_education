@@ -1,8 +1,5 @@
-// Path: calculation/division_view.dart
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../../../app/config/config.dart';
-import '../../../../../../app/config/widget_extensions.dart';
 import '../../../../../widgets/item_decoration.dart';
 
 const double _kTabBarExtent = 64;
@@ -48,6 +45,24 @@ class _DivisionViewState extends State<DivisionView> {
     return Text(
       widget.locale == 'en' ? text : text.burmese(),
       style: FontFamily().medium.copyWith(fontSize: FontSize().twenty),
+    );
+  }
+
+  // 3 equal columns with vertical dividers, as in the quotient/remainder table.
+  Widget _tableRow(Widget a, Widget b, Widget c) {
+    final divider = BorderSide(color: ColorResources.stroke);
+    Widget cell(Widget w, {bool left = false}) => Expanded(
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: left ? Border(left: divider) : null,
+            ),
+            child: w,
+          ),
+        );
+    return IntrinsicHeight(
+      child: Row(children: [cell(a), cell(b, left: true), cell(c, left: true)]),
     );
   }
 
@@ -180,41 +195,43 @@ class _DivisionViewState extends State<DivisionView> {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final dividend = index + 1 + selectedNumber;
+                final en = widget.locale == 'en';
                 return Container(
                   margin: EdgeInsets.only(bottom: 24),
-                  padding: EdgeInsets.all(16),
+                  clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: ColorResources.lightBg,
                   ),
                   child: Column(
-                    children: List.generate(10, (index1) {
-                      final divisor = index1 + 1;
-                      final quotient = dividend ~/ divisor;
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: index1 < 9 ? 8 : 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            textWidget(dividend.toString()),
-                            Text(
-                              '/',
-                              style: FontFamily()
-                                  .medium
-                                  .copyWith(fontSize: FontSize().twenty),
-                            ),
-                            textWidget(divisor.toString()),
-                            Text(
-                              '=',
-                              style: FontFamily()
-                                  .medium
-                                  .copyWith(fontSize: FontSize().twenty),
-                            ),
-                            textWidget(quotient.toString()),
-                          ],
+                    children: [
+                      Container(
+                        color: ColorResources.stroke.withOpacity(0.3),
+                        child: _tableRow(
+                          Text(en ? 'Calculation' : 'တွက်ချက်ခြင်း',
+                              style: FontFamily().medium.copyWith(fontSize: 18)),
+                          Text(en ? 'Quotient' : 'စားလဒ်',
+                              style: FontFamily().medium.copyWith(fontSize: 18)),
+                          Text(en ? 'Remainder' : 'အကြွင်း',
+                              style: FontFamily().medium.copyWith(fontSize: 18)),
                         ),
-                      );
-                    }),
+                      ),
+                      ...List.generate(10, (i) {
+                        final divisor = i + 1;
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              top: BorderSide(color: ColorResources.stroke),
+                            ),
+                          ),
+                          child: _tableRow(
+                            textWidget('$dividend ÷ $divisor '),
+                            textWidget('${dividend ~/ divisor}'),
+                            textWidget('${dividend % divisor}'),
+                          ),
+                        );
+                      }),
+                    ],
                   ),
                 );
               },

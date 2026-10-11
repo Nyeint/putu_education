@@ -36,7 +36,7 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
   int totalSteps=10;
   int correctCount=0;
 
-  List<String> fruitList = ['apple', 'banana', 'grape', 'mango', 'tangerine', 'pineapple', 'strawberry'];
+  List<String> fruitList = ['apple', 'banana', 'mango', 'tangerine', 'pineapple', 'strawberry'];
   List<CalculateType> typeList = [
     CalculateType.type1, CalculateType.type1, CalculateType.type1,
     CalculateType.type2, CalculateType.type2, CalculateType.type2,

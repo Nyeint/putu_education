@@ -81,24 +81,24 @@ class _MyanmarViewState extends State<MyanmarView> {
                               context.pushNamed(RouteName.myanmarVocabulary);
                             },
                             ),
-                        SubItemWidget(
-                            title: 'ကဗျာများ', iconName: 'category_poem',
-                            onTap: (){
-                              // context.pushNamed(RouteName.englishPoem);
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                                      poemtoryType: 'poems', subject: 'mm',
-                                    title: 'ကဗျာများ',
-                                  ))
-                              );
-                            },
-                          ),
+                        // SubItemWidget(
+                        //     title: 'ကဗျာများ', iconName: 'category_poem',
+                        //     onTap: (){
+                        //       // context.pushNamed(RouteName.englishPoem);
+                        //       Navigator.push(context,
+                        //           MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                        //               poemtoryType: 'poems', subject: 'mm',
+                        //             title: 'ကဗျာများ',
+                        //           ))
+                        //       );
+                        //     },
+                        //   ),
                         SubItemWidget(
                             title: 'ပုံပြင်များ', iconName: 'category_story',
                             onTap: (){
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                                      poemtoryType: 'poems', subject: 'mm',
+                                      poemtoryType: 'stories', subject: 'mm',
                                     title: 'ပုံပြင်များ',
                                   ))
                               );

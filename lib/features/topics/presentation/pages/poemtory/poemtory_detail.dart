@@ -145,7 +145,7 @@ class _PoemToryDetailViewState extends State<PoemToryDetailView> {
   @override
   Widget build(BuildContext context) {
     const minPlayerHeight = 90.0;
-    final computedMax = context.height * 0.45;
+    final computedMax = context.height * 0.4;
     // SliverPersistentHeader requires maxExtent >= minExtent; on small
     // viewports (or when `context.height` is constrained), this can otherwise
     // become invalid and crash with "layoutExtent exceeds paintExtent".
@@ -187,22 +187,40 @@ class _PoemToryDetailViewState extends State<PoemToryDetailView> {
                     left: 16,
                     right: 16,
                     top: 24,
-                    bottom: 24,
+                    // bottom: 24,
                   ),
                   sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.data.title ?? '', style: FontFamily().bold),
-                        SizedBox(height: 10),
-                        HtmlWidget(
-                          markdown.markdownToHtml(widget.data.description ?? ''),
-                          textStyle: FontFamily().regular.copyWith(
-                            fontSize: 12,
-                            // color: ColorResources.primaryText.withValues(alpha: 0.7),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: ColorResources.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(child: Text(widget.data.title ?? '', style: FontFamily().bold)),
+                          SizedBox(height: 10),
+                          // _ExpandableText(
+                          //   text: markdown
+                          //       .markdownToHtml(item.description ?? '')
+                          //       .toPlainText,
+                          //   maxLines: 3,
+                          //   style: FontFamily().regular.copyWith(
+                          //     fontSize: 15,
+                          //     color: ColorResources.itemSecondary,
+                          //     height: 1.35,
+                          //   ),
+                          // ),
+                          HtmlWidget(
+                            markdown.markdownToHtml(widget.data.description ?? ''),
+                            textStyle: FontFamily().regular.copyWith(
+                              fontSize: 15,
+                              // color: ColorResources.primaryText.withValues(alpha: 0.7),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

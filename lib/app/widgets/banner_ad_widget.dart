@@ -44,7 +44,8 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) => mounted ? setState(() => _loaded = true) : null,
-        onAdFailedToLoad: (ad, _) {
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('Banner failed: ${error.code} ${error.message}');
           ad.dispose();
           _ad = null;
           if (mounted) setState(() => _loaded = false);
@@ -66,15 +67,15 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   @override
   Widget build(BuildContext context) {
     final size = _size;
-    if (size == null) return const SizedBox.shrink();
+    if (size == null || !_loaded || _ad == null) return const SizedBox.shrink();
     return SafeArea(
       top: false,
       child: Container(
         margin: const EdgeInsets.only(top: 8), // ခလုတ်တွေနဲ့ ခွာထား
         width: size.width.toDouble(),
-        height: size.height.toDouble(),       // load မပြီးခင်လည်း နေရာယူထား
+        height: size.height.toDouble(),
         alignment: Alignment.center,
-        child: _loaded && _ad != null ? AdWidget(ad: _ad!) : null,
+        child: AdWidget(ad: _ad!),
       ),
     );
   }

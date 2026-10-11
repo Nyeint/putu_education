@@ -54,13 +54,13 @@ class SessionItem {
       iconName: 'category_vocabulary',
       onTap: (context) => context.pushNamed(RouteName.englishVocabulary),
     ),
-    SessionItem(
-      id: 'en_poems',
-      category: SessionCategory.english,
-      titleKey: 'poems',
-      iconName: 'category_poem',
-      onTap: (context) => context.pushNamed(RouteName.englishPoem),
-    ),
+    // SessionItem(
+    //   id: 'en_poems',
+    //   category: SessionCategory.english,
+    //   titleKey: 'poems',
+    //   iconName: 'category_poem',
+    //   onTap: (context) => context.pushNamed(RouteName.englishPoem),
+    // ),
     SessionItem(
       id: 'en_stories',
       category: SessionCategory.english,
@@ -119,18 +119,18 @@ class SessionItem {
       iconName: 'category_vocabulary',
       onTap: (context) => context.pushNamed(RouteName.myanmarVocabulary),
     ),
-    SessionItem(
-      id: 'mm_poems',
-      category: SessionCategory.myanmar,
-      titleKey: 'ကဗျာများ',
-      iconName: 'category_poem',
-      onTap: (context) =>  Navigator.push(context,
-          MaterialPageRoute(builder: (context) =>  PoemToryListView(
-            poemtoryType: 'poems', subject: 'mm',
-            title: 'ကဗျာများ',
-          ))
-      ),
-    ),
+    // SessionItem(
+    //   id: 'mm_poems',
+    //   category: SessionCategory.myanmar,
+    //   titleKey: 'ကဗျာများ',
+    //   iconName: 'category_poem',
+    //   onTap: (context) =>  Navigator.push(context,
+    //       MaterialPageRoute(builder: (context) =>  PoemToryListView(
+    //         poemtoryType: 'poems', subject: 'mm',
+    //         title: 'ကဗျာများ',
+    //       ))
+    //   ),
+    // ),
     SessionItem(
       id: 'mm_stories',
       category: SessionCategory.myanmar,

@@ -31,7 +31,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
   int correctCount=0;
 
   List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','parallelogram'];
-  List<String> fruitList = ['apple', 'banana', 'grape', 'mango', 'tangerine', 'pineapple', 'strawberry'];
+  List<String> fruitList = ['apple', 'banana', 'mango', 'tangerine', 'pineapple', 'strawberry'];
 
   String correctItem = '';
   List<String> resultList = [];

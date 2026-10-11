@@ -48,7 +48,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
             ),
             Center(child:
             Text(titleWithGoBack!,
-              style: FontFamily().medium.copyWith(fontSize: context.locale.languageCode == 'en'?24:22), maxLines: 1,))
+              style: FontFamily().medium.copyWith(fontSize: context.locale.languageCode == 'en'?24:22
+              ), maxLines: 1, overflow: TextOverflow.ellipsis,)).pad(left: 40,right: 40)
           ],
         ).pad(left: 10, right: 10, bottom: 10)
             :

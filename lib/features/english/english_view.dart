@@ -91,25 +91,25 @@ class _EnglishViewState extends State<EnglishView> {
                         context.pushNamed(RouteName.englishVocabulary);
                       },
                   ),
-                  SubItemWidget(
-                      title: 'Poems',
-                      iconName: 'category_poem',
-                      onTap: (){
-                        // context.pushNamed(RouteName.englishPoem);
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                        //         poemtoryType: 'poems', subject: 'en',
-                        //       title: 'Poems',
-                        //     ))
-                        // );
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                              poemtoryType: 'poems', subject: 'en',
-                              title: 'Poems',
-                            ))
-                        );
-                      },
-                  ),
+                  // SubItemWidget(
+                  //     title: 'Poems',
+                  //     iconName: 'category_poem',
+                  //     onTap: (){
+                  //       // context.pushNamed(RouteName.englishPoem);
+                  //       // Navigator.push(context,
+                  //       //     MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                  //       //         poemtoryType: 'poems', subject: 'en',
+                  //       //       title: 'Poems',
+                  //       //     ))
+                  //       // );
+                  //       Navigator.push(context,
+                  //           MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                  //             poemtoryType: 'poems', subject: 'en',
+                  //             title: 'Poems',
+                  //           ))
+                  //       );
+                  //     },
+                  // ),
                   SubItemWidget(
                       title: 'Stories',
                       iconName: 'category_story',

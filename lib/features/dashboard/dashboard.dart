@@ -189,8 +189,8 @@ class _DashboardViewState extends State<DashboardView> {
                                   ScoreProvider scoreProvider = getIt<ScoreProvider>();
                                   scoreProvider.clearScores();
                                   print("Score Provider ${scoreProvider.englishScoreSum}");
-                                 // Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsView()));
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>OnBoardingView()));
+                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsView()));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>OnBoardingView()));
                                 },
                                 child: MyIcon(iconName: 'setting')),
                           ],

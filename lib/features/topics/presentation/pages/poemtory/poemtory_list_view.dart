@@ -88,6 +88,13 @@ class _PoemToryListViewState extends State<PoemToryListView> {
     }
   }
 
+  String _formatClock(Duration d) {
+    final totalSeconds = d.inSeconds.clamp(0, 1 << 31);
+    final minutes = (totalSeconds ~/ 60).toString().padLeft(2, '0');
+    final seconds = (totalSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
   Widget _poemtoryItem(PoemToryData item) {
     return GestureDetector(
       // onTap: () => context.pushNamed(RouteName.poemDetail, extra: {'id': item.id}),
@@ -156,7 +163,7 @@ class _PoemToryListViewState extends State<PoemToryListView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        item.duration != null ? '${item.duration} mins' : '',
+                        item.duration != null ? '${  _formatClock(Duration(seconds: item.duration ?? 0))} Mins' : '',
                         style: FontFamily().regular.copyWith(
                               color: ColorResources.subText,
                               fontSize: FontSize().fourteen,

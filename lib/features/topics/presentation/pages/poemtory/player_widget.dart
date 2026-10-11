@@ -118,8 +118,8 @@ class _PlayerWidgetState extends State<PlayerWidget> {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: CachedNetworkImage(
-                width: 44,
-                height: 44,
+                // width: 44,
+                // height: 44,
                 imageUrl: widget.imageUrl,
                 // imageUrl:
                 //     'https://cdn.firstcry.com/education/2022/08/10192003/The-Foolish-Lion-And-The-Clever-Rabbit-Story-With-Moral-For-Kids.jpg',
@@ -278,11 +278,11 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                               constraints.maxHeight.clamp(0.0, 220.0);
                           if (h <= 0) return const SizedBox.shrink();
                           return ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(12)),
+                            // borderRadius:
+                            //     const BorderRadius.all(Radius.circular(12)),
                             child: CachedNetworkImage(
                               height: h,
-                              width: double.infinity,
+                              // width: double.infinity,
                               imageUrl: widget.imageUrl,
                               fit: BoxFit.cover,
                               progressIndicatorBuilder:
@@ -311,7 +311,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    // const SizedBox(height: 10),
                     Slider(
                       activeColor: Colors.black,
                       inactiveColor: ColorResources.subText,
@@ -340,7 +340,6 @@ class _PlayerWidgetState extends State<PlayerWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-
                         GestureDetector(
                           onTap: () =>  _seekBy(const Duration(seconds: -10)),
                           child: SizedBox(

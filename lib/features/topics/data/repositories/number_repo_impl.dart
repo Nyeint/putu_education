@@ -14,8 +14,6 @@ class NumberRepoImpl implements NumberRepo {
 
   NumberRepoImpl(this.network);
 
-  static const Duration _cacheTtl = Duration(seconds: 10);
-
   String _cacheKey(String subject, int page) =>
       'numbers_cache_${subject}_$page';
 
@@ -55,14 +53,13 @@ class NumberRepoImpl implements NumberRepo {
   }
 
   /// Returns the cached response body for [cacheKey], or null if there is no
-  /// cache, the cache is stale (older than 10 seconds), or the cached result
+  /// cache, or the cached result
   /// had no data - in every one of those cases the caller should hit the
   /// network.
   Future<dynamic> _readCache(String cacheKey) async {
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getString(cacheKey);
-    final cachedAtMillis = prefs.getInt('${cacheKey}_ts');
-    if (raw == null || cachedAtMillis == null) return null;
+    if (raw == null) return null;
 
     dynamic json;
     try {
@@ -73,11 +70,7 @@ class NumberRepoImpl implements NumberRepo {
 
     final list = json is Map ? json['data'] : null;
     final hasData = list is List && list.isNotEmpty;
-    if (!hasData) return null; // no data -> ignore the 10 second rule, refetch
-
-    final cachedAt = DateTime.fromMillisecondsSinceEpoch(cachedAtMillis);
-    final isFresh = DateTime.now().difference(cachedAt) < _cacheTtl;
-    if (!isFresh) return null;
+    if (!hasData) return null; // no data -> refetch
 
     return json;
   }

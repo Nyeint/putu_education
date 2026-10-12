@@ -40,7 +40,7 @@ class LessonsView extends StatelessWidget {
               children: [
                 Text(title, style: FontFamily().semiBold,).pad(left: 120),
                 SizedBox(height: 4,),
-                Text(bodyText, style: FontFamily().regular.copyWith(fontSize: context.locale.languageCode == 'en'?14:12),).pad(left: 120)
+                Text(bodyText, style: FontFamily().regular.copyWith(fontSize: context.locale.languageCode == 'en'?FontSize().fourteen:FontSize().twelve),).pad(left: 120)
               ],
             ),
           ),
@@ -48,7 +48,8 @@ class LessonsView extends StatelessWidget {
             alignment: Alignment.topLeft,
             child:
             // Lottie.asset('assets/LottieLogo1.json', width: 120, height: 120,),
-            Image.asset('assets/images/$iconName.png', width: 120, height: 120,).pad(left: 10,bottom: 10),
+            Image.asset('assets/images/$iconName.png',
+              width: 120, height: 120,).pad(left: 10,bottom: 10),
           )
         ],
       ),
@@ -59,7 +60,7 @@ class LessonsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         // borderRadius: BorderRadius.only(
         //     topLeft: Radius.circular(20), 
         //     topRight: Radius.circular(20)
@@ -77,13 +78,13 @@ class LessonsView extends StatelessWidget {
             colors: <Color>[ColorResources.primary,ColorResources.primaryGradient]),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/images/left_line.png', width: 50, height: 50,),
-              Text(tr('lessons'), style: FontFamily().bold.copyWith(fontSize: context.locale.languageCode == 'en'?20:18),).pad(left: 8, right: 8),
+              Text(tr('lessons'), style: FontFamily().bold.copyWith(fontSize: context.locale.languageCode == 'en'?FontSize().twenty:FontSize().eighteen),).pad(left: 8, right: 8),
               Image.asset('assets/images/right_line.png', width: 50, height: 50,),
             ],
           ),

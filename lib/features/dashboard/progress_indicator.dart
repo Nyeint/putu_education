@@ -14,8 +14,9 @@ class ProgressIndicatorView extends StatelessWidget {
   progressItem(String title, String mark, BuildContext context, String goTo){
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 12),
-      constraints: const BoxConstraints(
-        minWidth: 90,
+      constraints: BoxConstraints(
+        // minWidth: 90,
+        minWidth: context.width*0.2
       ),
       // width: 80,
       decoration: BoxDecoration(
@@ -34,10 +35,10 @@ class ProgressIndicatorView extends StatelessWidget {
       // color: ColorResources.secondary,
       child: Column(
         children: [
-          Text(title, style: FontFamily().semiBold.copyWith(fontSize: context.locale.languageCode == 'en'?16:14),),
+          Text(title, style: FontFamily().semiBold.copyWith(fontSize: context.locale.languageCode == 'en'?FontSize().sixteen:FontSize().fourteen),),
           Container(
-            width: 40,
-            height: 40,
+            width: context.width*0.1,
+            height: context.width*0.1,
             decoration: BoxDecoration(
               image: DecorationImage(
                   image:
@@ -45,7 +46,7 @@ class ProgressIndicatorView extends StatelessWidget {
                   fit: BoxFit.fill),
               // shape: BoxShape.rectangle
             ),
-            child: Center(child: Text(mark,)),
+            child: Center(child: Text(mark, style: FontFamily().medium,)),
           ),
           SizedBox(height: 8,),
           GestureDetector(
@@ -60,7 +61,7 @@ class ProgressIndicatorView extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: <Color>[Colors.white,ColorResources.primary]),
               ),
-              child: Center(child: Text(tr('play'),style: FontFamily().medium.copyWith(fontSize: context.locale.languageCode == 'en'?12:10,))
+              child: Center(child: Text(tr('play'),style: FontFamily().medium.copyWith(fontSize: context.locale.languageCode == 'en'?FontSize().fourteen-2:FontSize().fourteen-4,))
               ),
             ),
           )
@@ -74,6 +75,7 @@ class ProgressIndicatorView extends StatelessWidget {
     final scoreProvider = context.watch<ScoreProvider>();
     return Container(
       padding: EdgeInsets.all(16),
+      width: context.width*0.8,
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/yellow_slider.png",),

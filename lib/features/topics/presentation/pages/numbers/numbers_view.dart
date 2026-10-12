@@ -114,7 +114,7 @@ class _NumbersViewState extends State<NumbersView> {
                         child: Column(
                           children: [
                             Container(
-                                height: 200,
+                                constraints: const BoxConstraints(minHeight: 200),
                                 width: context.width,
                                 decoration: BoxDecoration(
                                   color: ColorResources.secondary,
@@ -123,6 +123,7 @@ class _NumbersViewState extends State<NumbersView> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Align(
                                       alignment: Alignment.topRight,

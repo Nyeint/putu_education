@@ -41,6 +41,10 @@ class FontSize{
   double get fourteen{
     return context==null?16:context!.locale.languageCode == 'en'?context!.width/25.5:context!.width/25.5-2; // Example for title font size
   }
+
+  double get twelve{
+    return context==null?16:context!.locale.languageCode == 'en'?context!.width/30:context!.width/30-2; // Example for title font size
+  }
   // double get eighteen {
   //   return context.size!.height*0.018;
   // }

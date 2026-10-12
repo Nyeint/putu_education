@@ -96,6 +96,7 @@ class GameRepoImpl implements GameRepo {
     final data = ob.data;
     if (ob.message == MsgState.data && (data is Map || data is List)) {
       await prefs.setString(key, jsonEncode(data));
+      await prefs.setInt('${key}_ts', DateTime.now().millisecondsSinceEpoch);
     }
     return ob;
   }

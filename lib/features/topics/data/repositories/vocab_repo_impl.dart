@@ -14,7 +14,7 @@ class VocabRepoImpl implements VocabRepo {
 
   VocabRepoImpl(this.network);
 
-  static const Duration _cacheTtl = Duration(minutes: 5);
+  static const Duration _cacheTtl = Duration(days: 3);
   static const String _categoriesCacheKey = 'vocab_categories_cache';
 
   String _vocabularyCacheKey(String subject, String? category) =>
@@ -48,7 +48,7 @@ class VocabRepoImpl implements VocabRepo {
     );
   }
 
-  /// Serves [cacheKey] from cache when it's fresh (< 5 minutes old) and
+  /// Serves [cacheKey] from cache when it's fresh (< 3 days old) and
   /// non-empty; otherwise calls [request] and, on success, refreshes the
   /// cache with the new result.
   Future<ResponseOb> _cachedRequest({
@@ -99,7 +99,7 @@ class VocabRepoImpl implements VocabRepo {
   }
 
   /// Returns the cached response body for [cacheKey], or null if there is no
-  /// cache, the cache is stale (older than 5 minutes), or the cached result
+  /// cache, the cache is stale (older than 3 days), or the cached result
   /// had no data - in every one of those cases the caller should hit the
   /// network.
   Future<dynamic> _readCache(String cacheKey) async {
@@ -116,7 +116,7 @@ class VocabRepoImpl implements VocabRepo {
     }
 
     if (!_hasData(json))
-      return null; // no data -> ignore the 5 min rule, refetch
+      return null; // no data -> ignore the TTL, refetch
 
     final cachedAt = DateTime.fromMillisecondsSinceEpoch(cachedAtMillis);
     final isFresh = DateTime.now().difference(cachedAt) < _cacheTtl;

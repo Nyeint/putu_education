@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/config/color_resources.dart';
+import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/app/config/widget_extensions.dart';
 import 'package:putu_education/app/utils/weekly_session_picker.dart';
 import 'package:putu_education/data/model/session_item.dart';
@@ -98,7 +99,7 @@ class _DashboardViewState extends State<DashboardView> {
         Text(
           tr(item.titleKey),
           style: FontFamily().medium.copyWith(
-              fontSize: context.locale.languageCode == 'en' ? 14 : 12,
+              fontSize: context.locale.languageCode == 'en' ? FontSize().fourteen : FontSize().fourteen-2,
           fontWeight: FontWeight.w400),
         ),
       ],
@@ -188,7 +189,6 @@ class _DashboardViewState extends State<DashboardView> {
                                 onTap: () {
                                   ScoreProvider scoreProvider = getIt<ScoreProvider>();
                                   scoreProvider.clearScores();
-                                  print("Score Provider ${scoreProvider.englishScoreSum}");
                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsView()));
                                   // Navigator.push(context, MaterialPageRoute(builder: (context)=>OnBoardingView()));
                                 },
@@ -200,8 +200,8 @@ class _DashboardViewState extends State<DashboardView> {
                     )
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
+                  child: CustomScrollView(
+                    slivers: [SliverFillRemaining(hasScrollBody: false, child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -283,9 +283,9 @@ class _DashboardViewState extends State<DashboardView> {
                         SizedBox(
                           height: 20,
                         ),
-                        LessonsView()
+                        Expanded(child: LessonsView())
                       ],
-                    ),
+                    ))],
                   ),
                 ),
               ],

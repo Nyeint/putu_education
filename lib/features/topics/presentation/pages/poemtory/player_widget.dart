@@ -104,7 +104,7 @@ class _PlayerWidgetState extends State<PlayerWidget> {
     );
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         color: ColorResources.white.withOpacity(0.92),
         borderRadius: const BorderRadius.all(Radius.circular(16)),

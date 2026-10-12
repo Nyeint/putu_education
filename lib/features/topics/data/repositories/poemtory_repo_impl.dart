@@ -14,13 +14,13 @@ class PoemToryRepoImpl implements PoemToryRepo {
 
   PoemToryRepoImpl(this.network);
 
-  static const Duration _cacheTtl = Duration(minutes: 10);
+  static const Duration _cacheTtl = Duration(days: 5);
 
   String _cacheKey(String poemtoryType, String subject) =>
       'poemtory_cache_${poemtoryType}_$subject';
 
   String _cacheTimestampKey(String poemtoryType, String subject) =>
-      'poemtory_cache_ts_${poemtoryType}_$subject';
+      '${_cacheKey(poemtoryType, subject)}_ts';
 
   @override
   Future<ResponseOb> getPoemTories({
@@ -59,7 +59,7 @@ class PoemToryRepoImpl implements PoemToryRepo {
   }
 
   /// Returns the cached page-1 response body, or null if there is no cache,
-  /// the cache is stale (older than 10 minutes), or the cached result had no
+  /// the cache is stale (older than 5 days), or the cached result had no
   /// data - in every one of those cases the caller should hit the network.
   Future<Map<String, dynamic>?> _readCache(String poemtoryType, String subject) async {
     final prefs = await SharedPreferences.getInstance();
@@ -76,7 +76,7 @@ class PoemToryRepoImpl implements PoemToryRepo {
 
     final list = json['data'];
     final hasData = list is List && list.isNotEmpty;
-    if (!hasData) return null; // no data -> ignore the 5 min rule, refetch
+    if (!hasData) return null; // no data -> ignore the TTL, refetch
 
     final cachedAt = DateTime.fromMillisecondsSinceEpoch(cachedAtMillis);
     final isFresh = DateTime.now().difference(cachedAt) < _cacheTtl;

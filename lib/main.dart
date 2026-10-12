@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import 'app/config/theme.dart';
 import 'app/service/locator.dart';
+import 'app/utils/cache_purge.dart';
 import 'app/service/tts_service.dart';
 import 'data/providers/score_provider.dart';
 import 'data/providers/settings_info_provider.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
   configLoading();
   TtsService.instance;
   await setupLocator();
+  await purgeExpiredCache();
   onboardingSeen = (await SharedPreferences.getInstance()).getBool(onboardingSeenKey) ?? false;
   // runApp(MyApp());
   runApp(
@@ -36,6 +38,7 @@ Future<void> main() async {
           ],
           path: "languages",
           fallbackLocale: const Locale('en', 'US'),
+          startLocale: const Locale('my', 'MM'), // used only until the user picks a language
           saveLocale: true,
           // child: MyApp()
         child: MultiProvider(

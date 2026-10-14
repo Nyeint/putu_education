@@ -30,8 +30,10 @@ class ContactUsView extends StatelessWidget {
                     icon: Icon(Icons.mail_rounded, color: Colors.white, size: 34),
                     color: Color(0xFF4FA3F7),
                     title: 'Email Us',
-                    subtitle: 'litobird.tech@gmail.com',
-                    url: 'litobird.tech@gmail.com',
+                    subtitle: 'putu.learn@gmail.com',
+                    url: 'putu.learn@gmail.com',
+                    // subtitle: 'litobird.tech@gmail.com',
+                    // url: 'litobird.tech@gmail.com',
                   ),
                   _ContactTile(
                     icon: Text('f', style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w900)),

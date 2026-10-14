@@ -11,7 +11,10 @@ class ItemVoiceWidget extends StatelessWidget {
   String photo;
   String name;
   String audio;
-  ItemVoiceWidget({super.key, required this.photo, required this.name, required this.audio});
+  /// When set, the card is [width] wide with a square image; otherwise the
+  /// legacy screen-relative size is used.
+  final double? width;
+  ItemVoiceWidget({super.key, required this.photo, required this.name, required this.audio, this.width});
 
   // Shared across all cards (mirrors the previous shared TtsService instance)
   // so tapping another card's volume icon stops whatever is currently
@@ -26,12 +29,13 @@ class ItemVoiceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = context.width/3.8;
+    final double width = this.width ?? context.width/3.8;
     // double height = context.width/2.85;
-    double height = context.width/3.8 +15 ;
+    final double height = this.width != null ? width : context.width/3.8 +15;
+    final double labelHeight = this.width != null ? width * 0.45 : context.width*0.13;
     return SizedBox(
       width: width,
-      height: height+context.width*0.13,
+      height: height+labelHeight,
       child: Stack(
         children: [
           Align(
@@ -72,7 +76,7 @@ class ItemVoiceWidget extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 // height: 50,
-                height: context.width*0.13,
+                height: labelHeight,
                 width: width,
                 // height: context.width/8,
                 decoration: BoxDecoration(

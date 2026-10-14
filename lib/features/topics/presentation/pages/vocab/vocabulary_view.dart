@@ -214,14 +214,20 @@ class _VocabularyViewState extends State<VocabularyView> {
 
     final nameList = words.map((w) => w.word ?? '').toList();
     final audioList = words.map((w) => w.audio ?? '').toList();
-    return ListView(
+    const spacing = 16.0;
+    return LayoutBuilder(builder: (context, constraints) {
+      // 3 columns on phones, 5 on tablets, 7 on large tablets.
+      final available = constraints.maxWidth;
+      final columns = available >= 900 ? 7 : (available >= 600 ? 5 : 3);
+      final itemWidth = (available - spacing * (columns - 1)) / columns;
+      return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
       children: [
         Wrap(
           alignment: WrapAlignment.start,
           runAlignment: WrapAlignment.start,
-          spacing: 16.0, // gap between adjacent items
-          runSpacing: 16.0, // gap between lines
+          spacing: spacing, // gap between adjacent items
+          runSpacing: spacing, // gap between lines
           children: List.generate(
             words.length,
             (index) => GestureDetector(
@@ -239,12 +245,14 @@ class _VocabularyViewState extends State<VocabularyView> {
                 photo: photoList[index],
                 name: nameList[index],
                 audio: audioList[index],
+                width: itemWidth,
               ),
             ),
           ),
         ),
       ],
-    );
+      );
+    });
   }
 
   @override

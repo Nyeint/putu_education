@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -23,6 +24,17 @@ class ShapeView extends StatefulWidget {
 }
 
 class _ShapeViewState extends State<ShapeView> {
+  static const _shapes = [
+    'circle',
+    'oval',
+    'triangle',
+    'square',
+    'rectangle',
+    'pentagon',
+    'octagon',
+  ];
+
+  final _player = AudioPlayer();
   Map<String, dynamic> _strings = {};
   bool _ready = false;
 
@@ -33,6 +45,18 @@ class _ShapeViewState extends State<ShapeView> {
   void initState() {
     super.initState();
     _loadStrings();
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
+  }
+
+  Future<void> _playSound(String icon) async {
+    final dir = _useMyanmar ? 'burmese-shapes' : 'english-shapes';
+    await _player.stop();
+    await _player.play(AssetSource('audios/$dir/$icon.mp3'));
   }
 
   Future<void> _loadStrings() async {
@@ -80,11 +104,15 @@ class _ShapeViewState extends State<ShapeView> {
           Center(
             child: Column(
               children: [
-                SvgPicture.asset(
-                  "assets/icons/shapes/$icon.svg",
-                  color: ColorResources.primary,
-                  height: context.width / 4.5,
+                SizedBox(
+                    height: context.width / 4.5,
+                    child: Image.asset('assets/icons/shapes/$icon.png',)
                 ),
+                // SvgPicture.asset(
+                //   "assets/icons/shapes/$icon.png",
+                //   color: ColorResources.primary,
+                //   height: context.width / 4.5,
+                // ),
                 const SizedBox(height: 8),
                 Text(
                   name.capitalize(),
@@ -139,84 +167,16 @@ class _ShapeViewState extends State<ShapeView> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _itemWidget(
-                  context: context,
-                  name: t('triangle'),
-                  body: t('triangle_des'),
-                  icon: 'triangle',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('square'),
-                  body: t('square_des'),
-                  icon: 'square',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('pentagon'),
-                  body: t('pentagon_des'),
-                  icon: 'pentagon',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('hexagon'),
-                  body: t('hexagon_des'),
-                  icon: 'hexagon',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('heptagon'),
-                  body: t('heptagon_des'),
-                  icon: 'heptagon',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('octagon'),
-                  body: t('octagon_des'),
-                  icon: 'octagon',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('nonagon'),
-                  body: t('nonagon_des'),
-                  icon: 'nonagon',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('decagon'),
-                  body: t('decagon_des'),
-                  icon: 'decagon',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('circle'),
-                  body: t('circle_des'),
-                  icon: 'circle',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('semicircle'),
-                  body: t('semicircle_des'),
-                  icon: 'semicircle',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('oval'),
-                  body: t('oval_des'),
-                  icon: 'oval',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('line'),
-                  body: t('line_des'),
-                  icon: 'line',
-                ),
-                _itemWidget(
-                  context: context,
-                  name: t('parallelogram'),
-                  body: t('parallelogram_des'),
-                  icon: 'parallelogram',
-                ),
+                for (final shape in _shapes)
+                  GestureDetector(
+                    onTap: () => _playSound(shape),
+                    child: _itemWidget(
+                      context: context,
+                      name: t(shape),
+                      body: t('${shape}_des'),
+                      icon: shape,
+                    ),
+                  ),
               ],
             ).pad(
               left: 16,

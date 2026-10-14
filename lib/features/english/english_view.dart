@@ -116,7 +116,7 @@ class _EnglishViewState extends State<EnglishView> {
                       onTap: (){
                         // context.pushNamed(RouteName.englishNumber);
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) =>  PoemToryListView(
+                            MaterialPageRoute(builder: (context) => const PoemToryListView(
                               poemtoryType: 'stories', subject: 'en',
                               title: 'Stories',
                             ))
@@ -128,8 +128,9 @@ class _EnglishViewState extends State<EnglishView> {
                       iconName: 'category_song',
                       onTap: (){
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                              poemtoryType: 'songs', subject: 'en',
+                            MaterialPageRoute(builder: (context) => const PoemToryListView(
+                              poemtoryType: 'songs',
+                              subject: 'en',
                               title: 'Songs',
                             ))
                         );
@@ -139,7 +140,8 @@ class _EnglishViewState extends State<EnglishView> {
                     title: 'Math', iconName: 'category_math',
                     onTap: (){
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) =>  MathView(
+                          MaterialPageRoute(builder: (context) =>
+                              MathView(
                             learnLanguageType: LearnLanguageType.en.name,
                           ))
                       );

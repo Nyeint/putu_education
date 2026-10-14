@@ -17,10 +17,13 @@ import 'package:putu_education/features/game/widgets/result_view.dart';
 import 'package:putu_education/features/topics/presentation/pages/numbers/numbers_view.dart';
 import 'package:putu_education/route/route_name.dart';
 import 'package:putu_education/route/route_path.dart';
+import '../app/utils/en_types.dart';
 import '../features/english/english_view.dart';
 import '../features/topics/presentation/pages/alphabets/english_alphabet_view.dart';
 import '../features/topics/presentation/pages/alphabets/burmese_alphabet_view.dart';
 import '../features/myanmar/myanmar_view.dart';
+import '../features/topics/presentation/pages/math/math_view.dart';
+import '../features/topics/presentation/pages/poemtory/poemtory_list_view.dart';
 import '../features/topics/presentation/pages/vocab/vocabulary_view.dart';
 
 final globalContext =
@@ -84,19 +87,35 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      name: RouteName.myanmarVocabulary,
-      path: RoutePath.myanmarVocabulary,
+      name: RouteName.englishStory,
+      path: RoutePath.englishStory,
       builder: (BuildContext context, GoRouterState state) {
-        return const VocabularyView(subject: 'mm');
+        return const PoemToryListView(
+          poemtoryType: 'stories',
+          subject: 'en',
+          title: 'Stories',
+        );
       },
     ),
-    // GoRoute(
-    //   name: RouteName.englishPoem,
-    //   path: RoutePath.englishPoem,
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const EnglishPoemView();
-    //   },
-    // ),
+    GoRoute(
+      name: RouteName.englishSong,
+      path: RoutePath.englishSong,
+      builder: (BuildContext context, GoRouterState state) {
+        return const PoemToryListView(
+          poemtoryType: 'songs',
+          subject: 'en',
+          title: 'Songs',
+        );
+      },
+    ),
+    GoRoute(
+      name: RouteName.englishMath,
+      path: RoutePath.englishMath,
+      builder: (BuildContext context, GoRouterState state) {
+        return MathView(learnLanguageType: 'en');
+      },
+    ),
+
     GoRoute(
       name: RouteName.myanmarNumber,
       path: RoutePath.myanmarNumber,
@@ -111,44 +130,43 @@ final GoRouter router = GoRouter(
         return const MyanmarAlphabetView();
       },
     ),
+    GoRoute(
+      name: RouteName.myanmarVocabulary,
+      path: RoutePath.myanmarVocabulary,
+      builder: (BuildContext context, GoRouterState state) {
+        return const VocabularyView(subject: 'mm');
+      },
+    ),
+    GoRoute(
+      name: RouteName.myanmarStory,
+      path: RoutePath.myanmarStory,
+      builder: (BuildContext context, GoRouterState state) {
+        return const PoemToryListView(
+          poemtoryType: 'stories',
+          subject: 'mm',
+          title: 'ပုံပြင်များ',
+        );
+      },
+    ),
+    GoRoute(
+      name: RouteName.myanmarSong,
+      path: RoutePath.myanmarSong,
+      builder: (BuildContext context, GoRouterState state) {
+        return const PoemToryListView(
+          poemtoryType: 'songs',
+          subject: 'mm',
+          title: 'သီချင်းများ',
+        );
+      },
+    ),
+    GoRoute(
+      name: RouteName.myanmarMath,
+      path: RoutePath.myanmarMath,
+      builder: (BuildContext context, GoRouterState state) {
+        return MathView(learnLanguageType: 'mm');
+      },
+    ),
 
-    // GoRoute(
-    //   name: RouteName.poemDetail,
-    //   path: RoutePath.poemDetail,
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const PoemDetailView();
-    //   },
-    // ),
-    // GoRoute(
-    //   name: RouteName.math,
-    //   path: RoutePath.math,
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return MathView(
-    //       learnLangaugeType: state.extra as String?,
-    //     );
-    //   },
-    // ),
-    // GoRoute(
-    //   name: RouteName.shapeViewEn,
-    //   path: RoutePath.shapeViewEn,
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const ShapeView();
-    //   },
-    // ),
-    // GoRoute(
-    //   name: RouteName.shapeViewMm,
-    //   path: RoutePath.shapeViewMm,
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const ShapeView();
-    //   },
-    // ),
-    // GoRoute(
-    //   name: RouteName.calculation,
-    //   path: RoutePath.calculation,
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const CalculationView();
-    //   },
-    // ),
 
     GoRoute(
       name: RouteName.englishGame,

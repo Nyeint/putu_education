@@ -6,8 +6,8 @@ import '../../app/config/color_resources.dart';
 import '../../app/config/widget_extensions.dart';
 import '../widgets/my_appbar.dart';
 
-class ContactUsView extends StatelessWidget {
-  const ContactUsView({super.key});
+class ContactUsTechView extends StatelessWidget {
+  const ContactUsTechView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +30,9 @@ class ContactUsView extends StatelessWidget {
                     icon: Icon(Icons.mail_rounded, color: Colors.white, size: 34),
                     color: Color(0xFF4FA3F7),
                     title: 'Email Us',
-                    subtitle: 'putu.learn@gmail.com',
-                    url: 'putu.learn@gmail.com',
-                    // subtitle: 'litobird.tech@gmail.com',
-                    // url: 'litobird.tech@gmail.com',
-                  ),
-                  _ContactTile(
-                    icon: Text('f', style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.w900)),
-                    color: Color(0xFF1877F2),
-                    title: 'Facebook Page',
-                    subtitle: 'PuTu - ပုတု',
-                    url: 'https://www.facebook.com/putu.education',
-                  ),
+                    subtitle: 'litobird.tech@gmail.com',
+                    url: 'litobird.tech@gmail.com',
+                  )
                 ],
               ),
             ),

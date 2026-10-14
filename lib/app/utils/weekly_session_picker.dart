@@ -21,6 +21,7 @@ class WeeklySessionPicker {
     final seed = _weekSeed(date);
     final shuffled = List<SessionItem>.from(SessionItem.all)
       ..shuffle(Random(seed));
+    print("WeeklySessionPicker: seed=$seed, week=${_dayOfYear(date) ~/ 7}, picked=${shuffled.take(pickCount).map((s) => s.id).toList()}");
     return shuffled.take(pickCount).toList();
   }
 

@@ -285,18 +285,30 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
                     }else{
                       multiplyDivideProblem();
                     }
-                    historyList.forEach((element) {print("HELLO THIS IS ${element.toJson()}");});
+                    // historyList.forEach((element) {print("HELLO THIS IS ${element.toJson()}");});
                     // print("HELOOO THIS IS ${historyList[0].toJson()}");
                     setState(() {});
 
                     // quitAlert(context);
                   } : null,
                   child: Container(
-                      padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                      decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
+                      padding: EdgeInsets.only(top: 8, bottom: 8),
+                      // decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
                       child:
-                      currentStep==9?Text(tr('check')):
-                      SvgPicture.asset("assets/icons/next.svg")
+                      currentStep==9?
+                          Container(
+                            // width: context.width * 0.25,
+                            padding: EdgeInsets.only(left: 20, right: 20,top: 8, bottom: 8),
+                              decoration: selectedDecoration(),
+                            child: Text(tr('check')),
+                          ) :
+                      SizedBox(
+                        width: context.width * 0.25,
+                        child:
+                        Image.asset('assets/icons/${isAnswerFilled ?'next_active':'next_inactive'}.png',),
+                      )
+                      // currentStep==9?Text(tr('check')):
+                      // SvgPicture.asset("assets/icons/next.svg")
                   ),
                 ),
               ).pad(bottom: 80),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:putu_education/features/settings/contact_us_tech.dart';
 
 import '../../app/config/color_resources.dart';
 import '../../app/config/widget_extensions.dart';
@@ -74,7 +75,7 @@ class AboutPutuView extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => const ContactUsView()));
+                                MaterialPageRoute(builder: (_) => const ContactUsTechView()));
                           },
                           child: Container(
                             width: double.infinity,
@@ -94,7 +95,7 @@ class AboutPutuView extends StatelessWidget {
                                         WidgetSpan(child: Icon(Icons.favorite, color: Color(0xFFE5576B), size: 20)),
                                       ]), style: TextStyle(fontSize: 16)),
                                       SizedBox(height: 4),
-                                      Text('by PuTu Team', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                                      Text('by LitoBird', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                                     ],
                                   ),
                                 ),

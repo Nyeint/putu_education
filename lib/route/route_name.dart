@@ -8,11 +8,16 @@ abstract class RouteName{
   static const String englishNumber = 'englishNumber';
   static const String englishAlphabet = 'englishAlphabet';
   static const String englishVocabulary = 'englishVocabulary';
-  static const String englishPoem = 'englishPoem';
+  static const String englishSong = 'englishSong';
+  static const String englishStory = 'englishStory';
+  static const String englishMath = 'englishMath';
   static const String myanmarView = 'myanmarView';
   static const String myanmarNumber = 'myanmarNumber';
   static const String myanmarAlphabet = 'myanmarAlphabet';
   static const String myanmarVocabulary = 'myanmarVocabulary';
+  static const String myanmarSong = 'myanmarSong';
+  static const String myanmarStory = 'myanmarStory';
+  static const String myanmarMath = 'myanmarMath';
   static const String poemDetail = 'poemDetail';
   static const String englishGame = 'englishGame';
   static const String myanmarGame = 'myanmarGame';

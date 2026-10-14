@@ -36,21 +36,21 @@ class SessionItem {
     SessionItem(
       id: 'en_numbers',
       category: SessionCategory.english,
-      titleKey: 'numbers',
+      titleKey: 'Numbers',
       iconName: 'category_number',
       onTap: (context) => context.pushNamed(RouteName.englishNumber),
     ),
     SessionItem(
       id: 'en_alphabets',
       category: SessionCategory.english,
-      titleKey: 'alphabets',
+      titleKey: 'Alphabets',
       iconName: 'category_en_alphabet',
       onTap: (context) => context.pushNamed(RouteName.englishAlphabet),
     ),
     SessionItem(
       id: 'en_vocabulary',
       category: SessionCategory.english,
-      titleKey: 'vocabulary',
+      titleKey: 'Vocabulary',
       iconName: 'category_vocabulary',
       onTap: (context) => context.pushNamed(RouteName.englishVocabulary),
     ),
@@ -64,21 +64,28 @@ class SessionItem {
     SessionItem(
       id: 'en_stories',
       category: SessionCategory.english,
-      titleKey: 'stories',
+      titleKey: 'Stories',
       iconName: 'category_story',
-      onTap: (context) => context.pushNamed(RouteName.englishNumber),
+      onTap: (context) {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) =>  PoemToryListView(
+              poemtoryType: 'stories', subject: 'en',
+              title: 'Stories',
+            ))
+        );
+      },
     ),
     SessionItem(
       id: 'en_songs',
       category: SessionCategory.english,
-      titleKey: 'songs',
+      titleKey: 'Songs',
       iconName: 'category_song',
       onTap: (context) => context.pushNamed(RouteName.englishNumber),
     ),
     SessionItem(
       id: 'en_math',
       category: SessionCategory.english,
-      titleKey: 'math',
+      titleKey: 'Math',
       iconName: 'category_math',
       onTap: (context) => Navigator.push(
         context,

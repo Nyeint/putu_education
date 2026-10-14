@@ -30,7 +30,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
   int totalSteps=10;
   int correctCount=0;
 
-  List<String> shapeList = ['triangle', 'square', 'pentagon', 'hexagon','heptagon','octagon','nonagon','decagon','circle', 'semicircle', 'oval','parallelogram'];
+  List<String> shapeList = ['circle', 'oval', 'triangle', 'square','rectangle','pentagon','octagon'];
   List<String> fruitList = ['apple', 'banana', 'mango', 'tangerine', 'pineapple', 'strawberry'];
 
   String correctItem = '';
@@ -166,6 +166,17 @@ class _MathCountingGameState extends State<MathCountingGame> {
                             spacing: 10,
                             runSpacing: 10,
                             children: resultList.asMap().entries.map((e) {
+                              if(currentStep%2==0){
+                                return SizedBox(
+                                    height: context.width*0.16,
+                                    child: Image.asset('assets/icons/shapes/${e.value}.png',)
+                                );
+                              }
+                              else{
+                                return  SvgPicture.asset("assets/icons/fruits/${e.value}.svg",
+                                  // return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/line.svg",
+                                  height: context.width*0.16);
+                              }
                               return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/${e.value}.svg",
                               // return  SvgPicture.asset("assets/icons/${currentStep%2==0?'shapes':'fruits'}/line.svg",
                                 color: currentStep%2==0?ColorResources.primary:null, height: context.width*0.16,);

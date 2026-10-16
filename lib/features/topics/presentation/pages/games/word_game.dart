@@ -79,13 +79,7 @@ class _WordGameState extends State<WordGame> {
   /// Plays the question's pre-recorded prompt audio (no TTS involved).
   Future<void> _playAudio(GameData question) async {
     await Future.delayed(Duration(milliseconds: 500));
-    print("Question--> ${question.toJson()}");
-    print('One--> ${question.options![0].toJson()}');
-    print('Two--> ${question.options![1].toJson()}');
-    print('Three--> ${question.options![2].toJson()}');
-    print('Four--> ${question.options![3].toJson()}');
     final url = _audioUrl(question);
-    print("Url--> $url");
     if (url.isEmpty) return;
     try {
       await _audioPlayer.stop();

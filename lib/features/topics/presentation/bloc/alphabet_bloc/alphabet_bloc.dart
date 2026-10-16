@@ -34,12 +34,9 @@ class AlphabetBloc extends Bloc<AlphabetEvent, AlphabetState> {
           lastPage: model.meta?.lastPage ?? event.page,
         ));
       } else {
-        print("This is failure");
         emit(state.copyWith(status: AlphabetsStatus.failure, error: response));
       }
     } catch (e) {
-      print("This is failure $e");
-
       emit(state.copyWith(
         status: AlphabetsStatus.failure,
         error: ResponseOb(errState: ErrState.unknown_err),

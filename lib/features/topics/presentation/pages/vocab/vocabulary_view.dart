@@ -71,7 +71,6 @@ class _VocabularyViewState extends State<VocabularyView> {
   }
 
   Future<void> _onLoading() async {
-    print("THisijoi fksa;");
     _vocabBloc.add(VocabularyLoadMoreRequested(
       subject: widget.subject,
       category: _selectedCategoryName,

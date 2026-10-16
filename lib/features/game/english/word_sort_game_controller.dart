@@ -93,9 +93,6 @@ class WordSortGameController extends ChangeNotifier {
       await _audioPlayer.stop();
       await _audioPlayer.play(UrlSource(currentQuestion.audioUrl));
     } catch (e) {
-      print("Failed to play audio: ${currentQuestion.audioUrl} and ${e.toString()} and ${currentQuestion.audioUrl}");
-      // Swallow playback failures (e.g. unreachable mock CDN) — audio is a
-      // supplementary hint, not a blocker for playing the game.
     }
   }
 

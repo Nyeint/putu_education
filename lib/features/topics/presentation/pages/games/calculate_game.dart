@@ -94,7 +94,6 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
 
     if(type==CalculateType.type1 || type==CalculateType.type7){
       rightAnswer = a+b-c;
-      print("Here zero $rightAnswer");
       Set<int> tempOptionList = Set();
       tempOptionList.add(rightAnswer);
       while (tempOptionList.length < 4) {
@@ -108,7 +107,6 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
       optionList.addAll(tempOptionList);
     } else{
       rightAnswer = a;
-      print("Here not zero $rightAnswer $a");
       // optionList.add(a);
       //genereate 4 random value between a-10 and a+10
       Set<int> tempOptionList = Set();

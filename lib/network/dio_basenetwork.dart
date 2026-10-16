@@ -96,8 +96,6 @@ class DioBaseNetwork {
 
     Dio dio = Dio(options);
 
-    dio.interceptors.add(LogInterceptor(
-        responseBody: true, requestBody: true, requestHeader: true, responseHeader: true));
     dio.options.connectTimeout = Duration(seconds: 10);
     dio.options.receiveTimeout =Duration(seconds: 10);
     dio.options.sendTimeout = Duration(seconds: 10);
@@ -229,7 +227,6 @@ class DioBaseNetwork {
 
     Dio dio = Dio(options);
 
-    dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
 
     // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
     //   client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;

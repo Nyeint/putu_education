@@ -36,7 +36,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         ));
       }
     } catch (e) {
-      print("Error in WordGameRequested: $e");
       emit(state.copyWith(
         choosePictureStatus: GameLoadStatus.failure,
         choosePictureError: ResponseOb(errState: ErrState.unknown_err),
@@ -49,7 +48,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     emit(state.copyWith(wordSortingStatus: GameLoadStatus.loading));
     try {
       final response = await repository.getWordSortingGame(subject: event.subject, forceRefresh: event.forceRefresh);
-      print("RESPONSE--> $response");
       if (response.message == MsgState.data) {
         final model = GameModel.fromJson(response.data);
         emit(state.copyWith(
@@ -63,7 +61,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         ));
       }
     } catch (e) {
-      print("Error in WordSortingGameRequested: $e");
       emit(state.copyWith(
         wordSortingStatus: GameLoadStatus.failure,
         wordSortingError: ResponseOb(errState: ErrState.unknown_err),
@@ -89,7 +86,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         ));
       }
     } catch (e) {
-      print("Error in SentenceSortingGameRequested: $e");
       emit(state.copyWith(
         sentenceSortingStatus: GameLoadStatus.failure,
         sentenceSortingError: ResponseOb(errState: ErrState.unknown_err),

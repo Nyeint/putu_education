@@ -173,13 +173,9 @@ class _EnglishSentenceSortGameState extends State<EnglishSentenceSortGame> {
       result: formed,
       correctAnswer: target,
     ));
-    print("Formed is --> $formed");
-    print("Target is --> $target");
 
     final noSpaceFormed = formed.replaceAll(RegExp(r'\s+'), '');
     final noSpaceTarget = target.replaceAll(RegExp(r'\s+'), '');
-    print("Formed is --> $noSpaceFormed");
-    print("Target is --> $noSpaceTarget");
     if (noSpaceFormed == noSpaceTarget) {
       setState(() => isChecking = true);
       correctCount++;

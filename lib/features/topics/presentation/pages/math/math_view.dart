@@ -65,8 +65,6 @@ class _MathViewState extends State<MathView> {
                               title: widget.learnLanguageType=='en'?'Shapes':'ပုံသဏ္ဍာန်များ',
                             iconName: 'shape',
                           onTap: (){
-                                print("shape tap ${widget.learnLanguageType} and ${LearnLanguageType.en.name} and ${LearnLanguageType.mm.name}");
-
                                try{
                                  Navigator.push(context, MaterialPageRoute(builder: (context){
                                    return ShapeView(
@@ -78,7 +76,6 @@ class _MathViewState extends State<MathView> {
                                  //     RouteName.shapeViewEn :
                                  //     RouteName.shapeViewMm);
                                }catch(e){
-                                  print("shape tap error $e");
                                }
                           },
 

@@ -72,7 +72,6 @@ class _EnglishViewState extends State<EnglishView> {
                      try{
                        context.pushNamed(RouteName.englishNumber);
                      }catch(e){
-                        print('Navigation error: $e');
                      }
                     },
                       // goTo: RouteName.englishNumber

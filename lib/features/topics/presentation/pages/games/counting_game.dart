@@ -43,7 +43,6 @@ class _MathCountingGameState extends State<MathCountingGame> {
     List<String> resultList = [];
     Random rand = Random();
     int remainingCount = totalCount;
-    print("Shapes--> $shapes");
 
     while (remainingCount > 0) {
       for (String shape in shapes) {
@@ -194,12 +193,6 @@ class _MathCountingGameState extends State<MathCountingGame> {
                                 child: GestureDetector(
                                   onTap: (){
                                     answer = e.value;
-                                    int rightAnswerCount = resultList.where((char) => char == correctItem).length;
-                                    if(answer==rightAnswerCount){
-                                      print("You are right");
-                                    }else{
-                                      print("You are wrong");
-                                    }
                                     setState(() {});
                                   },
                                   child: AspectRatio(

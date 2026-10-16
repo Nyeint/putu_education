@@ -14,7 +14,6 @@ import 'package:putu_education/app/service/locator.dart';
 import 'package:putu_education/app/widgets/loading_widgets.dart';
 import 'package:putu_education/features/topics/presentation/pages/poemtory/poemtory_detail.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
-import 'package:putu_education/route/my_router.dart';
 import '../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../widgets/my_appbar.dart';
 import '../../../data/model/poemtory_list_model.dart';

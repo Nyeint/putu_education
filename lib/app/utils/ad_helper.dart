@@ -8,11 +8,11 @@ class AdHelper {
     if (Platform.isAndroid) {
       return kDebugMode
           ? 'ca-app-pub-3940256099942544/6300978111'
-          : 'TODO_ANDROID_BANNER_AD_UNIT_ID'; // TODO: real Android banner ID
+          : 'ca-app-pub-8496767653842585/3830444039';
     } else if (Platform.isIOS) {
       return kDebugMode
           ? 'ca-app-pub-3940256099942544/2934735716'
-          : 'TODO_IOS_BANNER_AD_UNIT_ID'; // TODO: real iOS banner ID
+          : 'ca-app-pub-8496767653842585/2671696027';
     } else {
       throw UnsupportedError('Unsupported platform');
     }

@@ -84,10 +84,8 @@ class ScoreProvider extends ChangeNotifier {
     required GameTitle gameTitle,
     required int score,
   }) async {
-    print("Record-->? $category, $gameTitle, $score");
     final previousBest = gameHighScore(category, gameTitle);
     if (score <= previousBest) return;
-    print("Recording new high score for $category/$gameTitle: $score (previous best: $previousBest)");
 
     _gameHighScores[category]![gameTitle] = score;
     await _persist();

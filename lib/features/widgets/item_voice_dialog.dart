@@ -121,7 +121,6 @@ void showImageDialog({required BuildContext context, required List<String> photo
                                   setState(() {
                                     selectedIndex=selectedIndex+1;
                                   });
-                                  print("hello selected index ${selectedIndex}");
                                   _playAudio(audioList[selectedIndex]);
                                 },
                                 child: MyIcon(iconName: 'next', padding: 12)),

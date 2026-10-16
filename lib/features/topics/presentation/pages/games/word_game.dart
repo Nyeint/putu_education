@@ -247,12 +247,20 @@ class _WordGameState extends State<WordGame> {
                             _goToNext(questions);
                           }
                         },
-                        child: Container(
-                            padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                            decoration: selectedIndex == -1 ? unselectedDecoration() : selectedTabDecoration(),
-                            child: currentStep == questions.length - 1 ? Text(tr('check')):
-                            SvgPicture.asset("assets/icons/next.svg")
-                        ),
+                        child:
+                        SizedBox(
+                          width: context.width * 0.3,
+                          height: context.width * 0.3,
+                          child:
+                          Image.asset('assets/icons/${currentStep == questions.length - 1?'check':selectedIndex == -1 ?'next_inactive':'next_active'}.png', fit: BoxFit.contain,),
+                        )
+                        // Container(
+                        //     padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
+                        //     decoration: selectedIndex == -1 ? unselectedDecoration() : selectedTabDecoration(),
+                        //     child: currentStep == questions.length - 1 ?
+                        //     Text(tr('check')):
+                        //     SvgPicture.asset("assets/icons/next.svg")
+                        // ),
                       ),
                     ),
                   ],

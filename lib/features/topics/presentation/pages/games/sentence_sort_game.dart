@@ -354,13 +354,20 @@ class _EnglishSentenceSortGameState extends State<EnglishSentenceSortGame> {
                             _manualAdvance(questions);
                           }
                         },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 22, right: 22, top: 8, bottom: 8),
-                          decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
-                          child: currentStep == questions.length - 1
-                              ? Text(tr('check'), style: FontFamily().medium)
-                              : SvgPicture.asset("assets/icons/next.svg"),
-                        ),
+                        child:
+                        // Container(
+                        //   padding: EdgeInsets.only(left: 22, right: 22, top: 8, bottom: 8),
+                        //   decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
+                        //   child: currentStep == questions.length - 1
+                        //       ? Text(tr('check'), style: FontFamily().medium)
+                        //       : SvgPicture.asset("assets/icons/next.svg"),
+                        // ),
+                        Container(
+                          width: context.width * 0.3,
+                          height: context.width * 0.3,
+                          child:
+                          Image.asset('assets/icons/${currentStep == questions.length - 1?'check':isAnswerFilled ?'next_active':'next_inactive'}.png', fit: BoxFit.contain,),
+                        )
                       ),
                     ),
                   ],

@@ -7,7 +7,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' as markdown;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:putu_education/app/config/config.dart';
@@ -273,7 +272,7 @@ class _PoemToryListViewState extends State<PoemToryListView> {
               bloc: _poemtoryBloc,
               builder: (context, state) => SmartRefresher(
                 controller: _refreshController,
-                enablePullDown: true,
+                enablePullDown: false,
                 enablePullUp: state.hasMore,
                 header: WaterDropHeader(),
                 onRefresh: _onRefresh,

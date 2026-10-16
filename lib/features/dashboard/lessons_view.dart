@@ -77,7 +77,8 @@ class LessonsView extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: <Color>[ColorResources.primary,ColorResources.primaryGradient]),
       ),
-      child: Column(
+      child: SingleChildScrollView(
+        child: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
@@ -117,6 +118,7 @@ class LessonsView extends StatelessWidget {
           SizedBox(height: 50,),
         ],
       ).pad(left: 16, right: 16, top: 3, bottom: 3),
+      ),
     );
   }
 }

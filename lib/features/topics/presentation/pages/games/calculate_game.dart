@@ -295,20 +295,19 @@ class _MathCalculationGameState extends State<MathCalculationGame> {
                       padding: EdgeInsets.only(top: 8, bottom: 8),
                       // decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
                       child:
-                      currentStep==9?
-                          Container(
-                            // width: context.width * 0.25,
-                            padding: EdgeInsets.only(left: 20, right: 20,top: 8, bottom: 8),
-                              decoration: selectedDecoration(),
-                            child: Text(tr('check')),
-                          ) :
+                      // currentStep==9?
+                      //     Container(
+                      //       // width: context.width * 0.25,
+                      //       padding: EdgeInsets.only(left: 20, right: 20,top: 8, bottom: 8),
+                      //         decoration: selectedDecoration(),
+                      //       child: Text(tr('check')),
+                      //     ) :
                       SizedBox(
-                        width: context.width * 0.25,
+                        width: context.width * 0.3,
+                        height: context.width * 0.3,
                         child:
-                        Image.asset('assets/icons/${isAnswerFilled ?'next_active':'next_inactive'}.png',),
+                        Image.asset('assets/icons/${currentStep==9?'check':isAnswerFilled ?'next_active':'next_inactive'}.png', fit: BoxFit.contain,),
                       )
-                      // currentStep==9?Text(tr('check')):
-                      // SvgPicture.asset("assets/icons/next.svg")
                   ),
                 ),
               ).pad(bottom: 80),

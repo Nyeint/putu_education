@@ -259,7 +259,7 @@ class _VocabularyViewState extends State<VocabularyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
-      bottomNavigationBar: const BannerAdWidget(),
+      // bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
         titleWithGoBack: tr('vocabulary'),
       ),
@@ -305,7 +305,7 @@ class _VocabularyViewState extends State<VocabularyView> {
                     Flexible(
                       child: SmartRefresher(
                         controller: _refreshController,
-                        enablePullDown: true,
+                        enablePullDown: false,
                         enablePullUp: state.hasMore,
                         header: WaterDropHeader(),
                         onRefresh: _onRefresh,

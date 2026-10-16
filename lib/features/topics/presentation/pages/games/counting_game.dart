@@ -249,7 +249,7 @@ class _MathCountingGameState extends State<MathCountingGame> {
                       //       );
                       //     }).toList()
                       // ),
-                      SizedBox(height: 20,),
+                      // SizedBox(height: 20,),
                     ],
                   ),
                 ),
@@ -285,11 +285,18 @@ class _MathCountingGameState extends State<MathCountingGame> {
                     }
                   } : null,
                   child: Container(
-                      padding: EdgeInsets.only(left: 22, right: 22,top: 8, bottom: 8),
-                      decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
+                    // color: Colors.amber,
+                      padding: EdgeInsets.only(left: 22, right: 22),
+                      // decoration: isAnswerFilled ? selectedDecoration() : unselectedDecoration(),
                       child:
-                      currentStep==9?Text(tr('check')):
-                      SvgPicture.asset("assets/icons/next.svg")
+                      // currentStep==9?Text(tr('check')):
+                      // SvgPicture.asset("assets/icons/next.svg")
+                      SizedBox(
+                        width: context.width * 0.3,
+                        height: context.width * 0.3,
+                        child:
+                        Image.asset('assets/icons/${currentStep==9?'check':isAnswerFilled ?'next_active':'next_inactive'}.png', fit: BoxFit.contain,),
+                      )
                   ),
                 ),
               ).pad(bottom: 80),

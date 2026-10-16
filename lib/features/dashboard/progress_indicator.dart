@@ -75,7 +75,7 @@ class ProgressIndicatorView extends StatelessWidget {
     final scoreProvider = context.watch<ScoreProvider>();
     return Container(
       padding: EdgeInsets.all(16),
-      width: context.width*0.8,
+      width: context.width*0.9,
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage("assets/images/yellow_slider.png",),

@@ -1,6 +1,7 @@
 // Path: app/utils/cache_purge.dart
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/onboarding/on_boarding.dart' show onboardingSeenKey;
 
 /// Cache key prefix -> max age. Anything not listed (numbers) lives forever.
 /// Every cache entry stores its write time under '<key>_ts'.
@@ -15,17 +16,18 @@ const _versionKey = 'cache_app_version';
 Future<void> purgeExpiredCache() async {
   final prefs = await SharedPreferences.getInstance();
   final now = DateTime.now().millisecondsSinceEpoch;
-  // App updated -> wipe every cache entry (numbers included), then record the version.
-  final version = (await PackageInfo.fromPlatform()).version;
-  final updated = prefs.getString(_versionKey) != version;
-  if (updated) await prefs.setString(_versionKey, version);
+  // App updated (version name or build number changed) -> wipe all prefs except onboarding.
+  final info = await PackageInfo.fromPlatform();
+  final version = '${info.version}+${info.buildNumber}';
+  if (prefs.getString(_versionKey) != version) {
+    for (final k in prefs.getKeys().toList()) {
+      if (k != onboardingSeenKey) await prefs.remove(k);
+    }
+    await prefs.setString(_versionKey, version);
+    return;
+  }
   for (final tsKey in prefs.getKeys().where((k) => k.endsWith('_ts')).toList()) {
     final key = tsKey.substring(0, tsKey.length - 3);
-    if (updated) {
-      await prefs.remove(key);
-      await prefs.remove(tsKey);
-      continue;
-    }
     final prefix = cacheTtls.keys.where(key.startsWith).firstOrNull;
     final ts = prefs.getInt(tsKey);
     if (prefix == null || ts == null) continue;

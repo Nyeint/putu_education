@@ -16,11 +16,12 @@ class PoemToryRepoImpl implements PoemToryRepo {
 
   static const Duration _cacheTtl = Duration(days: 5);
 
-  String _cacheKey(String poemtoryType, String subject) =>
-      'poemtory_cache_${poemtoryType}_$subject';
+  // Page 1 keeps the original key; later pages get a '_p<n>' suffix.
+  String _cacheKey(String poemtoryType, String subject, int page) =>
+      'poemtory_cache_${poemtoryType}_$subject${page == 1 ? '' : '_p$page'}';
 
-  String _cacheTimestampKey(String poemtoryType, String subject) =>
-      '${_cacheKey(poemtoryType, subject)}_ts';
+  String _cacheTimestampKey(String poemtoryType, String subject, int page) =>
+      '${_cacheKey(poemtoryType, subject, page)}_ts';
 
   @override
   Future<ResponseOb> getPoemTories({
@@ -29,10 +30,8 @@ class PoemToryRepoImpl implements PoemToryRepo {
     int page = 1,
     bool forceRefresh = false,
   }) async {
-    // Caching/throttling only applies to the first page - "load more" pages
-    // always go straight to the network.
-    if (page == 1 && !forceRefresh) {
-      final cached = await _readCache(poemtoryType, subject);
+    if (!forceRefresh) {
+      final cached = await _readCache(poemtoryType, subject, page);
       if (cached != null) {
         return ResponseOb(message: MsgState.data, data: cached);
       }
@@ -40,8 +39,8 @@ class PoemToryRepoImpl implements PoemToryRepo {
 
     final response = await _requestFromNetwork(poemtoryType, subject, page);
 
-    if (page == 1 && response.message == MsgState.data) {
-      await _writeCache(poemtoryType, subject, response.data);
+    if (response.message == MsgState.data) {
+      await _writeCache(poemtoryType, subject, page, response.data);
     }
 
     return response;
@@ -58,13 +57,13 @@ class PoemToryRepoImpl implements PoemToryRepo {
     return completer.future;
   }
 
-  /// Returns the cached page-1 response body, or null if there is no cache,
+  /// Returns the cached response for [page] body, or null if there is no cache,
   /// the cache is stale (older than 5 days), or the cached result had no
   /// data - in every one of those cases the caller should hit the network.
-  Future<Map<String, dynamic>?> _readCache(String poemtoryType, String subject) async {
+  Future<Map<String, dynamic>?> _readCache(String poemtoryType, String subject, int page) async {
     final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_cacheKey(poemtoryType, subject));
-    final cachedAtMillis = prefs.getInt(_cacheTimestampKey(poemtoryType, subject));
+    final raw = prefs.getString(_cacheKey(poemtoryType, subject, page));
+    final cachedAtMillis = prefs.getInt(_cacheTimestampKey(poemtoryType, subject, page));
     if (raw == null || cachedAtMillis == null) return null;
 
     Map<String, dynamic> json;
@@ -85,12 +84,12 @@ class PoemToryRepoImpl implements PoemToryRepo {
     return json;
   }
 
-  Future<void> _writeCache(String poemtoryType, String subject, dynamic data) async {
+  Future<void> _writeCache(String poemtoryType, String subject, int page, dynamic data) async {
     if (data is! Map<String, dynamic>) return;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_cacheKey(poemtoryType, subject), jsonEncode(data));
+    await prefs.setString(_cacheKey(poemtoryType, subject, page), jsonEncode(data));
     await prefs.setInt(
-      _cacheTimestampKey(poemtoryType, subject),
+      _cacheTimestampKey(poemtoryType, subject, page),
       DateTime.now().millisecondsSinceEpoch,
     );
   }

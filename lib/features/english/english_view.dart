@@ -22,6 +22,8 @@ class EnglishView extends StatefulWidget {
 class _EnglishViewState extends State<EnglishView> {
   @override
   Widget build(BuildContext context) {
+    // 2 per row on phones; capped at the original 170 on wider screens.
+    final itemWidth = ((context.width - 20 - 12) / 2).floorToDouble().clamp(0.0, 170.0);
     return Scaffold(
       backgroundColor: ColorResources.background,
       appBar: MyAppBar(
@@ -62,10 +64,12 @@ class _EnglishViewState extends State<EnglishView> {
               ),
               // Lottie.asset("assets/anims/bird.json", width: context.width / 4.5),
               Wrap(
+                alignment: WrapAlignment.center,
                 spacing: 12,
                 runSpacing: 12,
                 children: [
                   SubItemWidget(
+                      width: itemWidth,
                       title: 'Numbers',
                       iconName: 'category_number',
                     onTap: (){
@@ -77,6 +81,7 @@ class _EnglishViewState extends State<EnglishView> {
                       // goTo: RouteName.englishNumber
                   ),
                   SubItemWidget(
+                      width: itemWidth,
                       title: 'Alphabets',
                       iconName: 'category_en_alphabet',
                       onTap: (){
@@ -84,32 +89,15 @@ class _EnglishViewState extends State<EnglishView> {
                       },
                   ),
                   SubItemWidget(
+                      width: itemWidth,
                       title: 'Vocabulary',
                       iconName: 'category_vocabulary',
                       onTap: (){
                         context.pushNamed(RouteName.englishVocabulary);
                       },
                   ),
-                  // SubItemWidget(
-                  //     title: 'Poems',
-                  //     iconName: 'category_poem',
-                  //     onTap: (){
-                  //       // context.pushNamed(RouteName.englishPoem);
-                  //       // Navigator.push(context,
-                  //       //     MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                  //       //         poemtoryType: 'poems', subject: 'en',
-                  //       //       title: 'Poems',
-                  //       //     ))
-                  //       // );
-                  //       Navigator.push(context,
-                  //           MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                  //             poemtoryType: 'poems', subject: 'en',
-                  //             title: 'Poems',
-                  //           ))
-                  //       );
-                  //     },
-                  // ),
                   SubItemWidget(
+                      width: itemWidth,
                       title: 'Stories',
                       iconName: 'category_story',
                       onTap: (){
@@ -123,6 +111,7 @@ class _EnglishViewState extends State<EnglishView> {
                       },
                   ),
                   SubItemWidget(
+                      width: itemWidth,
                       title: 'Songs',
                       iconName: 'category_song',
                       onTap: (){
@@ -136,6 +125,7 @@ class _EnglishViewState extends State<EnglishView> {
                       },
                      ),
                   SubItemWidget(
+                      width: itemWidth,
                     title: 'Math', iconName: 'category_math',
                     onTap: (){
                       Navigator.push(context,

@@ -26,6 +26,7 @@ class MyanmarView extends StatefulWidget {
 class _MyanmarViewState extends State<MyanmarView> {
   @override
   Widget build(BuildContext context) {
+    final itemWidth = ((context.width - 20 - 12) / 2).floorToDouble().clamp(0.0, 170.0);
     return  Scaffold(
       backgroundColor: ColorResources.background,
       // bottomNavigationBar: const BannerAdWidget(),
@@ -58,6 +59,7 @@ class _MyanmarViewState extends State<MyanmarView> {
                     SizedBox(height: 20,),
                     // Lottie.asset("assets/anims/bird.json", width: context.width/4.5),
                     Wrap(
+                      alignment: WrapAlignment.center,
                       spacing: 12,
                       runSpacing: 12,
                       children: [
@@ -66,6 +68,7 @@ class _MyanmarViewState extends State<MyanmarView> {
                             onTap: (){
                               context.pushNamed(RouteName.myanmarNumber);
                             },
+                          width: itemWidth,
                         ),
                         // SizedBox(width: 16,),
                         SubItemWidget(
@@ -73,6 +76,7 @@ class _MyanmarViewState extends State<MyanmarView> {
                             onTap: (){
                               context.pushNamed(RouteName.myanmarAlphabet);
                             },
+                          width: itemWidth,
                            ),
                         // SizedBox(width: 16,),
                         SubItemWidget(
@@ -80,19 +84,8 @@ class _MyanmarViewState extends State<MyanmarView> {
                             onTap: (){
                               context.pushNamed(RouteName.myanmarVocabulary);
                             },
+                          width: itemWidth,
                             ),
-                        // SubItemWidget(
-                        //     title: 'ကဗျာများ', iconName: 'category_poem',
-                        //     onTap: (){
-                        //       // context.pushNamed(RouteName.englishPoem);
-                        //       Navigator.push(context,
-                        //           MaterialPageRoute(builder: (context) =>  PoemToryListView(
-                        //               poemtoryType: 'poems', subject: 'mm',
-                        //             title: 'ကဗျာများ',
-                        //           ))
-                        //       );
-                        //     },
-                        //   ),
                         SubItemWidget(
                             title: 'ပုံပြင်များ', iconName: 'category_story',
                             onTap: (){
@@ -103,6 +96,7 @@ class _MyanmarViewState extends State<MyanmarView> {
                                   ))
                               );
                             },
+                          width: itemWidth,
                             ),
                         SubItemWidget(
                             title: 'သီချင်းများ', iconName: 'category_song',
@@ -114,6 +108,7 @@ class _MyanmarViewState extends State<MyanmarView> {
                                   ))
                               );
                             },
+                          width: itemWidth,
                         ),
                         SubItemWidget(
                             title: 'သင်္ချာ', iconName: 'category_math',
@@ -124,6 +119,7 @@ class _MyanmarViewState extends State<MyanmarView> {
                                   ))
                                   );
                             },
+                          width: itemWidth,
                            ),
                       ],
                     ),

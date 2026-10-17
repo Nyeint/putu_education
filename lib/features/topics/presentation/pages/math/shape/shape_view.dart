@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
+import '../../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../../widgets/my_appbar.dart';
 import '../../../../../widgets/my_icon.dart';
 
@@ -143,6 +144,7 @@ class _ShapeViewState extends State<ShapeView> {
     if (!_ready) {
       return Scaffold(
         backgroundColor: ColorResources.background,
+        bottomNavigationBar: const BannerAdWidget(),
         body: Center(
           child: CircularProgressIndicator(color: ColorResources.primary),
         ),
@@ -151,6 +153,7 @@ class _ShapeViewState extends State<ShapeView> {
 
     return Scaffold(
       backgroundColor: ColorResources.background,
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
         titleWithGoBack: t('shapes'),
       ),

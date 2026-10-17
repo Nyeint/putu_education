@@ -62,7 +62,8 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
                   fit: StackFit.loose,
                   children: [
                     Container(
-                      height: 200,
+                      // height: 200,
+                      height: context.height*0.25,
                       width: context.width,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -74,9 +75,10 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
                         child: Column(
                           children: [
                             Text(letterList[selectedIndex],
-                                style: FontFamily().semiBold.copyWith(fontSize: FontSize().sixteenFour)),
+                                style: FontFamily().semiBold.copyWith(
+                                    fontSize: 70)),
                             Text(pronounceList[selectedIndex],
-                                style: FontFamily().semiBold.copyWith(fontSize: FontSize().twentyFour)),
+                                style: FontFamily().semiBold.copyWith(fontSize: 30)),
                           ],
                         ),
                       ),
@@ -138,7 +140,7 @@ class _MyanmarAlphabetViewState extends State<MyanmarAlphabetView> {
                 ],
               ).pad(top: 8, bottom: 16),
             ],
-          ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
+          ).pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom+30),
         ),
       ),
     );

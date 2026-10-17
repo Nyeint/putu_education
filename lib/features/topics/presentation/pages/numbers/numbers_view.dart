@@ -10,6 +10,7 @@ import 'package:putu_education/features/widgets/go_button.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
 import 'package:putu_education/features/widgets/my_appbar.dart';
 
+import '../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../widgets/my_icon.dart';
 import '../../bloc/number_bloc/number_bloc.dart';
 
@@ -64,6 +65,7 @@ class _NumbersViewState extends State<NumbersView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
         titleWithGoBack: widget.title,
       ),
@@ -107,76 +109,80 @@ class _NumbersViewState extends State<NumbersView> {
                 children: [
                   Align(
                     alignment: Alignment.topCenter,
-                    child: RefreshIndicator(
-                      onRefresh: _onRefresh,
-                      child: SingleChildScrollView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        child: Column(
-                          children: [
-                            Container(
-                                constraints: const BoxConstraints(minHeight: 200),
-                                width: context.width,
-                                decoration: BoxDecoration(
-                                  color: ColorResources.secondary,
-                                  border: Border.all(
-                                      color: ColorResources.lightBg, width: 2),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            _playAudio(selected?.audio),
-                                        child: MyIcon(iconName: 'volume'),
-                                      ),
-                                    ).pad(right: 16, top: 16),
-                                    Text(
-                                      '${selected?.number ?? ''}',
-                                      style: FontFamily().semiBold.copyWith(
-                                          fontSize: FontSize().sixteenFour),
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: context.height*0.25,
+                              // constraints: BoxConstraints(minHeight: context.height/4),
+                              width: context.width,
+                              decoration: BoxDecoration(
+                                color: ColorResources.secondary,
+                                border: Border.all(
+                                    color: ColorResources.lightBg, width: 2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          _playAudio(selected?.audio),
+                                      child: MyIcon(iconName: 'volume'),
                                     ),
-                                    Text(
+                                  ).pad(right: 16, top: 16),
+                                  Text(
+                                    '${selected?.number ?? ''}',
+                                    style: FontFamily().semiBold.copyWith(
+                                        fontSize: 70),
+                                  ),
+                                  Expanded(
+                                    child: Text(
                                       selected?.word ?? '',
                                       style: FontFamily().semiBold.copyWith(
-                                          fontSize: FontSize().twentyFour),
+                                          // fontSize: FontSize().twentyFour
+                                        fontSize: 30
+                                      ),
                                     ),
-                                  ],
-                                )).pad(bottom: 32),
-                            Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 8.0, // gap between adjacent items
-                              runSpacing: 8.0, // gap between lines
-                              children: List.generate(
-                                numbers.length,
-                                (index) {
-                                  final data = numbers[index];
-                                  return GestureDetector(
-                                      key: ValueKey('number_${data.id}'),
-                                      onTap: () {
-                                        setState(() => _selectedIndex = index);
-                                        _playAudio(data.audio);
-                                      },
-                                      child: Container(
-                                        width: context.width / 5,
-                                        height: context.width / 5,
-                                        decoration: index == selectedIndex
-                                            ? selectedDecoration()
-                                            : unselectedDecoration(),
-                                        child: Center(
-                                            child: Text(
-                                          '${data.number ?? ''}',
-                                          style: FontFamily().bold.copyWith(
-                                              fontSize: FontSize().twenty),
-                                        )),
-                                      ));
-                                },
-                              ),
-                            )
-                          ],
-                        ),
+                                  ),
+                                ],
+                              )).pad(bottom: 32),
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            spacing: 8.0, // gap between adjacent items
+                            runSpacing: 8.0, // gap between lines
+                            children: List.generate(
+                              numbers.length,
+                              (index) {
+                                final data = numbers[index];
+                                return GestureDetector(
+                                    key: ValueKey('number_${data.id}'),
+                                    onTap: () {
+                                      setState(() => _selectedIndex = index);
+                                      _playAudio(data.audio);
+                                    },
+                                    child: Container(
+                                      width: context.width / 5,
+                                      height: context.width / 5,
+                                      decoration: index == selectedIndex
+                                          ? selectedDecoration()
+                                          : unselectedDecoration(),
+                                      child: Center(
+                                          child: Text(
+                                        '${data.number ?? ''}',
+                                        style: FontFamily().bold.copyWith(
+                                            fontSize: FontSize().twenty),
+                                      )),
+                                    ));
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -205,7 +211,7 @@ class _NumbersViewState extends State<NumbersView> {
               left: 16,
               right: 16,
               top: 24,
-              bottom: MediaQuery.of(context).padding.bottom),
+              bottom: MediaQuery.of(context).padding.bottom+30),
         ),
       ),
     );

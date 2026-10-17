@@ -10,11 +10,13 @@ class SubItemWidget extends StatelessWidget {
   String iconName;
   // String goTo;
   VoidCallback? onTap;
+  double width;
   SubItemWidget({super.key,
     required this.title,
     required this.iconName,
     // required this.goTo,
-    required this.onTap
+    required this.onTap,
+    this.width = 170,
   });
 
   @override
@@ -22,7 +24,7 @@ class SubItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: ()=> onTap!(),
       child: SizedBox(
-          width: 170,
+          width: width,
           // width: context.width/2.35,
           height: 200,
           child: Stack(
@@ -55,7 +57,7 @@ class SubItemWidget extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 child: Container(
-                  width: 170,
+                  width: width,
                   height: 50,
                   // decoration: BoxDecoration(
                   //   color: Colors.deepPurple,

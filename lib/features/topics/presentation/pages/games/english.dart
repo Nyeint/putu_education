@@ -61,7 +61,7 @@ class _EnglishGameViewState extends State<EnglishGameView> {
                         score: scoreProvider.gameHighScore(GameCategory.english, GameTitle.enSentenceSort)),
                   ],
                 )
-                    .pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
+                    .pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom+20),
               ),
             ),
           ],

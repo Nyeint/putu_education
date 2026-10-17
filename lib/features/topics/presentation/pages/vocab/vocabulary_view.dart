@@ -166,24 +166,26 @@ class _VocabularyViewState extends State<VocabularyView> {
   /// Wraps [child] in a scrollable that always has enough scroll extent to
   /// be dragged, so pull-to-refresh keeps working even while the grid is
   /// loading, empty, or showing a failure message.
-  Widget _scrollableMessage(Widget child) {
-    return LayoutBuilder(
-      builder: (context, constraints) => ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: [
-          SizedBox(
-            height: constraints.maxHeight,
-            child: child,
-          ),
-        ],
-      ),
+  Widget _scrollableMessage(Widget child, BoxConstraints constraints) {
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        SizedBox(
+          height: constraints.maxHeight,
+          child: child,
+        ),
+      ],
     );
   }
 
-  Widget _vocabularyGrid(VocabState state) {
+  // Must return a ScrollView directly: SmartRefresher only hooks its
+  // load-more footer into a ScrollView child; any other widget (e.g. a
+  // LayoutBuilder) gets wrapped in a nested scrollable and never loads more.
+  Widget _vocabularyGrid(VocabState state, BoxConstraints constraints) {
     if (state.vocabularyStatus == VocabularyStatus.loading ||
         state.vocabularyStatus == VocabularyStatus.initial) {
-      return _scrollableMessage(const Center(child: LoadingWidget(size: 32)));
+      return _scrollableMessage(
+          const Center(child: LoadingWidget(size: 32)), constraints);
     } else if (state.vocabularyStatus == VocabularyStatus.failure &&
         state.words.isEmpty) {
       return _scrollableMessage(
@@ -196,6 +198,7 @@ class _VocabularyViewState extends State<VocabularyView> {
             ),
           ),
         ),
+        constraints,
       );
     }
 
@@ -205,6 +208,7 @@ class _VocabularyViewState extends State<VocabularyView> {
         Center(
             child: Text(tr('no_data'),
                 style: FontFamily().medium.copyWith(fontSize: 14))),
+        constraints,
       );
     }
 
@@ -214,12 +218,11 @@ class _VocabularyViewState extends State<VocabularyView> {
     final nameList = words.map((w) => w.word ?? '').toList();
     final audioList = words.map((w) => w.audio ?? '').toList();
     const spacing = 16.0;
-    return LayoutBuilder(builder: (context, constraints) {
-      // 3 columns on phones, 5 on tablets, 7 on large tablets.
-      final available = constraints.maxWidth;
-      final columns = available >= 900 ? 7 : (available >= 600 ? 5 : 3);
-      final itemWidth = (available - spacing * (columns - 1)) / columns;
-      return ListView(
+    // 3 columns on phones, 5 on tablets, 7 on large tablets.
+    final available = constraints.maxWidth;
+    final columns = available >= 900 ? 7 : (available >= 600 ? 5 : 3);
+    final itemWidth = (available - spacing * (columns - 1)) / columns;
+    return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
       children: [
         Wrap(
@@ -250,15 +253,14 @@ class _VocabularyViewState extends State<VocabularyView> {
           ),
         ),
       ],
-      );
-    });
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
-      // bottomNavigationBar: const BannerAdWidget(),
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
         titleWithGoBack: tr('vocabulary'),
       ),
@@ -301,15 +303,17 @@ class _VocabularyViewState extends State<VocabularyView> {
                       child: _categoryTabs(state),
                     ),
                     const SizedBox(height: 24),
-                    Flexible(
-                      child: SmartRefresher(
-                        controller: _refreshController,
-                        enablePullDown: false,
-                        enablePullUp: state.hasMore,
-                        header: WaterDropHeader(),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
-                        child: _vocabularyGrid(state),
+                    Expanded(
+                      child: LayoutBuilder(
+                        builder: (context, constraints) => SmartRefresher(
+                          controller: _refreshController,
+                          enablePullDown: false,
+                          enablePullUp: state.hasMore,
+                          header: WaterDropHeader(),
+                          // onRefresh: _onRefresh,
+                          onLoading: _onLoading,
+                          child: _vocabularyGrid(state, constraints),
+                        ),
                       ),
                     ),
                   ],

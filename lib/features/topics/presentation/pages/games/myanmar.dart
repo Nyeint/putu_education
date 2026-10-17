@@ -61,7 +61,7 @@ class _MyanmarGameViewState extends State<MyanmarGameView> {
                             GameTitle.mmSentenceSort)),
                   ],
                 )
-                    .pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom),
+                    .pad(left: 16, right: 16, top: 24, bottom: MediaQuery.of(context).padding.bottom+20),
               ),
             ),
           ],

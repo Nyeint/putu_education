@@ -200,7 +200,9 @@ class _WordGameState extends State<WordGame> {
                           ),
                           SizedBox(height: 24,),
                           Container(
+                            width: context.height/2,
                             padding: EdgeInsets.all(20),
+                            // margin: EdgeInsets.only(left: context.width*0.05, right: context.width*0.05),
                             decoration: BoxDecoration(
                                 border: Border.all(color: ColorResources.primary, width: 1),
                                 borderRadius: BorderRadius.all(Radius.circular(10)),

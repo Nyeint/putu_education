@@ -58,7 +58,8 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
                   children: [
                     Container(
                         // padding: EdgeInsets.only(top: 32, bottom: 32),
-                        height: 200,
+                        // height: 200,
+                        height: context.height*0.25,
                         width: context.width,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -73,9 +74,11 @@ class _EnglishAlphabetViewState extends State<EnglishAlphabetView> {
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              Text('${letterList[selectedIndex]} ${letterList[selectedIndex].toLowerCase()}', style: FontFamily().semiBold.copyWith(fontSize: FontSize().sixteenFour
+                              Text('${letterList[selectedIndex]} ${letterList[selectedIndex].toLowerCase()}',
+                                style: FontFamily().semiBold.copyWith(fontSize: 70
                               ),),
-                              Text(pronounceList[selectedIndex], style: FontFamily().semiBold.copyWith(fontSize: FontSize().twentyFour
+                              Text(pronounceList[selectedIndex],
+                                style: FontFamily().semiBold.copyWith(fontSize: 30
                               ),),
                             ],
                           ),

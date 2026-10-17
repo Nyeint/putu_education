@@ -17,8 +17,9 @@ class VocabRepoImpl implements VocabRepo {
   static const Duration _cacheTtl = Duration(days: 3);
   static const String _categoriesCacheKey = 'vocab_categories_cache';
 
-  String _vocabularyCacheKey(String subject, String? category) =>
-      'vocab_words_cache_${subject}_${category ?? 'all'}';
+  // Page 1 keeps the original key; later pages get a '_p<n>' suffix.
+  String _vocabularyCacheKey(String subject, String? category, int page) =>
+      'vocab_words_cache_${subject}_${category ?? 'all'}${page == 1 ? '' : '_p$page'}';
 
   @override
   Future<ResponseOb> getCategories({bool forceRefresh = false}) {
@@ -36,13 +37,8 @@ class VocabRepoImpl implements VocabRepo {
     int page = 1,
     bool forceRefresh = false,
   }) {
-    // Caching/throttling only applies to the first page - "load more" pages
-    // always go straight to the network.
-    if (page != 1) {
-      return _requestVocabularyFromNetwork(subject, category, page);
-    }
     return _cachedRequest(
-      cacheKey: _vocabularyCacheKey(subject, category),
+      cacheKey: _vocabularyCacheKey(subject, category, page),
       forceRefresh: forceRefresh,
       request: () => _requestVocabularyFromNetwork(subject, category, page),
     );

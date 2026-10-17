@@ -157,7 +157,7 @@ class _PoemToryDetailViewState extends State<PoemToryDetailView> {
         bottom: false,
         child: Scaffold(
           backgroundColor: ColorResources.background,
-          // bottomNavigationBar: const BannerAdWidget(),
+          bottomNavigationBar: const BannerAdWidget(),
           appBar: MyAppBar(
             titleWithGoBack: widget.data.title ?? '',
           ),

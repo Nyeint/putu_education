@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:putu_education/app/utils/en_types.dart';
 import 'package:putu_education/features/topics/presentation/pages/math/shape/shape_view.dart';
 import '../../../../../app/config/config.dart';
+import '../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../../route/route_name.dart';
 import '../../../../widgets/my_appbar.dart';
 import '../../../../widgets/sub_item_widget.dart';
@@ -22,8 +23,10 @@ class MathView extends StatefulWidget {
 class _MathViewState extends State<MathView> {
   @override
   Widget build(BuildContext context) {
+    final itemWidth = ((context.width - 20 - 12) / 2).floorToDouble().clamp(0.0, 170.0);
     return Scaffold(
         backgroundColor: ColorResources.background,
+      // bottomNavigationBar: const BannerAdWidget(),
       // appBar: MyAppBar(
       //   titleWithGoBack: tr('math'),
       // ),
@@ -58,52 +61,49 @@ class _MathViewState extends State<MathView> {
                       ),
                       Lottie.asset("assets/anims/fish.json", width: context.width/4.5),
                       Wrap(
-                        spacing: 16,
-                        runSpacing: 16,
+                        alignment: WrapAlignment.center,
+                        spacing: 12,
+                        runSpacing: 12,
                         children: [
                           SubItemWidget(
-                              title: widget.learnLanguageType=='en'?'Shapes':'ပုံသဏ္ဍာန်များ',
+                            width: itemWidth,
+                            title: widget.learnLanguageType=='en'?'Shapes':'ပုံသဏ္ဍာန်များ',
                             iconName: 'shape',
-                          onTap: (){
-                               try{
-                                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                                   return ShapeView(
-                                     locale: widget.learnLanguageType ?? LearnLanguageType.mm.name,
-                                   );
-                                 }));
-                                 // Navigator.pushNamed(context,
-                                 //     widget.learnLanguageType == LearnLanguageType.en.name ?
-                                 //     RouteName.shapeViewEn :
-                                 //     RouteName.shapeViewMm);
-                               }catch(e){
-                               }
-                          },
-
-                          //     goTo:
-                          // widget.learnLangaugeType == LearnLanguageType.en.name ?
-                          // RouteName.shapeViewEn :
-                          // RouteName.shapeViewMm
-                          ),
-                          SubItemWidget(
-                              title: widget.learnLanguageType=='en'?'Calculation':'အတွက်အချက်',
-                            iconName: 'calculation',
-                              onTap: (){
-                                // context.pushNamed(RouteName.calculation);
-
+                            onTap: (){
+                              try{
                                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return CalculationView(
-                                    learnLanguageType: widget.learnLanguageType ?? LearnLanguageType.mm.name,
+                                  return ShapeView(
+                                    locale: widget.learnLanguageType ?? LearnLanguageType.mm.name,
                                   );
                                 }));
-                              },
+                                // Navigator.pushNamed(context,
+                                //     widget.learnLanguageType == LearnLanguageType.en.name ?
+                                //     RouteName.shapeViewEn :
+                                //     RouteName.shapeViewMm);
+                              }catch(e){
+                              }
+                            },
+                          ),
+                          SubItemWidget(
+                            width: itemWidth,
+                            title: widget.learnLanguageType=='en'?'Calculation':'အတွက်အချက်',
+                            iconName: 'calculation',
+                            onTap: (){
+                              // context.pushNamed(RouteName.calculation);
 
-                              // goTo: RouteName.calculation
+                              Navigator.push(context, MaterialPageRoute(builder: (context){
+                                return CalculationView(
+                                  learnLanguageType: widget.learnLanguageType ?? LearnLanguageType.mm.name,
+                                );
+                              }));
+                            },
+                            // goTo: RouteName.calculation
                           ),
                         ],
                       ),
                     ],
                   ),
-                ).pad(left: 16, right: 16,top: 24, bottom: MediaQuery.of(context).padding.bottom),
+                ).pad(left: 10, right: 10,top: 24, bottom: MediaQuery.of(context).padding.bottom),
               ),
             ],
           ),

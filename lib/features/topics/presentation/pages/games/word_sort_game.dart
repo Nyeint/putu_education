@@ -276,8 +276,10 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                           ),
                           SizedBox(height: 24),
                           SizedBox(
-                            width: context.width * 0.45,
-                            height: context.width * 0.45,
+                            width: context.height*0.25,
+                            height: context.height*0.25,
+                            // width: context.width * 0.45,
+                            // height: context.width * 0.45,
                             child: FrontFlipCardItem(image: _imageFor(question), isSelected: false),
                           ),
                           SizedBox(height: 30),
@@ -336,7 +338,7 @@ class _EnglishWordSortGameState extends State<EnglishWordSortGame> {
                     ),
                     Positioned(
                       right: 16,
-                      bottom: 40 + MediaQuery.of(context).padding.bottom,
+                      bottom: 80 + MediaQuery.of(context).padding.bottom,
                       child: GestureDetector(
                         onTap: (){
                           if(isAnswerFilled) {

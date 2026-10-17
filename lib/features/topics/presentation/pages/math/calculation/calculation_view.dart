@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:putu_education/app/config/config.dart';
 import 'package:putu_education/features/topics/presentation/pages/math/calculation/substraction_view.dart';
 import 'package:putu_education/features/widgets/item_decoration.dart';
+import '../../../../../../app/widgets/banner_ad_widget.dart';
 import '../../../../../widgets/my_appbar.dart';
 import 'addition_view.dart';
 import 'division_view.dart';
@@ -41,6 +42,7 @@ class _CalculationViewState extends State<CalculationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorResources.background,
+      bottomNavigationBar: const BannerAdWidget(),
       appBar: MyAppBar(
         titleWithGoBack: widget.learnLanguageType == 'en' ? 'Calculation' : 'အတွက်အချက်',
       ),
